@@ -1,0 +1,835 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   HussCut — design tokens
+   Le comptoir la nuit : ardoise, néon doré, bois du billot, papier de boucher.
+   ========================================================================== */
+
+@theme {
+  --color-ink: #171311; /* ardoise noire */
+  --color-char: #241d19; /* charbon */
+  --color-char-2: #2e2520; /* charbon relevé */
+  --color-ivory: #f3eadf; /* papier de boucher */
+  --color-paper: #fbf7f1; /* champs sur ivoire */
+  --color-gold: #eabd75; /* néon doré : actions, filets, marque */
+  --color-gold-hover: #f2cd92;
+  --color-gold-press: #dcab5f;
+  --color-bronze: #7a531c; /* or lisible sur ivoire (5,7:1) */
+  --color-bordeaux: #6b1e28; /* accent rare : cartons « La sélection », erreurs */
+  --color-mute: #bdb0a1; /* texte secondaire sur sombre (8,7:1) */
+  --color-mute-ink: #5c5047; /* texte secondaire sur ivoire (6,5:1) */
+
+  --font-display: var(--font-caslon), "Libre Caslon Condensed", Georgia, "Times New Roman", serif;
+  --font-display-italic: var(--font-caslon-italic), var(--font-caslon), Georgia, serif;
+  --font-sans: var(--font-instrument), "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-btn: 16px;
+  --radius-btn-2: 14px;
+  --radius-field: 12px;
+  --radius-card: 20px;
+  --radius-comp: 24px;
+
+  --ease-cut: cubic-bezier(0.7, 0, 0.25, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --breakpoint-3xl: 120rem;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    /* Lisibilité à distance sur grands écrans et téléviseurs : la base grandit au-delà de ~1800 px. */
+    font-size: clamp(100%, 0.55rem + 0.42vw, 125%);
+    -webkit-text-size-adjust: 100%;
+    color-scheme: dark;
+    /* Pas de scroll-padding global : chaque ancre porte sa marge (en-tête collant inclus). */
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-ivory);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    font-stretch: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    min-height: 100dvh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.04;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .surface-light :focus-visible {
+    outline-color: var(--color-bronze);
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  sup {
+    font-size: 0.62em;
+    vertical-align: 0.42em;
+    line-height: 0;
+    font-feature-settings: normal;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  html:has(dialog[open]) {
+    overflow: hidden;
+  }
+}
+
+/* ==========================================================================
+   Composants
+   ========================================================================== */
+
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: 85rem;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4.2vw, 3rem);
+  }
+
+  .surface-light {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    /* Contrôles natifs (radio, case, date) en version claire sur le papier ivoire. */
+    color-scheme: light;
+  }
+
+  .display-1 {
+    font-size: clamp(2.75rem, 1.55rem + 5.4vw, 6.25rem);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+
+  .display-2 {
+    font-size: clamp(2.125rem, 1.45rem + 2.9vw, 4rem);
+    line-height: 1;
+  }
+
+  .display-3 {
+    font-size: clamp(1.625rem, 1.3rem + 1.2vw, 2.25rem);
+    line-height: 1.08;
+  }
+
+  .lede {
+    font-size: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
+    line-height: 1.5;
+  }
+
+  /* Filet vertical doré, repris de la carte de visite et du tee-shirt « HussCut From Paris ».
+     Il signale les informations pratiques de la boutique et les citations. */
+  .filet {
+    border-inline-start: 1px solid var(--color-gold);
+    padding-inline-start: 1.25rem;
+  }
+  .surface-light .filet {
+    border-inline-start-color: var(--color-bronze);
+  }
+
+  /* ---- Boutons ---------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3rem;
+    padding: 0.75rem 1.375rem;
+    font-weight: 600;
+    font-size: 0.9875rem;
+    line-height: 1.2;
+    letter-spacing: 0.005em;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      transform 120ms ease;
+  }
+  .btn:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translateY(1px);
+  }
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn svg {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .btn-primary {
+    border-radius: var(--radius-btn);
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-gold-hover);
+  }
+  .btn-primary:active:not(:disabled) {
+    background: var(--color-gold-press);
+  }
+  .btn-primary[aria-busy="true"] {
+    cursor: progress;
+  }
+
+  .btn-secondary {
+    border-radius: var(--radius-btn-2);
+    border-color: color-mix(in srgb, var(--color-ivory) 34%, transparent);
+    color: var(--color-ivory);
+    background: transparent;
+  }
+  .btn-secondary:hover:not(:disabled) {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+    background: color-mix(in srgb, var(--color-gold) 7%, transparent);
+  }
+  .surface-light .btn-secondary {
+    border-color: color-mix(in srgb, var(--color-ink) 32%, transparent);
+    color: var(--color-ink);
+  }
+  .surface-light .btn-secondary:hover:not(:disabled) {
+    border-color: var(--color-bronze);
+    color: var(--color-bronze);
+    background: color-mix(in srgb, var(--color-bronze) 6%, transparent);
+  }
+
+  .btn-sm {
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9375rem;
+  }
+
+  /* Flèche : glisse de quelques pixels au survol ou au focus du lien parent. */
+  .arrow {
+    transition: transform 220ms var(--ease-soft);
+  }
+  a:hover .arrow,
+  a:focus-visible .arrow,
+  button:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  .link-quiet {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    font-weight: 600;
+    color: var(--color-gold);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+    transition: text-decoration-color 160ms ease;
+  }
+  .link-quiet:hover {
+    text-decoration-color: currentColor;
+  }
+  .surface-light .link-quiet {
+    color: var(--color-bronze);
+  }
+
+  .link-inline {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in srgb, var(--color-gold) 70%, transparent);
+  }
+  .surface-light .link-inline {
+    text-decoration-color: var(--color-bronze);
+  }
+  .link-inline:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /* ---- Filtres (capsules) ----------------------------------------------- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 1.05rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-ivory) 26%, transparent);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    white-space: nowrap;
+    color: var(--color-ivory);
+    background: transparent;
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease;
+  }
+  .chip:hover {
+    border-color: var(--color-gold);
+  }
+  .chip[aria-current="true"] {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: var(--color-ink);
+  }
+  .surface-light .chip {
+    color: var(--color-ink);
+    border-color: color-mix(in srgb, var(--color-ink) 24%, transparent);
+  }
+  .surface-light .chip:hover {
+    border-color: var(--color-bronze);
+  }
+  .surface-light .chip[aria-current="true"] {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-ivory);
+  }
+
+  /* Demande de disponibilité d'un produit : lien sur mobile, bouton secondaire dès 640 px. */
+  .product-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    flex: none;
+    align-self: flex-start;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-bronze);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    transition:
+      border-color 160ms ease,
+      color 160ms ease,
+      background-color 160ms ease;
+  }
+  @media (min-width: 40rem) {
+    .product-cta {
+      align-self: center;
+      padding: 0.5rem 1rem;
+      border: 1px solid color-mix(in srgb, var(--color-ink) 30%, transparent);
+      border-radius: var(--radius-btn-2);
+      color: var(--color-ink);
+      text-decoration: none;
+    }
+    .product-cta:hover {
+      border-color: var(--color-bronze);
+      color: var(--color-bronze);
+      background: color-mix(in srgb, var(--color-bronze) 6%, transparent);
+    }
+  }
+
+  /* ---- Champs ----------------------------------------------------------- */
+  .field-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9875rem;
+    margin-bottom: 0.4rem;
+  }
+  .field-label .field-flag {
+    font-weight: 400;
+    color: var(--color-mute-ink);
+    font-size: 0.875rem;
+  }
+  .field {
+    display: block;
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.7rem 0.95rem;
+    border-radius: var(--radius-field);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 26%, transparent);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.45;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+  textarea.field {
+    border-radius: 14px;
+    min-height: 9rem;
+    resize: vertical;
+  }
+  .field::placeholder {
+    color: color-mix(in srgb, var(--color-mute-ink) 85%, transparent);
+  }
+  .field:hover {
+    border-color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  }
+  .field:focus-visible {
+    outline: 2px solid var(--color-bronze);
+    outline-offset: 1px;
+    border-color: var(--color-bronze);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-bordeaux);
+    box-shadow: inset 0 0 0 1px var(--color-bordeaux);
+  }
+  .field-error {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+    color: var(--color-bordeaux);
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+  .field-hint {
+    margin-top: 0.35rem;
+    font-size: 0.875rem;
+    color: var(--color-mute-ink);
+  }
+
+  .choice {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3rem;
+    padding: 0.65rem 1rem;
+    border-radius: var(--radius-field);
+    border: 1px solid color-mix(in srgb, var(--color-ink) 22%, transparent);
+    background: var(--color-paper);
+    cursor: pointer;
+    transition: border-color 160ms ease;
+  }
+  .choice:hover {
+    border-color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  }
+  .choice:has(input:checked) {
+    border-color: var(--color-bronze);
+    box-shadow: inset 0 0 0 1px var(--color-bronze);
+  }
+  .choice:has(input:focus-visible) {
+    outline: 2px solid var(--color-bronze);
+    outline-offset: 2px;
+  }
+  .choice input {
+    accent-color: var(--color-bronze);
+    width: 1.125rem;
+    height: 1.125rem;
+    flex: none;
+  }
+
+  /* ---- Photos ------------------------------------------------------------ */
+  .photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-char);
+    isolation: isolate;
+  }
+  .photo-lg {
+    border-radius: var(--radius-comp);
+  }
+  .photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .photo-zoom img {
+      transition: transform 700ms var(--ease-soft);
+    }
+    .photo-zoom:hover img,
+    a:hover .photo-zoom img,
+    a:focus-visible .photo-zoom img {
+      transform: scale(1.035);
+    }
+  }
+
+  /* Bord coupé en diagonale : le geste de la lame, signature du site. */
+  .cut-edge {
+    clip-path: polygon(var(--cut, 16%) 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 300;
+    padding: 0.75rem 1.1rem;
+    border-radius: var(--radius-btn-2);
+    background: var(--color-gold);
+    color: var(--color-ink);
+    font-weight: 600;
+    transition: top 160ms ease;
+  }
+  .skip-link:focus {
+    top: 0.75rem;
+  }
+
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .awning {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-weight: 500;
+  }
+}
+
+/* ==========================================================================
+   Mouvement
+   ========================================================================== */
+
+/* ---- Intro « Le néon s'allume » : première arrivée, une fois par session -- */
+.intro {
+  display: none;
+}
+html[data-intro="play"] .intro {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  animation: intro-end 0s linear 1.4s forwards;
+}
+.intro__half {
+  position: absolute;
+  inset: -1px;
+  background: var(--color-char);
+}
+.intro__half--a {
+  clip-path: polygon(0 0, 100% 0, 100% 38%, 0 62%);
+  animation: intro-part-a 520ms var(--ease-cut) 880ms forwards;
+}
+.intro__half--b {
+  /* Chevauche légèrement la moitié haute pour masquer le liseré d’anticrénelage. */
+  clip-path: polygon(0 61.6%, 100% 37.6%, 100% 100%, 0 100%);
+  animation: intro-part-b 520ms var(--ease-cut) 880ms forwards;
+}
+.intro__line {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.intro__line line {
+  stroke: var(--color-gold);
+  /* Unités du viewBox étiré : ≈ 1,5 px de haut sur un écran de 800 px. */
+  stroke-width: 0.2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation:
+    intro-draw 260ms var(--ease-cut) 640ms forwards,
+    intro-fade 200ms ease 900ms forwards;
+}
+.intro__logo {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  animation:
+    intro-neon 760ms ease-out 60ms forwards,
+    intro-fade 220ms ease-in 850ms forwards;
+}
+.intro__logo img {
+  width: min(64vw, 22rem);
+  height: auto;
+}
+@keyframes intro-neon {
+  0% {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  40% {
+    opacity: 0.55;
+  }
+  55% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes intro-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes intro-fade {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes intro-part-a {
+  to {
+    transform: translate3d(-3vw, -72vh, 0);
+  }
+}
+@keyframes intro-part-b {
+  to {
+    transform: translate3d(3vw, 72vh, 0);
+  }
+}
+@keyframes intro-end {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* ---- Hero « Du néon au billot » ----------------------------------------- */
+:root {
+  --intro-offset: 0s;
+}
+html[data-intro="play"] {
+  --intro-offset: 1.05s;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-frame img {
+    animation: hero-frame 1.9s var(--ease-soft) both;
+    animation-delay: var(--intro-offset);
+  }
+  .hero-line {
+    display: block;
+    animation: hero-line 820ms var(--ease-soft) both;
+    animation-delay: calc(var(--intro-offset) + 0.18s);
+  }
+  .hero-line + .hero-line {
+    animation-delay: calc(var(--intro-offset) + 0.42s);
+  }
+  .hero-after {
+    animation: fade-in 700ms ease-out both;
+    animation-delay: calc(var(--intro-offset) + 0.7s);
+  }
+}
+@keyframes hero-frame {
+  from {
+    transform: scale(1.07);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes hero-line {
+  from {
+    opacity: 0;
+    transform: translateY(0.3em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Profondeur discrète sur ordinateur : la photo dérive légèrement au défilement. */
+@supports (animation-timeline: scroll()) {
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    .hero-drift {
+      animation: hero-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 90vh;
+    }
+  }
+}
+@keyframes hero-drift {
+  to {
+    transform: translateY(5%);
+  }
+}
+
+/* ---- Révélation photo à la première entrée dans l'écran --------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    transition: opacity 650ms ease-out;
+  }
+  html.js [data-reveal] img {
+    transition: transform 1200ms var(--ease-soft);
+  }
+  html.js [data-reveal]:not(.is-revealed) {
+    opacity: 0;
+  }
+  html.js [data-reveal]:not(.is-revealed) img {
+    transform: scale(1.05);
+  }
+}
+
+@media print {
+  html.js [data-reveal],
+  html.js [data-reveal] img {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .intro,
+  header nav,
+  .skip-link {
+    display: none !important;
+  }
+}
+
+/* ---- Transition de page « La coupe » (View Transitions natives) ----------
+   La nouvelle page est révélée par un bord diagonal, comme le passage d'une lame.
+   Sans prise en charge du navigateur, la navigation reste instantanée. */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+::view-transition-old(.cut) {
+  animation: cut-dim 300ms var(--ease-cut) both;
+}
+::view-transition-new(.cut) {
+  animation: cut-reveal 320ms var(--ease-cut) both;
+}
+@keyframes cut-dim {
+  to {
+    opacity: 0.3;
+  }
+}
+@keyframes cut-reveal {
+  from {
+    clip-path: polygon(0 0, 0 0, -28vw 100vh, -28vw 100%, 0 100%);
+  }
+  to {
+    clip-path: polygon(0 0, 128vw 0, 100vw 100vh, 100vw 100%, 0 100%);
+  }
+}
+
+/* ---- Mouvement réduit ------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(.cut) {
+    animation: fade-out-quick 120ms ease-out both;
+  }
+  ::view-transition-new(.cut) {
+    animation: fade-in 160ms ease-out both;
+  }
+  .intro {
+    display: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
+@keyframes fade-out-quick {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ---- Menu mobile (dialog natif) ------------------------------------------- */
+.menu-dialog {
+  margin: 0;
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: var(--color-ink);
+  color: var(--color-ivory);
+  inset: 0;
+}
+.menu-dialog::backdrop {
+  background: color-mix(in srgb, var(--color-ink) 70%, transparent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .menu-dialog[open] {
+    animation: menu-in 260ms var(--ease-cut);
+  }
+}
+@keyframes menu-in {
+  from {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 6%);
+    opacity: 0.6;
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    opacity: 1;
+  }
+}
+
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 700ms linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.6s;
+  }
+}
