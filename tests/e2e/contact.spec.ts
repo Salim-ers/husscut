@@ -78,3 +78,18 @@ test("le contact anglais garde la même logique", async ({ page }) => {
   const body = decodeURIComponent((await page.locator("[data-sms-link]").getAttribute("href"))?.split("body=")[1] ?? "");
   expect(body).toContain("Product: Roast beef joint");
 });
+
+test("« Commander » : demande de disponibilité par défaut, livraison en liens externes, rien à payer", async ({ page }) => {
+  await page.goto("/fr/commander");
+  await expect(page.locator("h1")).toHaveText("Commander");
+  await expect(page.getByRole("radio", { name: "Disponibilité ou commande" })).toBeChecked();
+  await expect(page.getByRole("link", { name: /Commander sur Uber Eats/ })).toHaveAttribute("href", /ubereats\.com/);
+  await expect(page.getByRole("link", { name: /Commander sur Deliveroo/ })).toHaveAttribute("href", /deliveroo\.fr/);
+  await expect(page.locator("body")).not.toContainText(/panier|ajouter au panier|payer maintenant/i);
+  await page.getByLabel(/Votre nom/).fill("Nadia");
+  await page.getByLabel(/Votre message/).fill("Deux côtes de bœuf pour samedi, si possible.");
+  await page.getByRole("button", { name: "Préparer mon SMS" }).click();
+  await expect(page.getByRole("heading", { name: "Votre SMS est prêt" })).toBeVisible();
+  const body = decodeURIComponent((await page.locator("[data-sms-link]").getAttribute("href"))?.split("body=")[1] ?? "");
+  expect(body).toContain("Disponibilité ou commande");
+});

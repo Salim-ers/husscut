@@ -13,6 +13,7 @@ src/
 │   │   ├── layout.tsx            en-tête, pied de page, intro, effets de navigation, JSON-LD
 │   │   ├── page.tsx              accueil
 │   │   ├── viandes/ · meats/     segments localisés (un dossier par langue, 404 dans l'autre)
+│   │   ├── commander/ · order/   page « Commander » (un dossier par langue)
 │   │   ├── charcuterie/ · contact/ · cookies/   segments identiques dans les deux langues
 │   │   ├── la-maison/ · our-shop/ · mentions-legales/ · legal-notice/ · confidentialite/ · privacy/
 │   │   ├── not-found.tsx · error.tsx
@@ -21,12 +22,14 @@ src/
 │   ├── global-error.tsx · robots.ts · sitemap.ts · icon.png · apple-icon.png · fonts.ts
 ├── components/
 │   ├── layout/                   SiteHeader, MobileMenu (<dialog>), LanguageSwitch, NavLinks, SiteFooter
-│   ├── motion/                   NeonIntro (+ script d'amorçage), PageTransition, RouteEffects
-│   ├── shared/                   HoursTable, TodayMarker, JsonLd
+│   ├── motion/                   NeonIntro (+ script d'amorçage), PageTransition, RouteEffects,
+│   │                             SplitWords, Marquee, KnifeRule
+│   ├── layout/ (suite)           ScrollChrome (en-tête au défilement)
+│   ├── shared/                   HoursTable, TodayMarker, JsonLd, PageHero
 │   └── ui/                       Photo, ExternalLink, RichText, icônes
 ├── content/                      source unique des données (voir README)
 ├── features/
-│   ├── home/ · house/ · reviews/ · legal/ · errors/
+│   ├── home/ · house/ · order/ · reviews/ · legal/ · errors/
 │   ├── catalogue/                MeatsPage, CharcuteriePage, CatalogueSection, CatalogueFilter
 │   └── contact/
 │       ├── ContactPage.tsx
@@ -75,13 +78,28 @@ Catalogue ─ « Demander la disponibilité » → /contact?topic=availability&i
 
 ## Mouvement
 
+Direction : une boucherie de luxe la nuit — ardoise, néon doré, rouge de la viande — et le jeu du
+couteau comme fil conducteur (coupe, lame, fil doré). Tout passe par transform, opacity ou
+clip-path ; tout respecte `prefers-reduced-motion` ; rien ne dépend du survol.
+
 | Moment | Réalisation | Mouvement réduit |
 |---|---|---|
 | Intro « Le néon s'allume » | Script d'amorçage avant rendu ; CSS pur ; ~1,3 s ; interrompue à la première interaction ; une fois par session | Absente |
-| Hero « Du néon au billot » | Recadrage 1,07 → 1, accroche en deux temps, dérive au défilement (CSS scroll-driven, ordinateur) | Statique |
-| Transition « La coupe » | `<ViewTransition>` de React 19.3 + View Transitions du navigateur ; révélation diagonale 320 ms ; clics traversants | Fondu 160 ms |
-| Photos | Apparition à la première entrée dans l'écran (IntersectionObserver) | Visibles d'emblée |
+| Hero d'accueil | Diaporama de 4 photos en fondu enchaîné avec recadrage lent (28 s, CSS) ; ouverture par une lame qui traverse l'écran et révèle la photo le long de la coupe ; titre ligne à ligne | Première photo, statique |
+| En-tête | Transparent en haut de page, capsule vitrée au défilement, s'efface en descendant (geste du visiteur seulement), revient en remontant (`ScrollChrome`) | Sans transition |
+| Bandeaux défilants | Rayons et gestes en boucle, séparés par des couteaux (`Marquee`), en pause au survol | À l'arrêt |
+| Titres | Mots qui sortent de sous la ligne (`SplitWords`) : à l'affichage (haut de page) ou à l'entrée dans l'écran | Visibles d'emblée |
+| Photos | Rideau d’ardoise taillé en biais qui glisse hors du cadre (transform), puis léger dézoom ; ni le cadre ni l’image ne sont découpés (observation et chargement différé intacts) | Visibles d’emblée |
+| Trait de couteau | Une lame traverse la largeur et laisse un fil doré (`KnifeRule`) | Statique |
+| « La carte » | Cartes empilées (sticky, CSS) | Identique (pas d'animation) |
+| « Le geste » | Scène épinglée : la lame suit la diagonale de la photo, qui s'ouvre en deux (--p) | État final |
+| « La vitrine » | Galerie horizontale épinglée sur ordinateur, glissée (scroll-snap) sur mobile | Défilement horizontal natif |
+| « Maturation » | Photo qui grandit dans son cadre au défilement (--p) | État final |
+| Transition « La coupe » | `<ViewTransition>` de React 19.3 + View Transitions du navigateur ; révélation diagonale 520 ms | Fondu 160 ms |
 
+Les scènes liées au défilement reçoivent leur avancement `--p` (0 → 1) de `RouteEffects` ;
+sans script ou en mouvement réduit, `--p` vaut 1 et le CSS affiche l'état final. Les scènes
+épinglées portent `overflow-x: clip` (pas de débordement horizontal, l'épinglage reste possible).
 Sans prise en charge des View Transitions, la navigation est simplement instantanée.
 
 ## Sécurité

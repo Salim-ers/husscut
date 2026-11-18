@@ -26,9 +26,14 @@ const en: Dictionary = {
         "The HussCut counter at 13 avenue Philippe-Auguste, Nation: cutting on the block, the display counter and the dry-ageing cabinet.",
     },
     contact: {
-      title: "Contact & orders",
+      title: "Find us & contact",
       description:
-        "Address, opening hours, phone and directions for HussCut, 13 avenue Philippe-Auguste, Paris 11. Prepare an availability, board or box request.",
+        "Address, opening hours, phone, directions and map for HussCut, 13 avenue Philippe-Auguste, Paris 11, a few steps from Nation metro.",
+    },
+    order: {
+      title: "Order",
+      description:
+        "Order from HussCut, halal butcher in Nation: prepare a request for cuts, boards or boxes to collect at the counter, or get delivery through Uber Eats and Deliveroo.",
     },
     legal: { title: "Legal notice", description: "Legal notice for the HussCut butcher's website." },
     privacy: { title: "Privacy", description: "How the HussCut website handles your personal data." },
@@ -56,7 +61,8 @@ const en: Dictionary = {
     meats: "Meats",
     charcuterie: "Charcuterie",
     house: "Our shop",
-    contact: "Contact",
+    order: "Order",
+    contact: "Find us",
     legal: "Legal notice",
     privacy: "Privacy",
     cookies: "Cookies and preferences",
@@ -71,6 +77,7 @@ const en: Dictionary = {
     startDirections: "Get directions",
     instagram: "Instagram",
     askAvailability: "Ask about availability",
+    order: "Order",
   },
 
   hours: {
@@ -92,45 +99,98 @@ const en: Dictionary = {
 
   home: {
     hero: {
-      titleLines: ["Halal meat,", "at its finest."],
-      subtitle: "Butcher & charcuterie in Nation, Paris 11",
-      primary: "Explore our meats",
-      secondary: "Visit the shop",
+      kicker: "Butcher · Charcuterie · Paris 11",
+      titleLines: ["Meat,", "at its finest"],
+      halal: "Halal",
+      subtitle:
+        "Dry-aged ribs, marbled cuts, fine charcuterie and sharing boxes: chosen, trimmed and sliced on the block, a few steps from Nation.",
+      primary: "Order",
+      secondary: "Explore our meats",
       metro: "Nation metro",
+      scroll: "Scroll",
+      slides: ["The block", "The neon", "The marbling", "The ageing"],
+    },
+    marquee: {
+      cuts: ["Beef", "Veal", "Lamb", "Poultry", "Grill", "Charcuterie", "Boxes"],
+      gestures: ["dry-aged", "marbled", "trimmed", "tied", "marinated", "sliced before your eyes"],
+    },
+    manifesto: {
+      kicker: "The HussCut house",
+      text: "Here, meat is chosen *like a fine vintage*. A marbling, an ageing, a thickness: tell the team what you're cooking, and they trim and slice the cut right in front of you.",
     },
     universes: {
-      title: "What you'll find at the counter",
+      kicker: "The menu",
+      title: "Three counters, *one standard*",
       meats: {
         title: "Meats",
-        text: "Beef, veal, lamb, poultry and grill favourites, sold by the cut.",
+        text: "Beef, veal, lamb, poultry and grill favourites, sold by the cut. From everyday steaks to dry-aged ribs.",
         link: "See the meats",
       },
       charcuterie: {
         title: "Charcuterie",
-        text: "Thin slices, smoked and cured meats, boards and boxes to share.",
+        text: "Thin slices, smoked and cured meats, pâtés, terrines, boards and boxes to share.",
         link: "See the charcuterie",
       },
       creations: {
         title: "Butcher's creations",
-        text: "Marinated skewers, cordons bleus and ready-to-cook preparations.",
+        text: "Marinated skewers, rolls, cordons bleus and ready-to-cook preparations.",
         link: "See the creations",
       },
     },
     gesture: {
-      title: "The craft, behind the counter",
+      kicker: "The craft",
+      title: "Trimmed and sliced *on the block*",
       text: "Cuts are trimmed and sliced on the block, under the shop's neon sign. Tell the team what you're cooking and for how many: they'll steer you to the right cut and thickness.",
+      steps: ["Choose the cut", "Trim it", "Slice it to the thickness you want"],
       link: "Discover the shop",
     },
-    visit: {
-      title: "Come to the counter",
-      text: "A few steps from Nation metro, at 13 avenue Philippe-Auguste. Looking for a specific cut? Call before you come.",
-      deliveryTitle: "Rather have it delivered?",
-      deliveryText: "HussCut is also available on two delivery platforms.",
+    gallery: {
+      kicker: "The counter",
+      title: "A display *worth a look*",
+      text: "Ribs under the neon, tied roasts, marinated skewers, flower-topped boxes: a glimpse of what crosses the counter.",
+      hint: "Scroll",
+      captions: {
+        neon: "Under the neon",
+        rotis: "Tied roasts",
+        brochettes: "Marinated skewers",
+        coffret: "The box",
+        persille: "The marbling",
+        selection: "La sélection",
+        sechage: "Curing",
+        roules: "Cheese rolls",
+        vitrine: "The display",
+        papier: "On HussCut paper",
+      },
+    },
+    ageing: {
+      kicker: "Dry-ageing",
+      title: "Time *makes the flavour*",
+      text: "In the dry-ageing cabinet, ribs of beef rest on their racks. Ask at the counter which ones are ready.",
+      cta: "See the beef",
+    },
+    platters: {
+      kicker: "For guests",
+      title: "Boards *& boxes*",
+      text: "Sliced charcuterie, cheeses, edible flowers: tell the shop how many people and the date you have in mind, and the team will let you know what's possible.",
+      cta: "Ask for a box",
+      link: "See the charcuterie",
+    },
+    order: {
+      kicker: "Order",
+      title: "Your order, *cut to measure*",
+      text: "A specific cut, a quantity for a big table, a box for guests: prepare your request, and the shop will confirm availability and when to come by.",
+      modes: {
+        takeaway: { title: "Collect at the counter", text: "Prepare your request, the shop replies." },
+        platter: { title: "Boards & boxes", text: "For drinks, a party or a gathering." },
+        delivery: { title: "Delivery", text: "On Uber Eats and Deliveroo, on their terms." },
+      },
+      cta: "Order",
     },
   },
 
   reviews: {
-    title: "Google reviews",
+    kicker: "Google reviews",
+    title: "What *our customers* say",
     intro: "Excerpts from reviews posted on the shop's Google listing.",
     excerpt: "Excerpt",
     source: "Review posted on Google",
@@ -140,6 +200,7 @@ const en: Dictionary = {
   },
 
   meats: {
+    kicker: "The menu",
     title: "Meats",
     lede: "Beef, veal, lamb, poultry, grill favourites, butcher's creations and fine pantry. The selection changes from day to day: for a specific cut or a large quantity, ask before you come.",
     filterLabel: "Show a section",
@@ -152,6 +213,7 @@ const en: Dictionary = {
   },
 
   charcuterie: {
+    kicker: "The menu",
     title: "Charcuterie",
     lede: "Thin slices, smoked and cured meats, pâtés and terrines: choose at the counter, or have it prepared for guests.",
     speciesNote:
@@ -164,7 +226,13 @@ const en: Dictionary = {
   },
 
   house: {
+    kicker: "Nation, Paris 11",
     title: "Our shop",
+    gestures: {
+      kicker: "The craft",
+      title: "By the knife, *before your eyes*",
+      items: ["Slicing", "Trimming", "Presenting"],
+    },
     lede: "HussCut is a neighbourhood halal butcher and charcuterie at 13 avenue Philippe-Auguste, a few steps from Place de la Nation.",
     portraitCaption: "At the HussCut counter, under the neon sign.",
     chapters: {
@@ -197,12 +265,16 @@ const en: Dictionary = {
   },
 
   contact: {
-    title: "Contact & orders",
-    lede: "A question, availability to check, a board for guests: prepare your request here or call the shop.",
-    notice:
-      "No order is confirmed until the shop replies. HussCut will tell you about availability, quantity and when to come by.",
+    kicker: "Find us",
+    title: "Find us & contact",
+    lede: "A few steps from Nation metro, at 13 avenue Philippe-Auguste. Looking for a specific cut? Call before you come.",
+    question: {
+      title: "A question?",
+      text: "Write to the shop or give it a call. For an order, a board or a box, use the Order page.",
+      orderLink: "Prepare an order",
+    },
     visit: {
-      title: "The shop",
+      title: "Come to the counter",
       addressLabel: "Address",
       phoneLabel: "Phone",
       socialLabel: "Instagram",
@@ -284,6 +356,39 @@ const en: Dictionary = {
       hide: "Hide the map",
       frameTitle: "Google Maps: HussCut, 13 avenue Philippe-Auguste, Paris",
       alternative: "Without the map, directions open straight in your navigation app.",
+    },
+  },
+
+  order: {
+    kicker: "Counter pick-up · Delivery",
+    title: "Order",
+    lede: "A specific cut, a quantity for a big table, a box for guests: prepare your request in two minutes, and the shop will confirm availability and when to come by.",
+    notice:
+      "No order is confirmed until the shop replies. HussCut will tell you about availability, quantity and when to come by. Nothing is paid online.",
+    steps: {
+      title: "How it works",
+      items: [
+        { title: "You prepare", text: "The cuts, the quantity or the occasion, and the date you have in mind." },
+        { title: "The shop confirms", text: "HussCut replies about availability and when to come by." },
+        { title: "You collect at the counter", text: "13 avenue Philippe-Auguste, a few steps from Nation metro." },
+      ],
+    },
+    formTitle: "Prepare my order",
+    delivery: {
+      kicker: "Delivery",
+      title: "Rather have it *delivered*?",
+      text: "HussCut is also available on two delivery platforms. Orders are then placed on the platform, on its own terms.",
+      cta: "Order on {name}",
+    },
+    platters: {
+      kicker: "For guests",
+      title: "Boards *& boxes*",
+      text: "For drinks or a gathering, tell the shop how many people and the date you have in mind: the team will let you know what's possible.",
+      cta: "Ask for a board or box",
+    },
+    call: {
+      title: "Easier by phone?",
+      text: "Call the shop during opening hours: the team will take your request in person.",
     },
   },
 

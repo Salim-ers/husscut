@@ -3,7 +3,7 @@
 Site de **HussCut**, boucherie-charcuterie halal au 13 avenue Philippe-Auguste, Paris 11ᵉ (métro Nation).
 Conception et développement : **QuadCore**.
 
-Cinq pages publiques dans deux langues (accueil, viandes, charcuterie, la maison, contact & commandes),
+Six pages publiques dans deux langues (accueil, viandes, charcuterie, la maison, commander, nous trouver & contact),
 plus les mentions légales, la confidentialité et les cookies. Aucun prix, panier, paiement ni compte client :
 une demande de commande est une prise de contact que la boutique confirme.
 
@@ -15,7 +15,7 @@ une demande de commande est une prise de contact que la boutique confirme.
 | Langage | TypeScript strict (`noUncheckedIndexedAccess`) | Contenu typé, dictionnaires FR/EN forcés à la même forme |
 | Styles | Tailwind CSS 4 + tokens CSS (`src/styles/globals.css`) | Design system centralisé, pas de bibliothèque d'interface |
 | Validation | Zod 4 | Un seul schéma pour le navigateur et le serveur |
-| Polices | Libre Caslon Condensed, Instrument Sans (auto-hébergées, OFL) | Aucune requête vers Google Fonts |
+| Polices | Cinzel (capitales romaines de l'enseigne), Cormorant Garamond (serif du tee-shirt « HussCut From Paris »), Instrument Sans — auto-hébergées, OFL | Cohérence avec la marque, aucune requête vers Google Fonts |
 | Tests | Vitest (unitaires), Playwright + axe-core (bout en bout, accessibilité) | |
 
 Pas de base de données, d'authentification ni d'espace d'administration : le contenu est centralisé
@@ -47,6 +47,7 @@ npm run dev                  # http://localhost:3000 → redirige vers /fr
 | `npm start` | Sert le build |
 | `npm run test:e2e` | Recette Playwright sur 320, 390, 768 et 1440 px (nécessite un build et `npm start`, ou laisse Playwright le lancer) |
 | `npm run media -- <dossier>` | Régénère les médias depuis le dossier de photos fourni (voir ci-dessous) |
+| `node scripts/prepare-extra-media.mjs` | Régénère les photos supplémentaires (fichiers numérotés et images Instagram déposés à la racine) |
 | `npm run check` | typecheck + lint + tests + build |
 
 Pour Playwright avec un Chrome déjà installé : `CHROME_PATH=/usr/bin/google-chrome npm run test:e2e`.

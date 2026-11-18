@@ -15,8 +15,9 @@ interface MobileMenuProps {
 }
 
 /**
- * Menu mobile en <dialog> natif : focus piégé, Échap, fond inerte et retour du focus
- * sur le bouton d'ouverture sont gérés par le navigateur.
+ * Menu mobile plein écran en <dialog> natif : focus piégé, Échap, fond inerte et retour du
+ * focus sur le bouton d'ouverture sont gérés par le navigateur. Ouverture par une coupe
+ * diagonale, liens qui montent l'un après l'autre (sauf mouvement réduit).
  */
 export function MobileMenu({ items, labels, brand, footer }: MobileMenuProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -50,7 +51,7 @@ export function MobileMenu({ items, labels, brand, footer }: MobileMenuProps) {
         }}
       >
         <div className="flex min-h-full flex-col pb-[max(1.5rem,env(safe-area-inset-bottom))]">
-          <div className="container-site flex h-16 items-center justify-between">
+          <div className="container-site flex h-[var(--header-h)] items-center justify-between">
             {brand}
             <button
               type="button"

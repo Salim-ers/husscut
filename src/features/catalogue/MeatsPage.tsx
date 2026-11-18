@@ -1,4 +1,5 @@
-import { Photo } from "@/components/ui/Photo";
+import { Marquee } from "@/components/motion/Marquee";
+import { PageHero } from "@/components/shared/PageHero";
 import { meatCategories } from "@/content/catalogue";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
@@ -12,19 +13,17 @@ export function MeatsPage({ locale, dict }: { locale: Locale; dict: Dictionary }
   const labels = { askAvailability: dict.actions.askAvailability, sectionCount: dict.meats.sectionCount };
   return (
     <>
-      <section className="pt-10 pb-16 lg:pt-16 lg:pb-24" aria-labelledby="page-title">
-        <div className="container-site grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
-          <div className="lg:col-span-6">
-            <h1 id="page-title" className="display-1">
-              {dict.meats.title}
-            </h1>
-            <p className="lede mt-6 max-w-[44ch] text-mute">{dict.meats.lede}</p>
-          </div>
-          <div className="lg:col-span-5 lg:col-start-8">
-            <Photo photo="steaksPersillesInox" locale={locale} sizes="(min-width: 64rem) 40vw, 92vw" ratio="4 / 5" large eager className="cut-edge [--cut:14%]" />
-          </div>
-        </div>
-      </section>
+      <PageHero
+        locale={locale}
+        kicker={dict.meats.kicker}
+        title={dict.meats.title}
+        lede={dict.meats.lede}
+        photo="steaksPersillesInox"
+        secondPhoto="wagyuPlateau"
+      />
+      <div className="overflow-x-clip pb-4">
+        <Marquee items={dict.home.marquee.cuts} duration={42} />
+      </div>
 
       <div className="surface-light pb-20">
         <div className="container-site">

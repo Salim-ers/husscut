@@ -30,9 +30,14 @@ const fr = {
         "Le comptoir HussCut au 13 avenue Philippe-Auguste, à Nation : la découpe sur le billot, l'étal et l'armoire de maturation.",
     },
     contact: {
-      title: "Contact & commandes",
+      title: "Nous trouver & contact",
       description:
-        "Adresse, horaires, téléphone et itinéraire de HussCut, 13 avenue Philippe-Auguste, Paris 11^e. Préparez une demande de disponibilité, de planche ou de coffret.",
+        "Adresse, horaires, téléphone, itinéraire et plan d'accès de HussCut, 13 avenue Philippe-Auguste, Paris 11^e, à deux pas du métro Nation.",
+    },
+    order: {
+      title: "Commander",
+      description:
+        "Commandez chez HussCut, boucherie halal à Nation : préparez votre demande de pièces, de planches ou de coffrets à retirer au comptoir, ou faites-vous livrer via Uber Eats et Deliveroo.",
     },
     legal: { title: "Mentions légales", description: "Mentions légales du site de la boucherie HussCut." },
     privacy: { title: "Confidentialité", description: "Comment le site HussCut traite vos données personnelles." },
@@ -60,7 +65,8 @@ const fr = {
     meats: "Les viandes",
     charcuterie: "La charcuterie",
     house: "La maison",
-    contact: "Contact",
+    order: "Commander",
+    contact: "Nous trouver",
     legal: "Mentions légales",
     privacy: "Confidentialité",
     cookies: "Cookies et préférences",
@@ -75,6 +81,7 @@ const fr = {
     startDirections: "Lancer l'itinéraire",
     instagram: "Instagram",
     askAvailability: "Demander la disponibilité",
+    order: "Commander",
   },
 
   hours: {
@@ -96,45 +103,98 @@ const fr = {
 
   home: {
     hero: {
-      titleLines: ["L'excellence", "de la viande halal."],
-      subtitle: "Boucherie & charcuterie à Nation, Paris 11^e",
-      primary: "Découvrir nos viandes",
-      secondary: "Venir à la boutique",
+      kicker: "Boucherie · Charcuterie · Paris 11^e",
+      titleLines: ["L'excellence", "de la viande"],
+      halal: "Halal",
+      subtitle:
+        "Côtes maturées, pièces persillées, charcuterie fine et coffrets à partager : choisis, parés et tranchés sur le billot, à deux pas de Nation.",
+      primary: "Commander",
+      secondary: "Découvrir nos viandes",
       metro: "Métro Nation",
+      scroll: "Défiler",
+      slides: ["Le billot", "Le néon", "Le persillé", "La maturation"],
+    },
+    marquee: {
+      cuts: ["Bœuf", "Veau", "Agneau", "Volaille", "Grillades", "Charcuterie", "Coffrets"],
+      gestures: ["maturé", "persillé", "paré", "ficelé", "mariné", "tranché devant vous"],
+    },
+    manifesto: {
+      kicker: "La maison HussCut",
+      text: "Ici, la viande se choisit *comme un grand cru*. Un persillage, une maturation, une épaisseur : dites ce que vous cuisinez, l'équipe pare et tranche la pièce devant vous.",
     },
     universes: {
-      title: "Ce que vous trouverez au comptoir",
+      kicker: "La carte",
+      title: "Trois rayons, *une exigence*",
       meats: {
         title: "Les viandes",
-        text: "Bœuf, veau, agneau, volaille et grillades, présentés à la coupe.",
+        text: "Bœuf, veau, agneau, volaille et grillades, présentés à la coupe. Des steaks du quotidien aux côtes maturées.",
         link: "Voir les viandes",
       },
       charcuterie: {
         title: "La charcuterie",
-        text: "Fines tranches, pièces fumées et séchées, planches et coffrets à partager.",
+        text: "Fines tranches, pièces fumées et séchées, pâtés, terrines, planches et coffrets à partager.",
         link: "Voir la charcuterie",
       },
       creations: {
         title: "Les créations bouchères",
-        text: "Brochettes marinées, cordons bleus et préparations prêtes à cuisiner.",
+        text: "Brochettes marinées, roulés, cordons bleus et préparations prêtes à cuisiner.",
         link: "Voir les créations",
       },
     },
     gesture: {
-      title: "Le geste, derrière le comptoir",
+      kicker: "Le geste",
+      title: "Paré et tranché *sur le billot*",
       text: "Les pièces sont parées et tranchées sur le billot, sous le néon de la boutique. Dites ce que vous cuisinez et pour combien de personnes : l'équipe vous oriente vers la bonne pièce et la bonne épaisseur.",
+      steps: ["Choisir la pièce", "La parer", "La trancher à l'épaisseur voulue"],
       link: "Découvrir la maison",
     },
-    visit: {
-      title: "Venir au comptoir",
-      text: "À quelques pas du métro Nation, au 13 avenue Philippe-Auguste. Le plus simple pour une pièce précise : appeler avant de passer.",
-      deliveryTitle: "Plutôt livré ?",
-      deliveryText: "HussCut est aussi présent sur deux plateformes de livraison.",
+    gallery: {
+      kicker: "La vitrine",
+      title: "Un étal *qui se regarde*",
+      text: "Côtes sous le néon, rôtis ficelés, brochettes marinées, coffrets fleuris : un aperçu de ce qui passe au comptoir.",
+      hint: "Faites défiler",
+      captions: {
+        neon: "Sous le néon",
+        rotis: "Les rôtis ficelés",
+        brochettes: "Les brochettes marinées",
+        coffret: "Le coffret",
+        persille: "Le persillé",
+        selection: "La sélection",
+        sechage: "Le séchage",
+        roules: "Les roulés au fromage",
+        vitrine: "La vitrine",
+        papier: "Sur le papier HussCut",
+      },
+    },
+    ageing: {
+      kicker: "Maturation",
+      title: "Le temps *fait le goût*",
+      text: "Dans l'armoire de maturation, les côtes de bœuf reposent sur leurs clayettes. Demandez au comptoir celles qui sont prêtes.",
+      cta: "Voir le bœuf",
+    },
+    platters: {
+      kicker: "Pour recevoir",
+      title: "Planches *& coffrets*",
+      text: "Charcuteries tranchées, fromages, fleurs comestibles : indiquez le nombre de personnes et la date souhaitée, la boutique vous répond sur ce qui est possible.",
+      cta: "Demander un coffret",
+      link: "Voir la charcuterie",
+    },
+    order: {
+      kicker: "Commander",
+      title: "Votre commande, *taillée sur mesure*",
+      text: "Une pièce précise, une quantité pour une tablée, un coffret pour recevoir : préparez votre demande, la boutique vous confirme la disponibilité et le moment pour passer.",
+      modes: {
+        takeaway: { title: "À retirer au comptoir", text: "Préparez votre demande, la boutique vous répond." },
+        platter: { title: "Planches & coffrets", text: "Pour un apéritif, une fête ou une réception." },
+        delivery: { title: "En livraison", text: "Sur Uber Eats et Deliveroo, selon leurs conditions." },
+      },
+      cta: "Commander",
     },
   },
 
   reviews: {
-    title: "Avis Google",
+    kicker: "Avis Google",
+    title: "Ce qu'en disent *nos clients*",
     intro: "Extraits d'avis publiés sur la fiche Google de la boutique.",
     excerpt: "Extrait",
     source: "Avis publié sur Google",
@@ -144,6 +204,7 @@ const fr = {
   },
 
   meats: {
+    kicker: "La carte",
     title: "Les viandes",
     lede: "Bœuf, veau, agneau, volaille, grillades, créations bouchères et épicerie fine. La sélection change d'un jour à l'autre : pour une pièce précise ou une grande quantité, demandez avant de passer.",
     filterLabel: "Afficher un rayon",
@@ -156,6 +217,7 @@ const fr = {
   },
 
   charcuterie: {
+    kicker: "La carte",
     title: "La charcuterie",
     lede: "Fines tranches, pièces fumées et séchées, pâtés et terrines : la charcuterie se choisit au comptoir ou se prépare pour recevoir.",
     speciesNote:
@@ -168,7 +230,13 @@ const fr = {
   },
 
   house: {
+    kicker: "Nation, Paris 11^e",
     title: "La maison",
+    gestures: {
+      kicker: "Les gestes",
+      title: "Au couteau, *devant vous*",
+      items: ["Trancher", "Parer", "Présenter"],
+    },
     lede: "HussCut est une boucherie-charcuterie halal de quartier, au 13 avenue Philippe-Auguste, à quelques pas de la place de la Nation.",
     portraitCaption: "Au comptoir de HussCut, sous l'enseigne néon.",
     chapters: {
@@ -201,12 +269,16 @@ const fr = {
   },
 
   contact: {
-    title: "Contact & commandes",
-    lede: "Une question, une disponibilité à vérifier, une planche pour recevoir : préparez votre demande ici ou appelez la boutique.",
-    notice:
-      "Aucune commande n'est confirmée avant la réponse de la boutique. HussCut vous indique la disponibilité, la quantité et le moment pour passer.",
+    kicker: "Nous trouver",
+    title: "Nous trouver & contact",
+    lede: "À quelques pas du métro Nation, au 13 avenue Philippe-Auguste. Le plus simple pour une pièce précise : appeler avant de passer.",
+    question: {
+      title: "Une question ?",
+      text: "Écrivez à la boutique ou appelez-la. Pour une commande, une planche ou un coffret, passez par la page Commander.",
+      orderLink: "Préparer une commande",
+    },
     visit: {
-      title: "La boutique",
+      title: "Venir au comptoir",
       addressLabel: "Adresse",
       phoneLabel: "Téléphone",
       socialLabel: "Instagram",
@@ -289,6 +361,39 @@ const fr = {
       hide: "Masquer la carte",
       frameTitle: "Carte Google Maps : HussCut, 13 avenue Philippe-Auguste, Paris",
       alternative: "Sans carte, l'itinéraire s'ouvre directement dans votre application de navigation.",
+    },
+  },
+
+  order: {
+    kicker: "Retrait au comptoir · Livraison",
+    title: "Commander",
+    lede: "Une pièce précise, une quantité pour une tablée, un coffret pour recevoir : préparez votre demande en deux minutes, la boutique vous confirme la disponibilité et le moment pour passer.",
+    notice:
+      "Aucune commande n'est confirmée avant la réponse de la boutique. HussCut vous indique la disponibilité, la quantité et le moment pour passer. Rien n'est réglé en ligne.",
+    steps: {
+      title: "Comment ça se passe",
+      items: [
+        { title: "Vous préparez", text: "Les pièces, la quantité ou l'occasion, et la date souhaitée." },
+        { title: "La boutique confirme", text: "HussCut vous répond sur la disponibilité et le moment pour passer." },
+        { title: "Vous retirez au comptoir", text: "13 avenue Philippe-Auguste, à deux pas du métro Nation." },
+      ],
+    },
+    formTitle: "Préparer ma commande",
+    delivery: {
+      kicker: "Livraison",
+      title: "Plutôt *livré* ?",
+      text: "HussCut est aussi présent sur deux plateformes de livraison. La commande se fait alors sur la plateforme, selon ses propres conditions.",
+      cta: "Commander sur {name}",
+    },
+    platters: {
+      kicker: "Pour recevoir",
+      title: "Planches *& coffrets*",
+      text: "Pour un apéritif ou une réception, indiquez le nombre de personnes et la date souhaitée : la boutique vous répond sur ce qui est possible.",
+      cta: "Demander une planche ou un coffret",
+    },
+    call: {
+      title: "Plus simple par téléphone ?",
+      text: "Appelez la boutique aux heures d'ouverture : l'équipe prend votre demande de vive voix.",
     },
   },
 

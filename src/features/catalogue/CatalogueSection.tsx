@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SplitWords } from "@/components/motion/SplitWords";
 import { Photo } from "@/components/ui/Photo";
 import type { Product, Section } from "@/content/catalogue";
 import type { Locale } from "@/i18n/config";
@@ -26,9 +27,7 @@ export function CatalogueSection<Id extends string>({
       <div className="grid gap-8 lg:grid-cols-12 lg:gap-6">
         <header className="lg:col-span-4">
           <div className="lg:sticky lg:top-44">
-            <h2 id={titleId} className="display-2">
-              {section.name[locale]}
-            </h2>
+            <SplitWords as="h2" id={titleId} text={section.name[locale]} className="display-1" />
             <p className="mt-3 max-w-[36ch] text-mute-ink">{typo(locale, section.description[locale])}</p>
             <p className="mt-2 text-sm text-mute-ink">{format(labels.sectionCount, { n: section.products.length })}</p>
             {section.ambiance ? (
@@ -57,13 +56,13 @@ function ProductRow({ product, locale, labels }: { product: Product; locale: Loc
   const name = typo(locale, product.name[locale]);
   const note = product.note ? typo(locale, product.note[locale]) : null;
   return (
-    <li className="flex flex-col gap-1 border-b border-ink/12 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+    <li className="product-row flex flex-col gap-1 border-b border-ink/12 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
       <div className="flex items-center gap-4">
         {product.photo ? (
           <Photo photo={product.photo} locale={locale} sizes="112px" ratio="4 / 5" className="w-20 flex-none rounded-[14px] sm:w-24" />
         ) : null}
         <div>
-          <h3 className="font-display text-[1.5rem] leading-tight font-semibold">{name}</h3>
+          <h3 className="font-display text-[1.3rem] leading-tight font-semibold tracking-[0.02em]">{name}</h3>
           {note ? <p className="mt-0.5 text-[0.9375rem] text-mute-ink">{note}</p> : null}
         </div>
       </div>

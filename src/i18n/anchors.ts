@@ -8,6 +8,8 @@ export const pageAnchors = {
   platters: { fr: "coffrets", en: "boards-and-boxes" },
   halal: { fr: "halal", en: "halal" },
   map: { fr: "plan", en: "map" },
+  delivery: { fr: "livraison", en: "delivery" },
+  steps: { fr: "etapes", en: "how-it-works" },
 } as const satisfies Record<string, L10n>;
 
 const allAnchors: readonly L10n[] = [

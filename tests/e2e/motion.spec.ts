@@ -42,21 +42,22 @@ test.describe("transitions de page", () => {
     const nav = page.getByRole("navigation", { name: "Navigation principale" });
     await nav.getByRole("link", { name: "Les viandes", exact: true }).click();
     await nav.getByRole("link", { name: "La charcuterie", exact: true }).click();
-    await nav.getByRole("link", { name: "Contact", exact: true }).click();
+    await nav.getByRole("link", { name: "Nous trouver", exact: true }).click();
     await expect(page).toHaveURL(/\/fr\/contact$/);
-    await expect(page.locator("h1")).toHaveText("Contact & commandes");
+    await expect(page.locator("h1")).toHaveText("Nous trouver & contact");
   });
 
-  test("chaque photo amenée à l'écran se révèle", async ({ page }) => {
+  test("chaque élément amené à l'écran se révèle", async ({ page }) => {
     await page.goto("/fr");
-    const photos = page.locator("[data-reveal]");
-    const count = await photos.count();
+    const elements = page.locator("[data-reveal]");
+    const count = await elements.count();
     expect(count).toBeGreaterThan(3);
     for (let index = 0; index < count; index++) {
-      const photo = photos.nth(index);
-      await photo.scrollIntoViewIfNeeded();
-      await expect(photo).toHaveClass(/is-revealed/);
-      await expect(photo).toHaveCSS("opacity", "1");
+      const element = elements.nth(index);
+      // Au centre de l'écran : hors de la marge basse de l'observateur (-6 %).
+      await element.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
+      await expect(element).toHaveClass(/is-revealed/);
+      await expect(element).toHaveCSS("opacity", "1");
     }
   });
 });

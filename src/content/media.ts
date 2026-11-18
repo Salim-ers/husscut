@@ -28,6 +28,34 @@ import steaksPersillesInox from "@/assets/photos/steaks-persilles-inox.webp";
 import terrinePlancheBois from "@/assets/photos/terrine-planche-bois.webp";
 import tranchesPapier from "@/assets/photos/tranches-papier.webp";
 import volailleEntiere from "@/assets/photos/volaille-entiere.webp";
+/* Photos supplémentaires (novembre 2026), préparées par scripts/prepare-extra-media.mjs. */
+import piecePapierSigne from "@/assets/photos/piece-papier-signe.webp";
+import blocPersilleBillot from "@/assets/photos/bloc-persille-billot.webp";
+import pieceRotieFleurs from "@/assets/photos/piece-rotie-fleurs.webp";
+import cotesNeonPlanche from "@/assets/photos/cotes-neon-planche.webp";
+import saucissesSelection from "@/assets/photos/saucisses-selection.webp";
+import brochettesMarinees from "@/assets/photos/brochettes-marinees.webp";
+import armoireNeon from "@/assets/photos/armoire-neon.webp";
+import sechageSelection from "@/assets/photos/sechage-selection.webp";
+import coteNeonBillot from "@/assets/photos/cote-neon-billot.webp";
+import rotisFiceles from "@/assets/photos/rotis-ficeles.webp";
+import rotiRouleAgrumes from "@/assets/photos/roti-roule-agrumes.webp";
+import grilladeArdoise from "@/assets/photos/grillade-ardoise.webp";
+import vitrineAgrumes from "@/assets/photos/vitrine-agrumes.webp";
+import roulesFromageGrosPlan from "@/assets/photos/roules-fromage-gros-plan.webp";
+import coffretPenseesJaunes from "@/assets/photos/coffret-pensees-jaunes.webp";
+import coffretCharcuterieFleurs from "@/assets/photos/coffret-charcuterie-fleurs.webp";
+import wagyuPlateau from "@/assets/photos/wagyu-plateau.webp";
+import coteGrilleeBeurre from "@/assets/photos/cote-grillee-beurre.webp";
+import steaksPersillesBillot from "@/assets/photos/steaks-persilles-billot.webp";
+import tranchesPersillees from "@/assets/photos/tranches-persillees.webp";
+import cotesMatureesSuspendues from "@/assets/photos/cotes-maturees-suspendues.webp";
+import burrataTranches from "@/assets/photos/burrata-tranches.webp";
+import gesteCouteauPersille from "@/assets/photos/geste-couteau-persille.webp";
+import pateCrouteCouteau from "@/assets/photos/pate-croute-couteau.webp";
+import gesteCouteauLongueLame from "@/assets/photos/geste-couteau-longue-lame.webp";
+import pavesRomarin from "@/assets/photos/paves-romarin.webp";
+import grandCoffretFromages from "@/assets/photos/grand-coffret-fromages.webp";
 
 export interface Photo {
   src: StaticImageData;
@@ -256,6 +284,222 @@ export const photos = {
       en: "The HussCut neon sign glowing in the dark.",
     },
     focus: "55% 40%",
+  },
+  piecePapierSigne: {
+    src: piecePapierSigne,
+    alt: {
+      fr: "Pièce de bœuf très persillée posée sur le papier signé HussCut.",
+      en: "A heavily marbled piece of beef resting on HussCut's signature paper.",
+    },
+    focus: "50% 55%",
+  },
+  blocPersilleBillot: {
+    src: blocPersilleBillot,
+    alt: {
+      fr: "Bloc de bœuf finement persillé, posé au bord d'un billot en bois.",
+      en: "A finely marbled block of beef on the edge of a wooden butcher's block.",
+    },
+    focus: "40% 30%",
+  },
+  pieceRotieFleurs: {
+    src: pieceRotieFleurs,
+    alt: {
+      fr: "Pièce rôtie aux herbes, décorée de romarin et de fleurs comestibles.",
+      en: "A herb-roasted joint decorated with rosemary and edible flowers.",
+    },
+    focus: "50% 45%",
+  },
+  cotesNeonPlanche: {
+    src: cotesNeonPlanche,
+    alt: {
+      fr: "Côtes de bœuf alignées sur une planche, sous l'enseigne néon HussCut.",
+      en: "Ribs of beef lined up on a board beneath the HussCut neon sign.",
+    },
+    focus: "50% 55%",
+  },
+  saucissesSelection: {
+    src: saucissesSelection,
+    alt: {
+      fr: "Saucisses fraîches rangées en vitrine, avec les cartons « La sélection ».",
+      en: "Fresh sausages arranged in the counter, with “La sélection” cards.",
+    },
+    focus: "50% 50%",
+  },
+  brochettesMarinees: {
+    src: brochettesMarinees,
+    alt: {
+      fr: "Brochettes marinées aux poivrons, alignées dans la vitrine.",
+      en: "Marinated skewers with peppers, lined up in the display counter.",
+    },
+    focus: "50% 50%",
+  },
+  armoireNeon: {
+    src: armoireNeon,
+    alt: {
+      fr: "Côtes de bœuf en maturation sur les clayettes de l'armoire réfrigérée.",
+      en: "Ribs of beef dry-ageing on the shelves of the chilled cabinet.",
+    },
+    focus: "50% 40%",
+  },
+  sechageSelection: {
+    src: sechageSelection,
+    alt: {
+      fr: "Saucisses sèches suspendues en chambre froide, étiquette « La sélection by HussCut ».",
+      en: "Dry sausages hanging in the cold room, with a “La sélection by HussCut” tag.",
+    },
+    focus: "50% 45%",
+  },
+  coteNeonBillot: {
+    src: coteNeonBillot,
+    alt: {
+      fr: "Côte de bœuf dressée sur le billot, sous le néon HussCut.",
+      en: "A rib of beef standing on the block, beneath the HussCut neon.",
+    },
+    focus: "50% 60%",
+  },
+  rotisFiceles: {
+    src: rotisFiceles,
+    alt: {
+      fr: "Rangées de rôtis ficelés dans la vitrine.",
+      en: "Rows of tied roasts in the display counter.",
+    },
+    focus: "50% 50%",
+  },
+  rotiRouleAgrumes: {
+    src: rotiRouleAgrumes,
+    alt: {
+      fr: "Rôti roulé et ficelé, garni de citron vert et de romarin.",
+      en: "A rolled, tied roast garnished with lime and rosemary.",
+    },
+    focus: "40% 55%",
+  },
+  grilladeArdoise: {
+    src: grilladeArdoise,
+    alt: {
+      fr: "Viande grillée tranchée sur une ardoise, avec des rondelles d'oignon rouge.",
+      en: "Sliced grilled meat on slate, with red onion rings.",
+    },
+    focus: "50% 50%",
+  },
+  vitrineAgrumes: {
+    src: vitrineAgrumes,
+    alt: {
+      fr: "Vitrine de viandes rouges, décorée d'orange et de persil.",
+      en: "A counter of red meats decorated with orange and parsley.",
+    },
+    focus: "40% 50%",
+  },
+  roulesFromageGrosPlan: {
+    src: roulesFromageGrosPlan,
+    alt: {
+      fr: "Roulés de viande rouge garnis de fromage, en gros plan.",
+      en: "Close-up of red meat rolls filled with cheese.",
+    },
+    focus: "50% 50%",
+  },
+  coffretPenseesJaunes: {
+    src: coffretPenseesJaunes,
+    alt: {
+      fr: "Coffret noir de charcuteries tranchées, pensées jaunes et jeunes pousses.",
+      en: "Black box of sliced charcuterie with yellow pansies and microgreens.",
+    },
+    focus: "50% 50%",
+  },
+  coffretCharcuterieFleurs: {
+    src: coffretCharcuterieFleurs,
+    alt: {
+      fr: "Coffret noir ouvert, garni de charcuteries tranchées et de fleurs comestibles.",
+      en: "An open black box filled with sliced charcuterie and edible flowers.",
+    },
+    focus: "50% 55%",
+  },
+  wagyuPlateau: {
+    src: wagyuPlateau,
+    alt: {
+      fr: "Côtes de bœuf très persillées sur un plateau inox, étiquette « MB 8-9 ».",
+      en: "Heavily marbled ribs of beef on a stainless-steel tray, with an “MB 8-9” tag.",
+    },
+    focus: "50% 45%",
+  },
+  coteGrilleeBeurre: {
+    src: coteGrilleeBeurre,
+    alt: {
+      fr: "Côte de bœuf grillée, beurre aux herbes et romarin, sur un plateau.",
+      en: "A grilled rib of beef with herb butter and rosemary, on a tray.",
+    },
+    focus: "50% 50%",
+  },
+  steaksPersillesBillot: {
+    src: steaksPersillesBillot,
+    alt: {
+      fr: "Deux steaks très persillés sur un billot, avec l'étiquette au taureau HussCut.",
+      en: "Two heavily marbled steaks on a block, with the HussCut bull tag.",
+    },
+    focus: "50% 45%",
+  },
+  tranchesPersillees: {
+    src: tranchesPersillees,
+    alt: {
+      fr: "Fines tranches de viande séchée très persillée.",
+      en: "Thin slices of heavily marbled cured meat.",
+    },
+    focus: "50% 50%",
+  },
+  cotesMatureesSuspendues: {
+    src: cotesMatureesSuspendues,
+    alt: {
+      fr: "Côtes de bœuf maturées dans l'armoire de maturation.",
+      en: "Dry-aged ribs of beef inside the ageing cabinet.",
+    },
+    focus: "50% 40%",
+  },
+  burrataTranches: {
+    src: burrataTranches,
+    alt: {
+      fr: "Burrata posée sur de fines tranches de viande, décorée de jeunes pousses.",
+      en: "Burrata on thin slices of meat, topped with microgreens.",
+    },
+    focus: "50% 55%",
+  },
+  gesteCouteauPersille: {
+    src: gesteCouteauPersille,
+    alt: {
+      fr: "Une main gantée tranche au couteau un bloc de bœuf très persillé, sur le billot.",
+      en: "A gloved hand slices a heavily marbled block of beef on the butcher's block.",
+    },
+    focus: "50% 45%",
+  },
+  pateCrouteCouteau: {
+    src: pateCrouteCouteau,
+    alt: {
+      fr: "Pâté en croûte tranché au couteau sur une planche blanche.",
+      en: "A pâté en croûte being sliced with a knife on a white board.",
+    },
+    focus: "45% 50%",
+  },
+  gesteCouteauLongueLame: {
+    src: gesteCouteauLongueLame,
+    alt: {
+      fr: "Une main gantée maintient une pièce de bœuf tranchée à la longue lame.",
+      en: "A gloved hand holds a cut of beef being sliced with a long blade.",
+    },
+    focus: "50% 50%",
+  },
+  pavesRomarin: {
+    src: pavesRomarin,
+    alt: {
+      fr: "Deux pavés de bœuf et du romarin sur le papier HussCut.",
+      en: "Two beef steaks and rosemary on HussCut paper.",
+    },
+    focus: "50% 40%",
+  },
+  grandCoffretFromages: {
+    src: grandCoffretFromages,
+    alt: {
+      fr: "Grand coffret de charcuteries, fromages, figues, noix de pécan et fleurs.",
+      en: "A large box of charcuterie, cheeses, figs, pecans and flowers.",
+    },
+    focus: "50% 45%",
   },
 } as const satisfies Record<string, Photo>;
 

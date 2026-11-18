@@ -30,7 +30,8 @@ test("le menu mène à chaque page et le retour arrière fonctionne", async ({ p
     { name: "Les viandes", url: /\/fr\/viandes$/, h1: "Les viandes" },
     { name: "La charcuterie", url: /\/fr\/charcuterie$/, h1: "La charcuterie" },
     { name: "La maison", url: /\/fr\/la-maison$/, h1: "La maison" },
-    { name: "Contact", url: /\/fr\/contact$/, h1: "Contact & commandes" },
+    { name: "Nous trouver", url: /\/fr\/contact$/, h1: "Nous trouver & contact" },
+    { name: "Commander", url: /\/fr\/commander$/, h1: "Commander" },
   ];
   for (const target of targets) {
     const nav = await navigation(page, info);
@@ -44,18 +45,18 @@ test("le menu mène à chaque page et le retour arrière fonctionne", async ({ p
     }
   }
   await page.goBack();
-  await expect(page).toHaveURL(/\/fr\/la-maison$/);
-  await expect(page.locator("h1")).toHaveText("La maison");
+  await expect(page).toHaveURL(/\/fr\/contact$/);
+  await expect(page.locator("h1")).toHaveText("Nous trouver & contact");
   await page.goBack();
-  await expect(page).toHaveURL(/\/fr\/charcuterie$/);
+  await expect(page).toHaveURL(/\/fr\/la-maison$/);
   await page.goForward();
-  await expect(page.locator("h1")).toHaveText("La maison");
+  await expect(page.locator("h1")).toHaveText("Nous trouver & contact");
 });
 
 test("un lien de contenu change de page et le focus revient au contenu", async ({ page }) => {
   await page.goto("/fr/charcuterie");
   await page.getByRole("link", { name: "Demander une planche ou un coffret" }).click();
-  await expect(page).toHaveURL(/\/fr\/contact\?topic=platter#formulaire$/);
+  await expect(page).toHaveURL(/\/fr\/commander\?topic=platter#formulaire$/);
   await page.goBack();
   await expect(page).toHaveURL(/\/fr\/charcuterie$/);
   await page.getByRole("link", { name: /HussCut, retour à l.accueil/ }).first().click();

@@ -33,9 +33,15 @@ Lire `ARCHITECTURE.md` avant toute modification structurelle.
   ESLint désactivée sans justification écrite à côté.
 - Rayons : boutons 16 px, secondaires 14 px, champs 12–14 px, cartes photo 20 px, grandes
   compositions 24 px, filtres en capsule. Cibles tactiles ≥ 44 px.
-- Couleurs : tokens de `globals.css` uniquement. Or (#EABD75) pour les actions sur fond sombre,
+- Couleurs : tokens de `globals.css` uniquement. Rouge viande (`red` pour le texte sur sombre,
+  `crimson`, `blood`, `oxblood` pour les fonds et bandeaux) : couleur d'ambiance, jamais pour une action.
+  Or (#EABD75) pour les actions sur fond sombre,
   bronze (#7A531C) pour les liens sur ivoire.
-- Mouvement : transform et opacity ; respecter `prefers-reduced-motion` ; rien ne dépend du survol.
+- Mouvement : transform, opacity ou clip-path ; respecter `prefers-reduced-motion` ; rien ne dépend
+  du survol. Briques réutilisables : `SplitWords`, `Marquee`, `KnifeRule`, `PageHero`, `data-reveal`
+  (`up`, `photo`, `words`, `knife`) et `data-progress` (voir ARCHITECTURE.md).
+- Polices : Cinzel (titres), Cormorant Garamond (accents « *mot* » des dictionnaires), Instrument Sans.
+  Le lettrage manuscrit « HussCut » reste exclusivement le logo fourni.
 
 ## Sécurité
 

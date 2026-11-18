@@ -2,35 +2,51 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { CSSProperties } from "react";
 
 export interface NavItem {
   href: string;
   label: string;
+  /** Entrée mise en avant comme bouton d'action (« Commander »). */
+  cta?: boolean;
 }
 
 /** Liens du menu principal, avec aria-current sur la page affichée. */
 export function NavLinks({ items, variant, onNavigate }: { items: readonly NavItem[]; variant: "bar" | "panel"; onNavigate?: () => void }) {
   const pathname = usePathname();
+
+  if (variant === "bar") {
+    return (
+      <ul className="flex items-center gap-0.5 xl:gap-1.5">
+        {items.map((item) => {
+          const current = pathname === item.href;
+          return (
+            <li key={item.href} className={item.cta ? "ml-3" : undefined}>
+              <Link
+                href={item.href}
+                aria-current={current ? "page" : undefined}
+                onClick={onNavigate}
+                className={item.cta ? "btn btn-primary btn-sm nav-cta" : "nav-link"}
+              >
+                {item.label}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
+
   return (
-    <ul className={variant === "bar" ? "flex items-center gap-1 xl:gap-2" : "flex flex-col"}>
-      {items.map((item) => {
+    <ul className="menu-stagger flex flex-col">
+      {items.map((item, index) => {
         const current = pathname === item.href;
         return (
-          <li key={item.href}>
-            <Link
-              href={item.href}
-              aria-current={current ? "page" : undefined}
-              onClick={onNavigate}
-              className={
-                variant === "bar"
-                  ? `inline-flex min-h-11 items-center rounded-full px-3.5 text-[0.9875rem] font-medium transition-colors hover:text-gold ${
-                      current ? "text-gold underline decoration-gold decoration-1 underline-offset-[0.45em]" : "text-ivory"
-                    }`
-                  : `font-display flex min-h-14 items-center border-b border-ivory/10 py-3 text-[2.125rem] leading-none font-semibold ${
-                      current ? "text-gold" : "text-ivory"
-                    }`
-              }
-            >
+          <li key={item.href} style={{ "--i": index } as CSSProperties}>
+            <Link href={item.href} aria-current={current ? "page" : undefined} onClick={onNavigate} className={`menu-link ${item.cta ? "text-gold" : ""}`}>
+              <span className="index-num" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
               {item.label}
             </Link>
           </li>

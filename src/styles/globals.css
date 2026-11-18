@@ -2,7 +2,7 @@
 
 /* ==========================================================================
    HussCut — design tokens
-   Le comptoir la nuit : ardoise, néon doré, bois du billot, papier de boucher.
+   Le comptoir la nuit : ardoise, néon doré, rouge de la viande, bois du billot, papier de boucher.
    ========================================================================== */
 
 @theme {
@@ -11,16 +11,23 @@
   --color-char-2: #2e2520; /* charbon relevé */
   --color-ivory: #f3eadf; /* papier de boucher */
   --color-paper: #fbf7f1; /* champs sur ivoire */
-  --color-gold: #eabd75; /* néon doré : actions, filets, marque */
+  --color-gold: #eabd75; /* néon doré : actions sur fond sombre, filets, marque */
   --color-gold-hover: #f2cd92;
   --color-gold-press: #dcab5f;
-  --color-bronze: #7a531c; /* or lisible sur ivoire (5,7:1) */
-  --color-bordeaux: #6b1e28; /* accent rare : cartons « La sélection », erreurs */
+  --color-bronze: #7a531c; /* or lisible sur ivoire (5,7:1) : liens sur ivoire */
+  --color-red: #e8585d; /* rouge viande : accents de texte sur fond sombre (5,3:1 sur ardoise) */
+  --color-crimson: #a3141f; /* rouge boucherie : bandeaux, fonds, accents sur ivoire (6,6:1) */
+  --color-blood: #5a0f19; /* sang de bœuf : sections, dégradés */
+  --color-oxblood: #3d0a10; /* sang de bœuf profond : fonds, lueurs */
+  --color-bordeaux: #6b1e28; /* erreurs de formulaire */
   --color-mute: #bdb0a1; /* texte secondaire sur sombre (8,7:1) */
   --color-mute-ink: #5c5047; /* texte secondaire sur ivoire (6,5:1) */
+  --color-steel: #d9d3ca; /* lame des couteaux décoratifs */
+  --color-steel-dark: #8f887f; /* fil de la lame */
 
-  --font-display: var(--font-caslon), "Libre Caslon Condensed", Georgia, "Times New Roman", serif;
-  --font-display-italic: var(--font-caslon-italic), var(--font-caslon), Georgia, serif;
+  --font-display: var(--font-cinzel), "Cinzel", "Trajan Pro", Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Garamond, Georgia, serif;
+  --font-serif-italic: var(--font-cormorant-italic), var(--font-cormorant), Garamond, Georgia, serif;
   --font-sans: var(--font-instrument), "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
 
   --radius-btn: 16px;
@@ -31,8 +38,19 @@
 
   --ease-cut: cubic-bezier(0.7, 0, 0.25, 1);
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snap: cubic-bezier(0.85, 0, 0.15, 1);
 
   --breakpoint-3xl: 120rem;
+}
+
+:root {
+  --header-h: 4.25rem;
+  --intro-offset: 0s;
+}
+@media (min-width: 64rem) {
+  :root {
+    --header-h: 5.25rem;
+  }
 }
 
 /* ==========================================================================
@@ -45,7 +63,6 @@
     font-size: clamp(100%, 0.55rem + 0.42vw, 125%);
     -webkit-text-size-adjust: 100%;
     color-scheme: dark;
-    /* Pas de scroll-padding global : chaque ancre porte sa marge (en-tête collant inclus). */
   }
 
   body {
@@ -61,14 +78,29 @@
     min-height: 100dvh;
   }
 
+  /* Grain très léger sur tout le site : la matière du papier de boucher et de l'ardoise. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  main {
+    padding-top: var(--header-h);
+  }
+
   h1,
   h2,
   h3,
   h4 {
     font-family: var(--font-display);
     font-weight: 600;
-    line-height: 1.04;
-    letter-spacing: -0.012em;
+    line-height: 1.08;
+    letter-spacing: 0.01em;
     text-wrap: balance;
   }
 
@@ -79,8 +111,8 @@
   }
 
   ::selection {
-    background: var(--color-gold);
-    color: var(--color-ink);
+    background: var(--color-crimson);
+    color: var(--color-ivory);
   }
 
   :focus-visible {
@@ -128,24 +160,97 @@
   .surface-light {
     background: var(--color-ivory);
     color: var(--color-ink);
-    /* Contrôles natifs (radio, case, date) en version claire sur le papier ivoire. */
     color-scheme: light;
   }
 
+  /* Fond sang de bœuf : la couleur de la viande, sans quitter le noir. */
+  .surface-blood {
+    background:
+      radial-gradient(120% 90% at 85% 0%, color-mix(in srgb, var(--color-crimson) 55%, transparent), transparent 60%),
+      radial-gradient(90% 80% at 0% 100%, color-mix(in srgb, var(--color-blood) 90%, transparent), transparent 70%),
+      var(--color-oxblood);
+    color: var(--color-ivory);
+  }
+
+  /* Lueur rouge discrète, posée sous une section sombre. */
+  .glow-red {
+    background:
+      radial-gradient(70% 55% at 50% 100%, color-mix(in srgb, var(--color-crimson) 28%, transparent), transparent 70%),
+      var(--color-ink);
+  }
+
+  .display-xl {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 0.6rem + 7.6vw, 9.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.005em;
+    font-weight: 600;
+  }
+
   .display-1 {
-    font-size: clamp(2.75rem, 1.55rem + 5.4vw, 6.25rem);
-    line-height: 0.98;
-    letter-spacing: -0.02em;
+    font-size: clamp(2rem, 0.9rem + 5.4vw, 6.75rem);
+    line-height: 1;
+    letter-spacing: 0.005em;
   }
 
   .display-2 {
-    font-size: clamp(2.125rem, 1.45rem + 2.9vw, 4rem);
-    line-height: 1;
+    font-size: clamp(1.75rem, 1.05rem + 2.9vw, 4.25rem);
+    line-height: 1.04;
   }
 
   .display-3 {
-    font-size: clamp(1.625rem, 1.3rem + 1.2vw, 2.25rem);
-    line-height: 1.08;
+    font-size: clamp(1.375rem, 1.1rem + 1vw, 2.125rem);
+    line-height: 1.1;
+  }
+
+  /* Mot ou fin de titre en italique éditoriale (Cormorant), à la façon d'une carte de restaurant. */
+  .accent {
+    font-family: var(--font-serif-italic);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-gold);
+  }
+  .accent-red {
+    color: var(--color-red);
+  }
+  .surface-light .accent {
+    color: var(--color-crimson);
+  }
+
+  .serif {
+    font-family: var(--font-serif);
+    font-weight: 500;
+  }
+
+  /* Surtitre : capitales espacées, précédées d'un trait doré. */
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+  .kicker > span {
+    display: inline;
+  }
+  .kicker::before {
+    content: "";
+    width: 2.25rem;
+    height: 1px;
+    background: currentColor;
+    flex: none;
+  }
+  .surface-light .kicker {
+    color: var(--color-crimson);
+  }
+  .surface-blood .kicker {
+    color: var(--color-gold);
   }
 
   .lede {
@@ -153,8 +258,7 @@
     line-height: 1.5;
   }
 
-  /* Filet vertical doré, repris de la carte de visite et du tee-shirt « HussCut From Paris ».
-     Il signale les informations pratiques de la boutique et les citations. */
+  /* Filet vertical doré, repris de la carte de visite et du tee-shirt « HussCut From Paris ». */
   .filet {
     border-inline-start: 1px solid var(--color-gold);
     padding-inline-start: 1.25rem;
@@ -163,8 +267,26 @@
     border-inline-start-color: var(--color-bronze);
   }
 
+  /* Petite étiquette (ex. « halal ») : discrète, sans rien promettre. */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-gold) 45%, transparent);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
   /* ---- Boutons ---------------------------------------------------------- */
   .btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -185,10 +307,10 @@
       background-color 160ms ease,
       border-color 160ms ease,
       color 160ms ease,
-      transform 120ms ease;
+      transform 160ms var(--ease-soft);
   }
   .btn:active:not(:disabled):not([aria-disabled="true"]) {
-    transform: translateY(1px);
+    transform: translateY(1px) scale(0.99);
   }
   .btn:disabled,
   .btn[aria-disabled="true"] {
@@ -205,6 +327,22 @@
     border-radius: var(--radius-btn);
     background: var(--color-gold);
     color: var(--color-ink);
+  }
+  /* Reflet de lame qui traverse le bouton au survol. */
+  .btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: -20% auto -20% 0;
+    width: 40%;
+    z-index: -1;
+    background: linear-gradient(100deg, transparent, color-mix(in srgb, white 55%, transparent), transparent);
+    transform: translateX(-160%) skewX(-18deg);
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .btn-primary:hover::after {
+      transition: transform 700ms var(--ease-soft);
+      transform: translateX(320%) skewX(-18deg);
+    }
   }
   .btn-primary:hover:not(:disabled) {
     background: var(--color-gold-hover);
@@ -236,6 +374,14 @@
     color: var(--color-bronze);
     background: color-mix(in srgb, var(--color-bronze) 6%, transparent);
   }
+  /* Bouton plein sur ivoire : ardoise. */
+  .surface-light .btn-primary {
+    background: var(--color-ink);
+    color: var(--color-ivory);
+  }
+  .surface-light .btn-primary:hover:not(:disabled) {
+    background: var(--color-crimson);
+  }
 
   .btn-sm {
     min-height: 2.75rem;
@@ -243,7 +389,6 @@
     font-size: 0.9375rem;
   }
 
-  /* Flèche : glisse de quelques pixels au survol ou au focus du lien parent. */
   .arrow {
     transition: transform 220ms var(--ease-soft);
   }
@@ -319,15 +464,14 @@
     border-color: color-mix(in srgb, var(--color-ink) 24%, transparent);
   }
   .surface-light .chip:hover {
-    border-color: var(--color-bronze);
+    border-color: var(--color-crimson);
   }
   .surface-light .chip[aria-current="true"] {
-    background: var(--color-ink);
-    border-color: var(--color-ink);
+    background: var(--color-crimson);
+    border-color: var(--color-crimson);
     color: var(--color-ivory);
   }
 
-  /* Demande de disponibilité d'un produit : lien sur mobile, bouton secondaire dès 640 px. */
   .product-cta {
     display: inline-flex;
     align-items: center;
@@ -356,9 +500,31 @@
       text-decoration: none;
     }
     .product-cta:hover {
-      border-color: var(--color-bronze);
-      color: var(--color-bronze);
-      background: color-mix(in srgb, var(--color-bronze) 6%, transparent);
+      border-color: var(--color-crimson);
+      color: var(--color-crimson);
+      background: color-mix(in srgb, var(--color-crimson) 6%, transparent);
+    }
+  }
+
+  /* Ligne de produit : un trait rouge glisse sous le nom au survol (ordinateur). */
+  .product-row {
+    position: relative;
+  }
+  .product-row::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--color-crimson);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 500ms var(--ease-soft);
+  }
+  @media (hover: hover) {
+    .product-row:hover::after {
+      transform: scaleX(1);
     }
   }
 
@@ -441,15 +607,15 @@
     border-color: color-mix(in srgb, var(--color-ink) 45%, transparent);
   }
   .choice:has(input:checked) {
-    border-color: var(--color-bronze);
-    box-shadow: inset 0 0 0 1px var(--color-bronze);
+    border-color: var(--color-crimson);
+    box-shadow: inset 0 0 0 1px var(--color-crimson);
   }
   .choice:has(input:focus-visible) {
     outline: 2px solid var(--color-bronze);
     outline-offset: 2px;
   }
   .choice input {
-    accent-color: var(--color-bronze);
+    accent-color: var(--color-crimson);
     width: 1.125rem;
     height: 1.125rem;
     flex: none;
@@ -473,12 +639,13 @@
   }
   @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     .photo-zoom img {
-      transition: transform 700ms var(--ease-soft);
+      transition: transform 900ms var(--ease-soft);
     }
     .photo-zoom:hover img,
     a:hover .photo-zoom img,
-    a:focus-visible .photo-zoom img {
-      transform: scale(1.035);
+    a:focus-visible .photo-zoom img,
+    .group:hover .photo-zoom img {
+      transform: scale(1.06);
     }
   }
 
@@ -518,13 +685,1014 @@
     letter-spacing: 0.22em;
     font-weight: 500;
   }
+
+  /* Mot décoratif rendu en CSS (attribut data-text) : purement visuel, hors du contenu. */
+  .deco-text::before {
+    content: attr(data-text);
+  }
+
+  /* Texte en creux (contour seul) pour les très grands mots décoratifs. */
+  .outline-text {
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--color-ivory) 38%, transparent);
+  }
+
+  /* Numéro de chapitre : « 01 », « 02 »… */
+  .index-num {
+    font-family: var(--font-serif-italic);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--color-red);
+  }
+  .surface-light .index-num {
+    color: var(--color-crimson);
+  }
+  .surface-blood .index-num {
+    color: var(--color-gold);
+  }
 }
 
 /* ==========================================================================
-   Mouvement
+   En-tête
    ========================================================================== */
 
-/* ---- Intro « Le néon s'allume » : première arrivée, une fois par session -- */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  pointer-events: none;
+  transition: transform 420ms var(--ease-soft);
+}
+.site-header__bar {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: var(--header-h);
+  transition:
+    transform 420ms var(--ease-soft),
+    background-color 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+  border: 1px solid transparent;
+  border-radius: 0;
+}
+/* En haut de page : léger voile pour lire le menu sur les photos. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -2.5rem 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color-ink) 82%, transparent), transparent);
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+html[data-scrolled] .site-header::before {
+  opacity: 0;
+}
+/* Après défilement : la barre devient une capsule flottante, vitrée. */
+html[data-scrolled] .site-header__bar {
+  transform: translateY(0.625rem);
+  height: calc(var(--header-h) - 0.75rem);
+  background: color-mix(in srgb, var(--color-ink) 84%, transparent);
+  border-color: color-mix(in srgb, var(--color-gold) 18%, transparent);
+  border-radius: 22px;
+  box-shadow:
+    0 18px 40px -18px rgb(0 0 0 / 0.7),
+    inset 0 1px 0 color-mix(in srgb, var(--color-ivory) 6%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+}
+@media (min-width: 64rem) {
+  html[data-scrolled] .site-header__bar {
+    padding-inline: 1.25rem;
+    margin-inline: -1.25rem;
+  }
+}
+html[data-header-hidden] .site-header {
+  transform: translateY(-115%);
+}
+.site-header:focus-within {
+  transform: none !important;
+}
+
+/* Liens du menu : capitales gravées, lame dorée qui glisse dessous. */
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding-inline: 0.85rem;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ivory);
+  transition: color 200ms ease;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 0.45rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-red));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 450ms var(--ease-soft);
+}
+.nav-link:hover {
+  color: var(--color-gold);
+}
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.nav-link[aria-current="page"] {
+  color: var(--color-gold);
+}
+
+.nav-cta {
+  font-family: var(--font-display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+/* ---- Menu mobile (dialog natif) ------------------------------------------- */
+.menu-dialog {
+  margin: 0;
+  width: 100%;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background:
+    radial-gradient(110% 60% at 100% 0%, color-mix(in srgb, var(--color-crimson) 45%, transparent), transparent 65%),
+    radial-gradient(90% 50% at 0% 100%, color-mix(in srgb, var(--color-blood) 80%, transparent), transparent 70%),
+    var(--color-ink);
+  color: var(--color-ivory);
+  inset: 0;
+}
+.menu-dialog::backdrop {
+  background: color-mix(in srgb, var(--color-ink) 70%, transparent);
+}
+.menu-link {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  min-height: 3.75rem;
+  padding-block: 0.6rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ivory) 10%, transparent);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.2rem + 3vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.menu-link[aria-current="page"] {
+  color: var(--color-gold);
+}
+.menu-link .index-num {
+  font-size: 1rem;
+  min-width: 1.75rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .menu-dialog[open] {
+    animation: menu-in 420ms var(--ease-cut);
+  }
+  .menu-dialog[open] .menu-stagger > * {
+    animation: menu-item 620ms var(--ease-soft) both;
+    animation-delay: calc(120ms + var(--i, 0) * 55ms);
+  }
+}
+@keyframes menu-in {
+  from {
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 12%);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+@keyframes menu-item {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Hero « Du néon au billot »
+   ========================================================================== */
+
+html[data-intro="play"] {
+  --intro-offset: 1.05s;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 100svh;
+  margin-top: calc(-1 * var(--header-h));
+  padding-top: var(--header-h);
+  overflow: hidden;
+  background: var(--color-ink);
+}
+.hero__media {
+  --hero-clip-from: polygon(0 0, 0 0, 0 100%, 0 100%);
+  --hero-clip: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  clip-path: var(--hero-clip);
+}
+@media (min-width: 64rem) {
+  /* Sur grand écran, la photo occupe la droite, bord gauche taillé en biais. */
+  .hero__media {
+    left: 40%;
+    --hero-clip-from: polygon(18% 0, 18% 0, 0 100%, 0 100%);
+    --hero-clip: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
+  }
+}
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.hero__slide:first-child {
+  opacity: 1;
+}
+.hero__slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero__veil {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-ink) 50%, transparent) 0%, transparent 26%, color-mix(in srgb, var(--color-ink) 35%, transparent) 50%, color-mix(in srgb, var(--color-ink) 96%, transparent) 100%),
+    radial-gradient(70% 45% at 0% 100%, color-mix(in srgb, var(--color-crimson) 50%, transparent), transparent 70%);
+}
+@media (min-width: 64rem) {
+  .hero__veil {
+    background:
+      linear-gradient(90deg, var(--color-ink) 38%, color-mix(in srgb, var(--color-ink) 55%, transparent) 52%, transparent 70%),
+      linear-gradient(180deg, transparent 60%, color-mix(in srgb, var(--color-ink) 85%, transparent) 100%),
+      radial-gradient(55% 60% at 8% 100%, color-mix(in srgb, var(--color-crimson) 45%, transparent), transparent 70%),
+      radial-gradient(40% 40% at 30% 0%, color-mix(in srgb, var(--color-blood) 60%, transparent), transparent 70%);
+  }
+}
+.hero__knife {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  display: none;
+}
+.hero__cutline {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: 58%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold) 20%, var(--color-red) 70%, transparent);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--color-red) 80%, transparent);
+  transform: rotate(-14deg) scaleX(0);
+  transform-origin: left center;
+  opacity: 0;
+}
+.hero__blade {
+  position: absolute;
+  top: calc(58% - 1.3rem);
+  left: 0;
+  width: clamp(9rem, 22vw, 16rem);
+  transform-origin: left center;
+  opacity: 0;
+}
+.hero-line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.hero-line {
+  display: block;
+}
+
+/* Barre d'avancement des photos du hero. */
+.hero__bars {
+  display: flex;
+  gap: 0.5rem;
+}
+.hero__bar {
+  position: relative;
+  width: 2.5rem;
+  height: 2px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-ivory) 22%, transparent);
+}
+.hero__bar span {
+  position: absolute;
+  inset: 0;
+  background: var(--color-gold);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+.hero__bar:first-child span {
+  transform: scaleX(1);
+}
+.hero__labels {
+  position: relative;
+  height: 1.4em;
+  min-width: 10rem;
+}
+.hero__label {
+  position: absolute;
+  right: 0;
+  white-space: nowrap;
+  opacity: 0;
+}
+.hero__label:first-child {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero__slide {
+    animation: hero-slide 28s linear infinite both;
+    animation-delay: calc(var(--i) * 7s - 1.2s);
+  }
+  .hero__slide:first-child {
+    opacity: 0;
+  }
+  .hero__slide img {
+    animation: hero-zoom 28s linear infinite both;
+    animation-delay: calc(var(--i) * 7s - 1.2s);
+  }
+  .hero__bar span {
+    animation: hero-bar 28s linear infinite both;
+    animation-delay: calc(var(--i) * 7s - 1.2s);
+  }
+  .hero__bar:first-child span {
+    transform: scaleX(0);
+  }
+  .hero__label {
+    animation: hero-slide 28s linear infinite both;
+    animation-delay: calc(var(--i) * 7s - 1.2s);
+  }
+  .hero__label:first-child {
+    opacity: 0;
+  }
+
+  /* Ouverture : la lame traverse l'écran, la photo apparaît le long de la coupe. */
+  .hero__media {
+    animation: hero-reveal 1100ms var(--ease-cut) both;
+    animation-delay: calc(var(--intro-offset) + 0.15s);
+  }
+  .hero__knife {
+    display: block;
+  }
+  .hero__cutline {
+    animation: hero-cutline 1300ms var(--ease-cut) both;
+    animation-delay: calc(var(--intro-offset) + 0.1s);
+  }
+  .hero__blade {
+    animation: hero-blade 1100ms var(--ease-cut) both;
+    animation-delay: calc(var(--intro-offset) + 0.1s);
+  }
+  .hero-line {
+    animation: line-up 1000ms var(--ease-soft) both;
+    animation-delay: calc(var(--intro-offset) + 0.55s + var(--i, 0) * 0.12s);
+  }
+  .hero-after {
+    animation: rise-in 900ms var(--ease-soft) both;
+    animation-delay: calc(var(--intro-offset) + 0.95s + var(--i, 0) * 0.1s);
+  }
+  .scroll-cue__knife {
+    animation: cue 2.4s var(--ease-soft) infinite;
+    animation-delay: calc(var(--intro-offset) + 2s);
+  }
+}
+@keyframes hero-slide {
+  0% {
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 1;
+  }
+  29% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes hero-zoom {
+  0% {
+    transform: scale(1.16);
+  }
+  29% {
+    transform: scale(1.02) translate3d(-1%, -0.5%, 0);
+  }
+  100% {
+    transform: scale(1.02) translate3d(-1%, -0.5%, 0);
+  }
+}
+@keyframes hero-bar {
+  0% {
+    transform: scaleX(0);
+  }
+  25% {
+    transform: scaleX(1);
+  }
+  27% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+@keyframes hero-reveal {
+  from {
+    clip-path: var(--hero-clip-from);
+  }
+  to {
+    clip-path: var(--hero-clip);
+  }
+}
+@keyframes hero-cutline {
+  0% {
+    opacity: 1;
+    transform: rotate(-14deg) scaleX(0);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(-14deg) scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-14deg) scaleX(1);
+  }
+}
+@keyframes hero-blade {
+  0% {
+    opacity: 0;
+    transform: translate3d(-30vw, 24vh, 0) rotate(-14deg);
+  }
+  12% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(110vw, -28vh, 0) rotate(-14deg);
+  }
+}
+@keyframes line-up {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cue {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0.6rem);
+  }
+}
+
+/* ==========================================================================
+   Bandeaux défilants
+   ========================================================================== */
+
+.marquee {
+  overflow: hidden;
+  display: flex;
+  user-select: none;
+}
+.marquee__track {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 2.5rem;
+  padding-right: 2.5rem;
+  min-width: max-content;
+}
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5rem;
+  white-space: nowrap;
+}
+.marquee-band {
+  position: relative;
+  z-index: 3;
+  padding-block: 1.1rem;
+  background: var(--color-crimson);
+  color: var(--color-ivory);
+  transform: rotate(-1.6deg) scale(1.04);
+  box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.8);
+}
+.marquee-band--ink {
+  background: var(--color-ink);
+  border-block: 1px solid color-mix(in srgb, var(--color-gold) 25%, transparent);
+  transform: rotate(1.2deg) scale(1.04);
+  margin-top: -0.6rem;
+}
+.marquee-word {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 1rem + 2vw, 2.75rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.marquee-word--serif {
+  font-family: var(--font-serif-italic);
+  font-style: italic;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--color-gold);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .marquee__track {
+    animation: marquee var(--marquee-duration, 38s) linear infinite;
+  }
+  .marquee[data-direction="reverse"] .marquee__track {
+    animation-direction: reverse;
+  }
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* ==========================================================================
+   Révélations à l'entrée dans l'écran
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Bloc : monte et apparaît. */
+  html.js [data-reveal=""],
+  html.js [data-reveal="up"] {
+    transition:
+      opacity 900ms var(--ease-soft),
+      transform 900ms var(--ease-soft);
+    transition-delay: calc(var(--d, 0) * 1ms);
+  }
+  html.js [data-reveal=""]:not(.is-revealed),
+  html.js [data-reveal="up"]:not(.is-revealed) {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+
+  /* Photo : un rideau d'ardoise taillé en biais glisse hors du cadre (la coupe), puis l'image
+     se pose. Le rideau est un pseudo-élément déplacé par transform : ni le cadre (observé par
+     l'IntersectionObserver) ni l'image (chargement différé du navigateur) ne sont découpés. */
+  html.js [data-reveal="photo"]::after {
+    content: "";
+    position: absolute;
+    inset: -2px -40%;
+    z-index: 3;
+    pointer-events: none;
+    background: var(--color-char);
+    transform: translateX(0) skewX(-14deg);
+    transition: transform 1200ms var(--ease-cut);
+    transition-delay: calc(var(--d, 0) * 1ms);
+  }
+  html.js [data-reveal="photo"].is-revealed::after {
+    transform: translateX(160%) skewX(-14deg);
+  }
+  html.js [data-reveal="photo"] img {
+    transition: transform 1600ms var(--ease-soft);
+    transition-delay: calc(var(--d, 0) * 1ms);
+  }
+  html.js [data-reveal="photo"]:not(.is-revealed) img {
+    transform: scale(1.18);
+  }
+
+  /* Titre : chaque mot sort de sous la ligne. */
+  html.js [data-reveal="words"] .w > span {
+    display: inline-block;
+    transition: transform 1000ms var(--ease-soft);
+    transition-delay: calc(var(--w, 0) * 55ms + var(--d, 0) * 1ms);
+  }
+  html.js [data-reveal="words"]:not(.is-revealed) .w > span {
+    transform: translateY(115%);
+  }
+
+  /* Trait de couteau : la lame glisse, le fil se dessine derrière elle. */
+  html.js [data-reveal="knife"] .knife-rule__line {
+    transition: transform 1300ms var(--ease-cut);
+  }
+  html.js [data-reveal="knife"] .knife-rule__track {
+    transition: transform 1300ms var(--ease-cut);
+  }
+  html.js [data-reveal="knife"]:not(.is-revealed) .knife-rule__line {
+    transform: scaleX(0);
+  }
+  html.js [data-reveal="knife"]:not(.is-revealed) .knife-rule__track {
+    transform: translateX(-100%);
+  }
+
+  /* Titres de haut de page : les mots montent dès l'affichage, sans attendre le script. */
+  .split-load .w > span {
+    display: inline-block;
+    animation: line-up 1000ms var(--ease-soft) both;
+    animation-delay: calc(var(--intro-offset) + 0.12s + var(--w, 0) * 60ms);
+  }
+  .load-in {
+    animation: rise-in 900ms var(--ease-soft) both;
+    animation-delay: calc(var(--intro-offset) + 0.35s + var(--i, 0) * 0.1s);
+  }
+  .load-photo img {
+    animation: photo-settle 1800ms var(--ease-soft) both;
+    animation-delay: var(--intro-offset);
+  }
+  .load-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 40%, color-mix(in srgb, var(--color-gold) 55%, transparent) 50%, transparent 60%);
+    transform: translateX(-110%);
+    animation: blade-sheen 1400ms var(--ease-cut) both;
+    animation-delay: calc(var(--intro-offset) + 0.2s);
+  }
+}
+@keyframes photo-settle {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes blade-sheen {
+  to {
+    transform: translateX(110%);
+  }
+}
+
+/* Mots d'un titre découpé : le masque laisse voir accents, jambages et italiques. */
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.12em 0.06em 0.1em;
+  margin: -0.12em -0.06em -0.1em;
+}
+
+/* Trait décoratif : un couteau et son fil doré. */
+.knife-rule {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  overflow: hidden;
+}
+.knife-rule__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-gold), color-mix(in srgb, var(--color-red) 70%, transparent) 60%, transparent);
+  transform-origin: left;
+}
+.knife-rule__blade {
+  position: relative;
+  width: 7.5rem;
+  margin-left: auto;
+  color: var(--color-gold);
+}
+.knife-rule__track {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* ==========================================================================
+   Scènes liées au défilement (--p, de 0 à 1, fourni par RouteEffects)
+   Sans JavaScript ou en mouvement réduit, --p vaut 1 : état final, statique.
+   ========================================================================== */
+
+[data-progress] {
+  --p: 1;
+}
+
+/* Scène épinglée : la section défile, son contenu reste à l'écran. Rien ne déborde en largeur
+   (overflow: clip ne crée pas de conteneur de défilement : l'épinglage fonctionne toujours). */
+.pin-scene {
+  position: relative;
+  overflow-x: clip;
+}
+.pin-scene__sticky {
+  position: relative;
+}
+@media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+  .pin-scene--lg {
+    height: var(--pin-h, 240vh);
+  }
+  .pin-scene--lg .pin-scene__sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+}
+
+/* ---- « La coupe » : la lame traverse la photo, les deux moitiés s'écartent. --- */
+.knife-scene__frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  width: 100%;
+}
+.knife-scene__half {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--radius-comp);
+  will-change: transform;
+}
+.knife-scene__half img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.knife-scene__half--a {
+  clip-path: polygon(0 0, 100% 0, 100% 34%, 0 66%);
+  transform: translate3d(calc(var(--k) * -2.5%), calc(var(--k) * -3%), 0) rotate(calc(var(--k) * -1.5deg));
+}
+.knife-scene__half--b {
+  clip-path: polygon(0 66%, 100% 34%, 100% 100%, 0 100%);
+  transform: translate3d(calc(var(--k) * 2.5%), calc(var(--k) * 3%), 0) rotate(calc(var(--k) * 1.5deg));
+}
+.knife-scene {
+  /* Avancement de la lame (0,1 → 0,7 du défilement) et de l'écartement (0,55 → 1). */
+  --b: clamp(0, (var(--p) - 0.1) / 0.6, 1);
+  --k: clamp(0, (var(--p) - 0.55) / 0.45, 1);
+}
+.knife-scene__cut {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 2;
+}
+.knife-scene__cut line {
+  stroke: var(--color-gold);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 6px var(--color-red));
+  transform-box: fill-box;
+  transform-origin: 0% 100%;
+  transform: scale(var(--b));
+  opacity: calc(1 - var(--k) * 0.6);
+}
+.knife-scene__travel {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  transform: translate3d(calc(var(--b) * 100%), calc(var(--b) * -32%), 0);
+}
+.knife-scene__blade {
+  position: absolute;
+  left: 0;
+  top: 66%;
+  width: clamp(8rem, 18vw, 14rem);
+  /* Pointe du couteau (99,5 % ; 61 %) posée sur la coupe ; pente de la coupe dans un cadre 4/5 : atan(0,4). */
+  transform: translate(-99.5%, -61%) rotate(-21.8deg);
+  transform-origin: 99.5% 61%;
+  opacity: calc(1 - var(--k));
+  filter: drop-shadow(0 10px 20px rgb(0 0 0 / 0.6));
+}
+
+/* ---- Zoom : la photo grandit dans son cadre à mesure qu'on avance. ------------- */
+.zoom-scene {
+  /* Sur mobile (non épinglé), le zoom est complet à mi-traversée de l'écran. */
+  --z: clamp(0, var(--p) * 2, 1);
+}
+.zoom-scene__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-comp);
+  transform: scale(calc(0.7 + var(--z) * 0.3));
+  will-change: transform;
+}
+.zoom-scene__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(calc(1.25 - var(--z) * 0.25));
+}
+@media (min-width: 64rem) {
+  .zoom-scene {
+    --z: clamp(0, var(--p) * 1.6, 1);
+  }
+  .zoom-scene__content {
+    opacity: clamp(0, (var(--p) + 0.05) * 4, 1);
+    transform: translateY(calc((1 - clamp(0, (var(--p) + 0.05) * 4, 1)) * 2rem));
+  }
+}
+
+/* ---- Parallaxe douce d'une image dans son cadre. ---------------------------- */
+.parallax img {
+  transform: translate3d(0, calc((0.5 - var(--p)) * 12%), 0) scale(1.18);
+}
+
+/* ---- Galerie horizontale « La vitrine » ------------------------------------ */
+.hscroll__viewport {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.hscroll__viewport::-webkit-scrollbar {
+  display: none;
+}
+.hscroll__track {
+  display: flex;
+  gap: clamp(1rem, 2vw, 2rem);
+  width: max-content;
+  padding-inline: clamp(1.25rem, 4.2vw, 3rem);
+}
+.hscroll__card {
+  scroll-snap-align: center;
+  flex: none;
+  width: min(72vw, 22rem);
+}
+.hscroll__card:nth-child(3n + 2) {
+  width: min(82vw, 30rem);
+}
+.hscroll__card:nth-child(even) {
+  margin-top: 2.5rem;
+}
+.hscroll.is-pinned {
+  height: var(--pin-h, 300vh);
+}
+.hscroll.is-pinned .hscroll__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+.hscroll.is-pinned .hscroll__viewport {
+  overflow: visible;
+  scroll-snap-type: none;
+}
+.hscroll.is-pinned .hscroll__track {
+  transform: translate3d(calc(var(--p) * (100vw - 100%)), 0, 0);
+  will-change: transform;
+}
+.hscroll.is-pinned .hscroll__card {
+  width: clamp(18rem, 24vw, 26rem);
+}
+.hscroll.is-pinned .hscroll__card:nth-child(3n + 2) {
+  width: clamp(22rem, 32vw, 34rem);
+}
+.hscroll__progress {
+  height: 2px;
+  background: color-mix(in srgb, var(--color-ivory) 14%, transparent);
+  overflow: hidden;
+}
+.hscroll__progress span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-red));
+  transform-origin: left;
+  transform: scaleX(var(--p));
+}
+
+/* ---- Cartes empilées (« La carte ») ---------------------------------------- */
+.stack-card {
+  position: sticky;
+  top: calc(var(--header-h) + 0.75rem + var(--i, 0) * 1.25rem);
+  border-radius: var(--radius-comp);
+  overflow: hidden;
+  box-shadow: 0 -24px 60px -30px rgb(0 0 0 / 0.85);
+}
+
+/* ==========================================================================
+   Couteaux décoratifs
+   ========================================================================== */
+
+.knife-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Deux lames croisées qui s'aiguisent l'une contre l'autre à l'apparition. */
+.crossed-knives {
+  position: relative;
+  width: 7rem;
+  height: 7rem;
+}
+.crossed-knives > span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7rem;
+  margin-left: -3.5rem;
+  margin-top: -0.6rem;
+}
+.crossed-knives > span:first-child {
+  transform: rotate(45deg);
+}
+.crossed-knives > span:last-child {
+  transform: rotate(135deg);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js .crossed-knives > span {
+    transition: transform 1200ms var(--ease-soft);
+  }
+  html.js .crossed-knives[data-reveal]:not(.is-revealed) > span:first-child {
+    transform: rotate(45deg) translateX(-140%);
+  }
+  html.js .crossed-knives[data-reveal]:not(.is-revealed) > span:last-child {
+    transform: rotate(135deg) translateX(-140%);
+  }
+}
+
+/* Indicateur de défilement du hero : une lame pointée vers le bas. */
+.scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+}
+.scroll-cue__knife {
+  width: 1.1rem;
+  color: var(--color-gold);
+}
+
+/* ==========================================================================
+   Intro « Le néon s'allume » : première arrivée, une fois par session
+   ========================================================================== */
+
 .intro {
   display: none;
 }
@@ -538,14 +1706,15 @@ html[data-intro="play"] .intro {
 .intro__half {
   position: absolute;
   inset: -1px;
-  background: var(--color-char);
+  background:
+    radial-gradient(60% 50% at 50% 50%, color-mix(in srgb, var(--color-crimson) 22%, transparent), transparent 70%),
+    var(--color-ink);
 }
 .intro__half--a {
   clip-path: polygon(0 0, 100% 0, 100% 38%, 0 62%);
   animation: intro-part-a 520ms var(--ease-cut) 880ms forwards;
 }
 .intro__half--b {
-  /* Chevauche légèrement la moitié haute pour masquer le liseré d’anticrénelage. */
   clip-path: polygon(0 61.6%, 100% 37.6%, 100% 100%, 0 100%);
   animation: intro-part-b 520ms var(--ease-cut) 880ms forwards;
 }
@@ -558,7 +1727,6 @@ html[data-intro="play"] .intro {
 }
 .intro__line line {
   stroke: var(--color-gold);
-  /* Unités du viewBox étiré : ≈ 1,5 px de haut sur un écran de 800 px. */
   stroke-width: 0.2;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
@@ -623,106 +1791,10 @@ html[data-intro="play"] .intro {
   }
 }
 
-/* ---- Hero « Du néon au billot » ----------------------------------------- */
-:root {
-  --intro-offset: 0s;
-}
-html[data-intro="play"] {
-  --intro-offset: 1.05s;
-}
-@media (prefers-reduced-motion: no-preference) {
-  .hero-frame img {
-    animation: hero-frame 1.9s var(--ease-soft) both;
-    animation-delay: var(--intro-offset);
-  }
-  .hero-line {
-    display: block;
-    animation: hero-line 820ms var(--ease-soft) both;
-    animation-delay: calc(var(--intro-offset) + 0.18s);
-  }
-  .hero-line + .hero-line {
-    animation-delay: calc(var(--intro-offset) + 0.42s);
-  }
-  .hero-after {
-    animation: fade-in 700ms ease-out both;
-    animation-delay: calc(var(--intro-offset) + 0.7s);
-  }
-}
-@keyframes hero-frame {
-  from {
-    transform: scale(1.07);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-@keyframes hero-line {
-  from {
-    opacity: 0;
-    transform: translateY(0.3em);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* ==========================================================================
+   Transition de page « La coupe » (View Transitions natives)
+   ========================================================================== */
 
-/* Profondeur discrète sur ordinateur : la photo dérive légèrement au défilement. */
-@supports (animation-timeline: scroll()) {
-  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
-    .hero-drift {
-      animation: hero-drift linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 90vh;
-    }
-  }
-}
-@keyframes hero-drift {
-  to {
-    transform: translateY(5%);
-  }
-}
-
-/* ---- Révélation photo à la première entrée dans l'écran --------------------- */
-@media (prefers-reduced-motion: no-preference) {
-  html.js [data-reveal] {
-    transition: opacity 650ms ease-out;
-  }
-  html.js [data-reveal] img {
-    transition: transform 1200ms var(--ease-soft);
-  }
-  html.js [data-reveal]:not(.is-revealed) {
-    opacity: 0;
-  }
-  html.js [data-reveal]:not(.is-revealed) img {
-    transform: scale(1.05);
-  }
-}
-
-@media print {
-  html.js [data-reveal],
-  html.js [data-reveal] img {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .intro,
-  header nav,
-  .skip-link {
-    display: none !important;
-  }
-}
-
-/* ---- Transition de page « La coupe » (View Transitions natives) ----------
-   La nouvelle page est révélée par un bord diagonal, comme le passage d'une lame.
-   Sans prise en charge du navigateur, la navigation reste instantanée. */
 ::view-transition {
   pointer-events: none;
 }
@@ -741,14 +1813,15 @@ html[data-intro="play"] {
   animation: none;
 }
 ::view-transition-old(.cut) {
-  animation: cut-dim 300ms var(--ease-cut) both;
+  animation: cut-dim 380ms var(--ease-cut) both;
 }
 ::view-transition-new(.cut) {
-  animation: cut-reveal 320ms var(--ease-cut) both;
+  animation: cut-reveal 520ms var(--ease-cut) both;
 }
 @keyframes cut-dim {
   to {
-    opacity: 0.3;
+    opacity: 0.25;
+    transform: scale(0.985);
   }
 }
 @keyframes cut-reveal {
@@ -760,7 +1833,10 @@ html[data-intro="play"] {
   }
 }
 
-/* ---- Mouvement réduit ------------------------------------------------------ */
+/* ==========================================================================
+   Mouvement réduit et impression
+   ========================================================================== */
+
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(.cut) {
     animation: fade-out-quick 120ms ease-out both;
@@ -770,6 +1846,10 @@ html[data-intro="play"] {
   }
   .intro {
     display: none !important;
+  }
+  .site-header,
+  .site-header__bar {
+    transition: none;
   }
   *,
   *::before,
@@ -783,35 +1863,26 @@ html[data-intro="play"] {
   }
 }
 
-/* ---- Menu mobile (dialog natif) ------------------------------------------- */
-.menu-dialog {
-  margin: 0;
-  width: 100%;
-  max-width: none;
-  height: 100dvh;
-  max-height: none;
-  padding: 0;
-  border: 0;
-  background: var(--color-ink);
-  color: var(--color-ivory);
-  inset: 0;
-}
-.menu-dialog::backdrop {
-  background: color-mix(in srgb, var(--color-ink) 70%, transparent);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .menu-dialog[open] {
-    animation: menu-in 260ms var(--ease-cut);
+@media print {
+  html.js [data-reveal],
+  html.js [data-reveal] img,
+  html.js [data-reveal] .w > span {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
   }
-}
-@keyframes menu-in {
-  from {
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 6%);
-    opacity: 0.6;
+  html.js [data-reveal="photo"]::after {
+    display: none !important;
   }
-  to {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    opacity: 1;
+  .intro,
+  header nav,
+  .skip-link,
+  .marquee,
+  body::after {
+    display: none !important;
+  }
+  .site-header {
+    position: static;
   }
 }
 

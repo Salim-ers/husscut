@@ -12,9 +12,11 @@ test.describe("audit axe (WCAG 2.2 A/AA)", () => {
     test(`${path}`, async ({ page }, info) => {
       test.skip(!["desktop-1440", "mobile-390"].includes(info.project.name), "Audit sur deux largeurs représentatives");
       await page.goto(path);
-      await page.waitForTimeout(1200);
-      // Affiche toutes les photos différées avant l'audit (contraste des textes posés à côté).
+      await page.waitForTimeout(1800);
+      // Révèle tous les éléments différés (photos, titres, textes) avant l'audit, puis attend la
+      // fin des fondus : un texte encore semi-transparent fausserait la mesure de contraste.
       await page.evaluate(() => document.querySelectorAll("[data-reveal]").forEach((element) => element.classList.add("is-revealed")));
+      await page.waitForTimeout(1800);
       const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
       const summary = results.violations.map((violation) => `${violation.id}: ${violation.nodes.map((node) => node.target.join(" ")).join(", ")}`);
       expect(summary).toEqual([]);

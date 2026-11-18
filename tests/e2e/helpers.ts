@@ -10,6 +10,8 @@ export const publicPaths = [
   "/en/charcuterie",
   "/fr/la-maison",
   "/en/our-shop",
+  "/fr/commander",
+  "/en/order",
   "/fr/contact",
   "/en/contact",
   "/fr/mentions-legales",

@@ -29,6 +29,8 @@ interface ContactFormProps {
   callLabel: string;
   /** Noms des produits dans la langue courante, pour le préremplissage depuis le catalogue. */
   productNames: Record<string, string>;
+  /** Objet coché par défaut (sans paramètre ?topic dans l'adresse). */
+  defaultTopic?: ContactTopic;
 }
 
 interface Values {
@@ -45,10 +47,10 @@ const FIELD_ORDER: ContactField[] = ["name", "replyTo", "topic", "people", "date
 
 const initialValues: Values = { name: "", replyTo: "", topic: "question", item: "", people: "", date: "", message: "" };
 
-export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel, productNames }: ContactFormProps) {
+export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel, productNames, defaultTopic = "question" }: ContactFormProps) {
   const uid = useId();
   const [mode, setMode] = useState(initialMode);
-  const [values, setValues] = useState<Values>(initialValues);
+  const [values, setValues] = useState<Values>({ ...initialValues, topic: defaultTopic });
   const [errors, setErrors] = useState<FieldErrors>({});
   const [summary, setSummary] = useState(false);
   const [smsText, setSmsText] = useState<string | null>(null);

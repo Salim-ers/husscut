@@ -15,7 +15,7 @@ Toutes les valeurs se renseignent dans `src/content/business.ts`.
 | E-mail de l'éditeur | Aucun e-mail fourni | `legal.publisherEmail` |
 | Hébergeur | Vercel prévu mais non confirmé (nom, adresse, contact) | `legal.host` |
 | Fiche Google | Le lien actuel est une recherche Google Maps qui ouvre la fiche. Remplacer par le lien « Partager » de la fiche. | `googleListing` |
-| Avis Google | Deux extraits affichés (initiales M. B.-A. et H. H., 5/5). Autorisation de réutilisation à confirmer ; sinon `reviews.showExcerpts = false` et seul le lien reste. | `reviews` |
+| Avis Google | Deux extraits affichés (initiales M. B.-A. et H. H., 5/5). Autorisation de réutilisation à confirmer ; sinon `reviews.showExcerpts = false` et seul le lien reste. **Pour en afficher davantage** : fournir des captures des avis Google (texte lisible) ; ils s'ajoutent dans `src/content/reviews.ts` (initiales, extrait fidèle, traduction), le bloc s'adapte au nombre. Aucun autre extrait d’avis public n’a été trouvé hors de la fiche Google (recherche du 18/11/2026). | `reviews` |
 | Portrait (page « La maison ») | Droits de diffusion à confirmer. Le portrait n'est pas nommé. | `media.portraitRightsConfirmed` |
 
 ## À prévoir (non bloquant)
@@ -30,6 +30,8 @@ Toutes les valeurs se renseignent dans `src/content/business.ts`.
 | Produits écartés | Espèce non vérifiée : « Smoky bacon », « Prosciutto by HussCut », « Chorizo fumé », « Chorizo à griller », « Saucisse à l'ail fumée », « Bâton de berger », « Hot-dog », « Fermier ail et fines herbes », « Rôti de veau bacon fromage ». À ajouter avec l'espèce exacte. |
 | Assemblage du logo | L'en-tête associe l'emblème et le lettrage néon fournis, côte à côte, sans redessin. À valider. |
 | Langue des SMS | Le SMS est rédigé dans la langue du visiteur. |
+| Photos supplémentaires | 27 photos ajoutées le 18/11/2026 (fichiers numérotés et images du compte Instagram fournis). Écartées : prix lisibles, légendes de vidéo incrustées, portrait non validé, espèce non identifiable (liste dans `scripts/prepare-extra-media.mjs`). Aucune n'est associée à un produit précis. |
+| Mention halal | Réduite à une petite étiquette dans le hero (retour du 18/11/2026) et présente dans les textes ; pas de sceau ni d'organisme. |
 
 ## Faits vérifiés utilisés
 

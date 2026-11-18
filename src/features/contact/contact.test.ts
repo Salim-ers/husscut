@@ -87,8 +87,9 @@ describe("composition du SMS", () => {
   });
 
   it("construit le lien de demande depuis le catalogue", () => {
-    expect(contactRequestHref("fr", { topic: "availability", item: "cote-de-boeuf" })).toBe("/fr/contact?topic=availability&item=cote-de-boeuf#formulaire");
-    expect(contactRequestHref("en", { topic: "platter" })).toBe("/en/contact?topic=platter#request-form");
+    expect(contactRequestHref("fr", { topic: "availability", item: "cote-de-boeuf" })).toBe("/fr/commander?topic=availability&item=cote-de-boeuf#formulaire");
+    expect(contactRequestHref("en", { topic: "platter" })).toBe("/en/order?topic=platter#request-form");
+    expect(contactRequestHref("fr", { topic: "question", page: "contact" })).toBe("/fr/contact?topic=question#formulaire");
   });
 });
 

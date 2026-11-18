@@ -42,6 +42,7 @@ Vercel précédent (« Promote to Production »). Aucune migration ni sauvegarde
   pour bacon, jambon, chorizo, saucisson…). Les tests vérifient ces règles.
 - Changer les horaires : `src/content/business.ts` → `hours.weekly`. Une fois confirmés, ils sont
   aussi publiés dans les données structurées.
+- Photos supplémentaires (fichiers déposés à la racine) : `scripts/prepare-extra-media.mjs`.
 - Nouvelle photo : l'ajouter à `PHOTOS` dans `scripts/prepare-media.mjs`, relancer
   `npm run media -- <dossier>`, puis la déclarer dans `src/content/media.ts` avec ses textes
   alternatifs FR/EN. Vérifier qu'aucun prix n'est lisible.

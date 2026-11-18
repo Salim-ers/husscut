@@ -1,15 +1,14 @@
 import type { ReactNode } from "react";
+import { SplitWords } from "@/components/motion/SplitWords";
 
 /** Gabarit des pages légales : lecture confortable sur fond ivoire. */
 export function LegalLayout({ title, intro, children }: { title: string; intro?: string; children: ReactNode }) {
   return (
     <>
-      <section className="pt-10 pb-12 lg:pt-16 lg:pb-16" aria-labelledby="page-title">
+      <section className="glow-red pt-10 pb-14 lg:pt-16 lg:pb-20" aria-labelledby="page-title">
         <div className="container-site">
-          <h1 id="page-title" className="display-1 max-w-[16ch]">
-            {title}
-          </h1>
-          {intro ? <p className="lede mt-6 max-w-[56ch] text-mute">{intro}</p> : null}
+          <SplitWords as="h1" id="page-title" mode="load" text={title} className="display-1 max-w-[16ch]" />
+          {intro ? <p className="lede load-in mt-6 max-w-[56ch] text-mute">{intro}</p> : null}
         </div>
       </section>
       <div className="surface-light py-16 lg:py-20">

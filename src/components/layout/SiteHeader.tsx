@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { business } from "@/content/business";
 import { InstagramIcon, PhoneIcon, PinIcon } from "@/components/ui/icons";
 import { ExternalLink } from "@/components/ui/ExternalLink";
@@ -10,6 +11,7 @@ import { BrandLink } from "./BrandLink";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { MobileMenu } from "./MobileMenu";
 import { NavLinks } from "./NavLinks";
+import { ScrollChrome } from "./ScrollChrome";
 
 const anchorPairs = [
   ...Object.values(pageAnchors),
@@ -17,8 +19,12 @@ const anchorPairs = [
   ...charcuterieGroups.map((group) => group.anchor),
 ].map((anchor) => [anchor.fr, anchor.en] as const);
 
+/**
+ * En-tête fixe : transparent sur le haut de page, puis capsule vitrée qui s'efface en
+ * descendant et revient en remontant (ScrollChrome). « Commander » est l'action principale.
+ */
 export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary }) {
-  const items = mainNavigation.map((key) => ({ href: pathFor(locale, key), label: dict.nav[key] }));
+  const items = mainNavigation.map((key) => ({ href: pathFor(locale, key), label: dict.nav[key], cta: key === "order" }));
   const target = otherLocale(locale);
   const homeHref = pathFor(locale, "home");
 
@@ -33,48 +39,56 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
   );
 
   return (
-    <header className="sticky top-0 z-50 border-b border-ivory/10 bg-ink/95" style={{ viewTransitionName: "site-header" }}>
-      <div className="container-site flex h-16 items-center justify-between gap-3 lg:h-[4.75rem]">
-        <BrandLink href={homeHref} label={dict.a11y.homeLink} />
+    <header className="site-header" style={{ viewTransitionName: "site-header" }}>
+      <div className="container-site">
+        <div className="site-header__bar">
+          <BrandLink href={homeHref} label={dict.a11y.homeLink} />
 
-        <nav aria-label={dict.a11y.mainNavigation} className="hidden lg:block">
-          <NavLinks items={items} variant="bar" />
-        </nav>
+          <nav aria-label={dict.a11y.mainNavigation} className="hidden lg:block">
+            <NavLinks items={items} variant="bar" />
+          </nav>
 
-        <div className="flex items-center gap-2">
-          <div className="hidden lg:block">{switcher}</div>
-          <a href={`tel:${business.phone.e164}`} className="btn btn-secondary btn-sm px-3 sm:px-4">
-            <PhoneIcon />
-            <span className="max-[359px]:sr-only lg:hidden">{dict.actions.call}</span>
-            <span className="hidden lg:inline">{business.phone.display}</span>
-          </a>
-          <MobileMenu
-            items={items}
-            labels={{ open: dict.a11y.openMenu, close: dict.a11y.closeMenu, navigation: dict.a11y.mainNavigation }}
-            brand={<BrandLink href={homeHref} label={dict.a11y.homeLink} />}
-            footer={
-              <div className="flex flex-col gap-3">
-                <a href={`tel:${business.phone.e164}`} className="btn btn-primary w-full">
-                  <PhoneIcon />
-                  {dict.actions.callShop}
-                  <span className="font-normal">{business.phone.display}</span>
-                </a>
-                <ExternalLink href={business.directionsUrl} newTabLabel={dict.a11y.newTab} className="btn btn-secondary w-full">
-                  <PinIcon />
-                  {dict.actions.startDirections}
-                </ExternalLink>
-                <div className="mt-3 flex items-center justify-between gap-4">
-                  <ExternalLink href={business.instagram.url} newTabLabel={dict.a11y.newTab} className="link-quiet">
-                    <InstagramIcon />
-                    {business.instagram.handle}
+          <div className="flex items-center gap-2">
+            <div className="hidden lg:block">{switcher}</div>
+            <a
+              href={`tel:${business.phone.e164}`}
+              className="hidden size-11 items-center justify-center rounded-full border border-ivory/25 transition-colors hover:border-gold hover:text-gold lg:inline-flex"
+              aria-label={`${dict.actions.callShop} ${business.phone.display}`}
+            >
+              <PhoneIcon />
+            </a>
+            <Link href={pathFor(locale, "order")} className="btn btn-primary btn-sm nav-cta px-4 lg:hidden">
+              {dict.actions.order}
+            </Link>
+            <MobileMenu
+              items={items}
+              labels={{ open: dict.a11y.openMenu, close: dict.a11y.closeMenu, navigation: dict.a11y.mainNavigation }}
+              brand={<BrandLink href={homeHref} label={dict.a11y.homeLink} />}
+              footer={
+                <div className="flex flex-col gap-3">
+                  <a href={`tel:${business.phone.e164}`} className="btn btn-primary w-full">
+                    <PhoneIcon />
+                    {dict.actions.callShop}
+                    <span className="font-normal">{business.phone.display}</span>
+                  </a>
+                  <ExternalLink href={business.directionsUrl} newTabLabel={dict.a11y.newTab} className="btn btn-secondary w-full">
+                    <PinIcon />
+                    {dict.actions.startDirections}
                   </ExternalLink>
-                  {switcher}
+                  <div className="mt-3 flex items-center justify-between gap-4">
+                    <ExternalLink href={business.instagram.url} newTabLabel={dict.a11y.newTab} className="link-quiet">
+                      <InstagramIcon />
+                      {business.instagram.handle}
+                    </ExternalLink>
+                    {switcher}
+                  </div>
                 </div>
-              </div>
-            }
-          />
+              }
+            />
+          </div>
         </div>
       </div>
+      <ScrollChrome />
     </header>
   );
 }
