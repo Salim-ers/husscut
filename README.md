@@ -62,7 +62,8 @@ Voir `.env.example`.
   le build tant que des informations obligatoires manquent (voir `CONTENU-A-CONFIRMER.md`).
   Toute autre valeur : `noindex` (balise, en-tête `X-Robots-Tag`, robots.txt fermé).
 - `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` : facultatifs. Tant qu'ils ne sont pas
-  tous renseignés, le formulaire fonctionne en mode **« Préparer mon SMS »**.
+  tous renseignés, le formulaire fonctionne en **mode aperçu** : il se remplit et se valide, mais
+  annonce clairement que la demande n'a pas été transmise et propose d'appeler la boutique.
 
 ## Médias
 

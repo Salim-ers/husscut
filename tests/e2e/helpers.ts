@@ -22,11 +22,15 @@ export const publicPaths = [
   "/en/cookies",
 ] as const;
 
-/** Marque l'intro comme déjà vue : les tests fonctionnels partent d'un site au repos. */
+/**
+ * Marque l'intro comme déjà vue et, faute de choix déjà fait, la carte comme refusée : les tests
+ * fonctionnels partent d'un site au repos, sans bandeau cookies (testé à part, contact.spec.ts).
+ */
 export async function skipIntro(page: Page) {
   await page.addInitScript(() => {
     try {
       sessionStorage.setItem("hc:intro", "1");
+      if (!localStorage.getItem("hc:map-consent")) localStorage.setItem("hc:map-consent", "denied");
     } catch {
       // Stockage indisponible : l'intro ne joue pas non plus.
     }

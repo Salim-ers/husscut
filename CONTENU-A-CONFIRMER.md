@@ -24,12 +24,14 @@ Toutes les valeurs se renseignent dans `src/content/business.ts`.
 |---|---|
 | Certification halal | Le bloc oriente vers la boutique. Pour l'afficher : organisme, périmètre, justificatif (`halalCertification`). Aucun sceau ni organisme n'a été supposé. |
 | TVA intracommunautaire | À renseigner si la société y est assujettie. |
-| Envoi du formulaire par e-mail | Fournir une adresse de réception et un domaine d'envoi pour activer le mode e-mail (Resend). En attendant : mode SMS, opérationnel. |
+| Envoi du formulaire par e-mail | Fournir une adresse de réception et un domaine d'envoi pour activer l'envoi (Resend). En attendant : mode aperçu, la demande n'est pas transmise et le visiteur en est informé. |
 | Histoire du gérant | Aucune source publique fiable trouvée : la page raconte le lieu, le comptoir et l'offre. Une biographie peut être ajoutée si HussCut la fournit. |
 | Date d'ouverture | L'établissement est enregistré depuis le 18/11/2021 ; la date d'ouverture au public n'est pas affichée faute de confirmation. |
 | Produits écartés | Espèce non vérifiée : « Smoky bacon », « Prosciutto by HussCut », « Chorizo fumé », « Chorizo à griller », « Saucisse à l'ail fumée », « Bâton de berger », « Hot-dog », « Fermier ail et fines herbes », « Rôti de veau bacon fromage ». À ajouter avec l'espèce exacte. |
 | Assemblage du logo | L'en-tête associe l'emblème et le lettrage néon fournis, côte à côte, sans redessin. À valider. |
-| Langue des SMS | Le SMS est rédigé dans la langue du visiteur. |
+| Langue des e-mails | La demande reçue par la boutique est rédigée dans la langue du visiteur. |
+| Photos d'illustration | Rayons Veau et Agneau : photos libres de droit (Pexels 7741801, Unsplash V65tvNj3GXI), signalées comme illustrations. À remplacer par des photos de la boutique dès qu'elles existent. |
+| Prix sur photo | Les étiquettes de prix de la photo « côtes sous le néon » ont été floutées. |
 | Photos supplémentaires | 27 photos ajoutées le 18/11/2026 (fichiers numérotés et images du compte Instagram fournis). Écartées : prix lisibles, légendes de vidéo incrustées, portrait non validé, espèce non identifiable (liste dans `scripts/prepare-extra-media.mjs`). Aucune n'est associée à un produit précis. |
 | Mention halal | Réduite à une petite étiquette dans le hero (retour du 18/11/2026) et présente dans les textes ; pas de sceau ni d'organisme. |
 

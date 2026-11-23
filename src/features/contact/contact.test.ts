@@ -1,42 +1,42 @@
 import { describe, expect, it, vi } from "vitest";
 import fr from "@/i18n/dictionaries/fr";
-import { composeRequestText, formatRequestDate, smsHref } from "./lib/compose-message";
+import { composeRequestText, formatRequestDate } from "./lib/compose-message";
 import { createRateLimiter } from "./lib/rate-limit";
 import { contactRequestHref } from "./lib/topics";
 import { isPhoneOrEmail, parisToday, validateContact } from "./schemas/contact-schema";
 import { headerSafe, readEmailConfig, sendRequestEmail } from "./services/email-delivery";
 
 const known = (id: string) => ["cote-de-boeuf", "coffret-signature"].includes(id);
-const sms = { requireReplyTo: false, today: "2026-11-18", isKnownItem: known };
-const email = { ...sms, requireReplyTo: true };
+const base = { requireReplyTo: false, today: "2026-11-18", isKnownItem: known };
+const email = { ...base, requireReplyTo: true };
 
 describe("validation de la demande", () => {
   it("accepte une demande minimale", () => {
-    const result = validateContact({ name: " Nadia ", topic: "question", message: "Avez-vous du gigot samedi ?" }, sms);
+    const result = validateContact({ name: " Nadia ", topic: "question", message: "Avez-vous du gigot samedi ?" }, base);
     expect(result).toEqual({ success: true, data: { name: "Nadia", topic: "question", message: "Avez-vous du gigot samedi ?" } });
   });
 
   it("signale chaque champ invalide par un code traduisible", () => {
-    const result = validateContact({ name: "", topic: "autre", message: "court" }, sms);
+    const result = validateContact({ name: "", topic: "autre", message: "court" }, base);
     expect(result.success).toBe(false);
     if (!result.success) expect(result.errors).toEqual({ name: "nameRequired", topic: "topicInvalid", message: "messageTooShort" });
   });
 
   it("refuse un message trop long et une date passée ou un nombre de personnes hors limites", () => {
-    const result = validateContact({ name: "A", topic: "platter", message: "x".repeat(1001), people: "0", date: "2026-11-17" }, sms);
+    const result = validateContact({ name: "A", topic: "platter", message: "x".repeat(1001), people: "0", date: "2026-11-17" }, base);
     expect(result.success).toBe(false);
     if (!result.success) expect(result.errors).toMatchObject({ message: "messageTooLong", people: "peopleInvalid", date: "dateInvalid" });
   });
 
   it("ne garde que les champs utiles au sujet choisi", () => {
-    const platter = validateContact({ name: "A", topic: "platter", message: "Pour un anniversaire", people: "8", date: "2026-12-05", item: "cote-de-boeuf" }, sms);
+    const platter = validateContact({ name: "A", topic: "platter", message: "Pour un anniversaire", people: "8", date: "2026-12-05", item: "cote-de-boeuf" }, base);
     expect(platter.success && platter.data).toEqual({ name: "A", topic: "platter", message: "Pour un anniversaire", people: 8, date: "2026-12-05" });
-    const availability = validateContact({ name: "A", topic: "availability", message: "Deux côtes svp", item: "cote-de-boeuf", people: "4" }, sms);
+    const availability = validateContact({ name: "A", topic: "availability", message: "Deux côtes svp", item: "cote-de-boeuf", people: "4" }, base);
     expect(availability.success && availability.data).toEqual({ name: "A", topic: "availability", message: "Deux côtes svp", item: "cote-de-boeuf" });
   });
 
   it("ignore sans erreur un produit inconnu (lien modifié)", () => {
-    const result = validateContact({ name: "A", topic: "availability", message: "Bonjour, dispo ?", item: "<script>" }, sms);
+    const result = validateContact({ name: "A", topic: "availability", message: "Bonjour, dispo ?", item: "<script>" }, base);
     expect(result.success && result.data.item).toBeUndefined();
   });
 
@@ -54,15 +54,15 @@ describe("validation de la demande", () => {
   });
 });
 
-describe("composition du SMS", () => {
-  const copy = { ...fr.contact.form.sms, topics: fr.contact.form.topics };
+describe("composition de l'e-mail", () => {
+  const copy = { ...fr.contact.form.lines, topics: fr.contact.form.topics };
 
   it("rédige un message lisible, sans espace insécable", () => {
     const text = composeRequestText(
       { name: "Nadia", topic: "platter", people: 6, date: "2026-11-21", message: "Sans fromage svp." },
       { locale: "fr", copy: { ...copy, topic: "Objet : {topic}" } },
     );
-    expect(text).toContain("Bonjour HussCut, c'est Nadia.");
+    expect(text).toContain("Nouvelle demande de Nadia.");
     expect(text).toContain("Objet : Planche ou coffret");
     expect(text).toContain("Nombre de personnes : 6");
     expect(text).toContain("samedi 21 novembre 2026");
@@ -73,12 +73,6 @@ describe("composition du SMS", () => {
   it("mentionne le produit demandé depuis le catalogue", () => {
     const text = composeRequestText({ name: "Sam", topic: "availability", item: "cote-de-boeuf", message: "Pour samedi." }, { locale: "fr", copy, productName: "Côte de bœuf" });
     expect(text).toContain("Produit : Côte de bœuf");
-  });
-
-  it("produit un lien sms: compatible iOS/Android, message encodé", () => {
-    const href = smsHref("+33665637611", "Bonjour & merci ?\nÀ bientôt");
-    expect(href.startsWith("sms:+33665637611?&body=")).toBe(true);
-    expect(decodeURIComponent(href.split("body=")[1] ?? "")).toBe("Bonjour & merci ?\nÀ bientôt");
   });
 
   it("formate la date dans chaque langue", () => {
@@ -97,7 +91,7 @@ describe("envoi e-mail (prestataire simulé)", () => {
   const config = { apiKey: "re_test", to: "boutique@example.fr", from: "site@example.fr" };
   const base = { subject: "Une question — Nadia", text: "Bonjour", idempotencyKey: "0f8b1f0e-1111-4c4c-9c9c-123456789abc" };
 
-  it("reste en mode SMS tant que la configuration est incomplète", () => {
+  it("reste en mode aperçu tant que la configuration est incomplète", () => {
     expect(readEmailConfig({})).toBeNull();
     expect(readEmailConfig({ RESEND_API_KEY: "x", CONTACT_TO_EMAIL: "a@b.fr" })).toBeNull();
     expect(readEmailConfig({ RESEND_API_KEY: "x", CONTACT_TO_EMAIL: "a@b.fr", CONTACT_FROM_EMAIL: "c@d.fr" })).toEqual({ apiKey: "x", to: "a@b.fr", from: "c@d.fr" });

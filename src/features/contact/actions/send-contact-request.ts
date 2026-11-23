@@ -68,7 +68,7 @@ export async function sendContactRequest(_previous: ContactActionState, formData
   const product = request.item ? findProduct(request.item) : undefined;
   const text = composeRequestText(request, {
     locale,
-    copy: { ...form.sms, topics: form.topics },
+    copy: { ...form.lines, topics: form.topics },
     productName: product?.name[locale],
   });
   const replyIsEmail = request.replyTo ? z.email().safeParse(request.replyTo).success : false;

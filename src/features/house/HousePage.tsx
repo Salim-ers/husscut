@@ -26,13 +26,13 @@ export function HousePage({ locale, dict }: { locale: Locale; dict: Dictionary }
 
   return (
     <>
-      <section className="glow overflow-x-clip pt-8 pb-16 lg:pt-14 lg:pb-24" aria-labelledby="page-title">
-        <div className="container-site grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-6">
-          <figure className="lg:col-span-7">
-            <Photo photo="portraitComptoir" locale={locale} sizes="(min-width: 64rem) 56vw, 92vw" ratio="4 / 5" large eager className="cut-edge [--cut:12%]" />
+      <section className="glow overflow-x-clip pt-6 pb-4 md:pt-10 lg:pt-14 lg:pb-8" aria-labelledby="page-title">
+        <div className="container-site grid gap-10 md:grid-cols-12 md:items-end md:gap-8 lg:gap-6">
+          <figure className="md:col-span-6 lg:col-span-7">
+            <Photo photo="portraitComptoir" locale={locale} sizes="(min-width: 64rem) 56vw, (min-width: 48rem) 48vw, 92vw" ratio="4 / 5" large eager className="cut-edge [--cut:12%]" />
             <figcaption className="mt-3 text-sm text-mute">{h.portraitCaption}</figcaption>
           </figure>
-          <div className="lg:col-span-4 lg:col-start-9 lg:pb-12">
+          <div className="md:col-span-6 lg:col-span-4 lg:col-start-9 lg:pb-12">
             <p className="kicker load-in" style={{ "--i": 0 } as CSSProperties}>
               <span>
                 <RichText text={h.kicker} />

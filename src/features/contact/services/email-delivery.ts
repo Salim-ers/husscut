@@ -13,7 +13,7 @@ export type DeliveryOutcome = { ok: true; id: string } | { ok: false; reason: "t
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
 
-/** Lit la configuration ; renvoie null si un seul élément manque (le site reste en mode SMS). */
+/** Lit la configuration ; renvoie null si un seul élément manque (le formulaire reste en mode aperçu). */
 export function readEmailConfig(env: Record<string, string | undefined> = process.env): EmailConfig | null {
   const apiKey = env.RESEND_API_KEY?.trim();
   const to = env.CONTACT_TO_EMAIL?.trim();

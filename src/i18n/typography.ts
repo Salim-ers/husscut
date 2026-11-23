@@ -35,7 +35,7 @@ export function format(template: string, values: Record<string, string | number>
   return template.replace(/\{(\w+)\}/g, (match, key: string) => (key in values ? String(values[key]) : match));
 }
 
-/** Version texte brut (métadonnées, SMS) : retire les marqueurs d'exposant « ^ » et de relief « * ». */
+/** Version texte brut (métadonnées, e-mails) : retire les marqueurs d'exposant « ^ » et de relief « * ». */
 export function plain(text: string): string {
   return text.replace(/[\^*]/g, "");
 }

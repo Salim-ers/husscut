@@ -13,7 +13,6 @@ export interface MessageCopy {
   topics: Record<ContactTopic, string>;
 }
 
-
 /** « 2026-11-21 » → « samedi 21 novembre 2026 » / « Saturday 21 November 2026 ». */
 export function formatRequestDate(locale: Locale, isoDate: string): string {
   const date = new Date(`${isoDate}T12:00:00Z`);
@@ -28,8 +27,8 @@ export function formatRequestDate(locale: Locale, isoDate: string): string {
 }
 
 /**
- * Texte de la demande, utilisé tel quel pour le SMS et pour le corps de l'e-mail.
- * Les espaces insécables sont remplacées par des espaces simples (meilleure compatibilité SMS).
+ * Texte de la demande, utilisé comme corps de l'e-mail reçu par la boutique.
+ * Les espaces insécables sont remplacées par des espaces simples (lecture dans tout client e-mail).
  */
 export function composeRequestText(
   request: ContactRequest,
@@ -43,12 +42,4 @@ export function composeRequestText(
   if (request.replyTo) lines.push(request.replyTo);
   lines.push("", request.message.trim(), "", copy.sentFrom);
   return lines.join("\n").replace(/ /g, " ");
-}
-
-/**
- * Lien sms: compatible iOS et Android (« ?&body= »). Le message n'est envoyé que lorsque
- * le visiteur appuie sur Envoyer dans son application.
- */
-export function smsHref(e164: string, body: string): string {
-  return `sms:${e164}?&body=${encodeURIComponent(body)}`;
 }

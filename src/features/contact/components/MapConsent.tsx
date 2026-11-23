@@ -1,28 +1,23 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
-import { forgetMapConsent, readMapConsent, rememberMapConsent } from "@/lib/consent";
+import { useSyncExternalStore } from "react";
+import { PinIcon } from "@/components/ui/icons";
+import { readMapConsent, serverMapConsent, setMapConsent, subscribeMapConsent } from "@/lib/consent";
 
 interface MapConsentProps {
   embedUrl: string;
-  copy: { consent: string; show: string; remember: string; hide: string; frameTitle: string };
+  address: string;
+  copy: { consent: string; show: string; hide: string; frameTitle: string };
 }
 
 /**
- * Carte Google Maps chargée uniquement après action du visiteur (ou accord mémorisé à sa demande).
- * Avant cela, aucune requête n'est faite vers Google.
+ * Carte Google Maps : affichée d'emblée si le visiteur a accepté (bandeau cookies ou bouton),
+ * sinon un plan dessiné en CSS (aucune requête vers Google) avec un bouton pour l'afficher.
  */
-export function MapConsent({ embedUrl, copy }: MapConsentProps) {
-  const uid = useId();
-  const [shown, setShown] = useState(false);
-  const [remember, setRemember] = useState(false);
+export function MapConsent({ embedUrl, address, copy }: MapConsentProps) {
+  const consent = useSyncExternalStore(subscribeMapConsent, readMapConsent, serverMapConsent);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- accord mémorisé lisible uniquement côté navigateur
-    if (readMapConsent()) setShown(true);
-  }, []);
-
-  if (shown) {
+  if (consent === "granted") {
     return (
       <div className="flex flex-col gap-3">
         <div className="photo photo-lg aspect-[4/3] w-full sm:aspect-[16/9]">
@@ -35,14 +30,7 @@ export function MapConsent({ embedUrl, copy }: MapConsentProps) {
             allowFullScreen
           />
         </div>
-        <button
-          type="button"
-          className="link-quiet self-start"
-          onClick={() => {
-            forgetMapConsent();
-            setShown(false);
-          }}
-        >
+        <button type="button" className="link-quiet self-start" onClick={() => setMapConsent("denied")}>
           {copy.hide}
         </button>
       </div>
@@ -50,28 +38,17 @@ export function MapConsent({ embedUrl, copy }: MapConsentProps) {
   }
 
   return (
-    <div className="flex min-h-64 flex-col justify-center gap-5 tone-char rounded-[24px] p-6 sm:p-10" data-map-placeholder>
-      <p className="max-w-[52ch] text-mute">{copy.consent}</p>
-      <label htmlFor={`${uid}-remember`} className="flex min-h-11 items-center gap-3 text-[0.9875rem]">
-        <input
-          id={`${uid}-remember`}
-          type="checkbox"
-          className="size-[1.125rem] accent-gold"
-          checked={remember}
-          onChange={(event) => setRemember(event.target.checked)}
-        />
-        {copy.remember}
-      </label>
-      <button
-        type="button"
-        className="btn btn-secondary self-start"
-        onClick={() => {
-          if (remember) rememberMapConsent();
-          setShown(true);
-        }}
-      >
-        {copy.show}
-      </button>
+    <div className="map-placeholder photo-lg aspect-[4/5] w-full sm:aspect-[16/9]" data-map-placeholder>
+      <div className="map-placeholder__pin" aria-hidden="true">
+        <PinIcon />
+      </div>
+      <div className="map-placeholder__panel">
+        <p className="font-display text-[1.1rem] font-semibold tracking-[0.02em]">{address}</p>
+        <p className="mt-2 max-w-[48ch] text-[0.9375rem] text-mute">{copy.consent}</p>
+        <button type="button" className="btn btn-primary mt-5" onClick={() => setMapConsent("granted")}>
+          {copy.show}
+        </button>
+      </div>
     </div>
   );
 }

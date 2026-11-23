@@ -11,6 +11,7 @@ import { listAllProducts } from "@/content/catalogue";
 import { pageAnchors } from "@/i18n/anchors";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/get-dictionary";
+import { pathFor } from "@/i18n/routes";
 import { format, typo } from "@/i18n/typography";
 import { ContactForm } from "@/features/contact/components/ContactForm";
 import { getContactDeliveryMode } from "@/features/contact/lib/delivery-mode";
@@ -18,7 +19,7 @@ import { getContactDeliveryMode } from "@/features/contact/lib/delivery-mode";
 /**
  * « Commander » : une demande de commande est une prise de contact que la boutique confirme.
  * Ni prix, ni panier, ni paiement, ni délai promis. Deux voies : retrait au comptoir
- * (demande par SMS ou e-mail, planches et coffrets compris) et livraison via les plateformes.
+ * (formulaire transmis par e-mail, planches et coffrets compris) et livraison via les plateformes.
  */
 export function OrderPage({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const o = dict.order;
@@ -87,6 +88,7 @@ export function OrderPage({ locale, dict }: { locale: Locale; dict: Dictionary }
                 copy={dict.contact.form}
                 phone={{ e164: business.phone.e164, display: business.phone.display }}
                 callLabel={dict.actions.callShop}
+                privacyHref={pathFor(locale, "privacy")}
                 productNames={productNames}
                 defaultTopic="availability"
               />
@@ -114,7 +116,7 @@ export function OrderPage({ locale, dict }: { locale: Locale; dict: Dictionary }
               {business.delivery.map((platform, index) => (
                 <li key={platform.id} data-reveal="up" style={{ "--d": index * 120 } as CSSProperties}>
                   <ExternalLink href={platform.url} newTabLabel={dict.a11y.newTab} className="mode-link min-h-20">
-                    <span className="flex-1 font-display text-[1.3rem] font-semibold tracking-[0.03em]">{format(o.delivery.cta, { name: platform.name })}</span>
+                    <span className="flex-1 font-display text-[1.1rem] font-semibold tracking-[0.03em] sm:text-[1.3rem]">{format(o.delivery.cta, { name: platform.name })}</span>
                     <ExternalIcon className="size-5 text-gold" />
                   </ExternalLink>
                 </li>

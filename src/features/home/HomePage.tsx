@@ -69,14 +69,14 @@ function Hero({ locale, dict }: Props) {
         </span>
       </div>
 
-      <div className="container-site relative z-10 grid min-h-[calc(100svh-var(--header-h))] content-end pt-[22svh] pb-14 lg:content-center lg:pt-6 lg:pb-28">
+      <div className="container-site relative z-10 grid min-h-[calc(100svh-var(--header-h))] content-start pt-[calc(var(--hero-photo-h)-var(--header-h)-0.25rem)] pb-12 md:pb-16 lg:content-center lg:pt-6 lg:pb-28">
         <div className="max-w-[52rem]">
           <p className="kicker hero-after" style={vars({ "--i": 0 })}>
             <span>
               <RichText text={hero.kicker} />
             </span>
           </p>
-          <h1 id="hero-title" className="display-xl mt-6 text-[clamp(2.1rem,0.5rem+6.2vw,6.25rem)]">
+          <h1 id="hero-title" className="display-xl mt-6 text-[clamp(2.1rem,0.6rem+6.6vw,6.25rem)]">
             {hero.titleLines.map((line, index) => (
               <span key={line} className="hero-line-mask">
                 <span className="hero-line" style={vars({ "--i": index })}>
@@ -122,8 +122,8 @@ function Manifesto({ locale, dict }: Props) {
   const m = dict.home.manifesto;
   return (
     <section className="section glow" aria-labelledby="manifesto-title">
-      <div className="container-site grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-6">
-        <div className="lg:col-span-7">
+      <div className="container-site grid gap-12 md:grid-cols-12 md:items-center md:gap-8 lg:gap-6">
+        <div className="md:col-span-7">
           <p className="kicker" data-reveal="up">
             {m.kicker}
           </p>
@@ -135,8 +135,8 @@ function Manifesto({ locale, dict }: Props) {
           />
           <KnifeRule className="mt-14 max-w-xl" />
         </div>
-        <div className="lg:col-span-4 lg:col-start-9">
-          <Photo photo="piecePapierSigne" locale={locale} sizes="(min-width: 64rem) 30vw, 92vw" ratio="4 / 5" large reveal />
+        <div className="mx-auto w-full max-w-sm md:col-span-5 md:max-w-none lg:col-span-4 lg:col-start-9">
+          <Photo photo="piecePapierSigne" locale={locale} sizes="(min-width: 64rem) 30vw, (min-width: 48rem) 40vw, 92vw" ratio="4 / 5" large reveal />
         </div>
       </div>
     </section>
@@ -208,9 +208,9 @@ function Gesture({ locale, dict }: Props) {
   const g = dict.home.gesture;
   const photo = photos.gesteTrancheMarbree;
   return (
-    <section className="knife-scene pin-scene pin-scene--lg glow" data-progress="pin-lg" style={vars({ "--pin-h": "260vh" })} aria-labelledby="gesture-title">
+    <section className="knife-scene pin-scene pin-scene--lg glow" data-progress="pin-lg" style={vars({ "--pin-h": "190vh" })} aria-labelledby="gesture-title">
       <div className="pin-scene__sticky">
-        <div className="container-site grid gap-14 py-24 lg:h-full lg:grid-cols-12 lg:items-center lg:gap-6 lg:py-0">
+        <div className="container-site grid gap-12 py-16 md:py-20 lg:h-full lg:grid-cols-12 lg:items-center lg:gap-6 lg:py-0">
           <div className="lg:col-span-5">
             <p className="kicker" data-reveal="up" style={vars({ "--d": 0 })}>
               {g.kicker}
@@ -262,7 +262,7 @@ function Gallery({ locale, dict }: Props) {
   const g = dict.home.gallery;
   const items: { key: keyof typeof g.captions; photo: PhotoKey }[] = [
     { key: "neon", photo: "billotFromParis" },
-    { key: "persille", photo: "pieceMarbreeComptoir" },
+    { key: "exception", photo: "pieceMarbreeComptoir" },
     { key: "rotie", photo: "pieceRotieFleurs" },
     { key: "papier", photo: "pavesRomarin" },
     { key: "vitrine", photo: "vitrineAgrumes" },
@@ -271,7 +271,7 @@ function Gallery({ locale, dict }: Props) {
     { key: "cote", photo: "coteGrilleeBeurre" },
   ];
   return (
-    <section className="hscroll relative overflow-x-clip py-24 lg:py-0" data-progress="" data-hscroll="" aria-labelledby="gallery-title">
+    <section className="hscroll relative overflow-x-clip py-12 md:py-16 lg:py-0" data-progress="" data-hscroll="" aria-labelledby="gallery-title">
       <div className="hscroll__sticky">
         <div className="container-site flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
@@ -318,9 +318,9 @@ function Ageing({ locale, dict }: Props) {
   const beef = meatCategories.find((category) => category.id === "boeuf");
   const photo = photos.armoireMaturation;
   return (
-    <section className="zoom-scene pin-scene pin-scene--lg glow glow--left" data-progress="pin-lg" style={vars({ "--pin-h": "200vh" })} aria-labelledby="ageing-title">
+    <section className="zoom-scene pin-scene pin-scene--lg glow glow--left" data-progress="pin-lg" style={vars({ "--pin-h": "150vh" })} aria-labelledby="ageing-title">
       <div className="pin-scene__sticky">
-        <div className="container-site grid gap-12 py-24 lg:h-full lg:grid-cols-12 lg:items-center lg:gap-6 lg:py-0">
+        <div className="container-site grid gap-10 py-16 md:py-20 lg:h-full lg:grid-cols-12 lg:items-center lg:gap-6 lg:py-0">
           <div className="lg:col-span-6">
             <div className="zoom-scene__frame mx-auto aspect-[4/5] w-full max-w-[min(34rem,64svh)]">
               <Image src={photo.src} alt={photo.alt[locale]} fill sizes="(min-width: 64rem) 40vw, 90vw" quality={78} placeholder="blur" style={{ objectPosition: photo.focus }} />
@@ -378,7 +378,7 @@ function OrderCall({ locale, dict }: Props) {
               <li key={mode.key} data-reveal="up" style={vars({ "--d": index * 120 })}>
                 <Link href={mode.href} className="mode-link group">
                   <span className="flex-1">
-                    <span className="font-display block text-[1.2rem] font-semibold tracking-[0.03em]">{mode.title}</span>
+                    <span className="font-display block text-[1.05rem] font-semibold tracking-[0.03em] sm:text-[1.2rem]">{mode.title}</span>
                     <span className="mt-1 block text-[0.9375rem] text-ivory/75">{mode.text}</span>
                   </span>
                   <ArrowIcon className="text-gold" />

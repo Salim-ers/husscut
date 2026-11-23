@@ -85,6 +85,7 @@ export const meatCategories: readonly Section<MeatCategoryId>[] = [
       fr: "Escalopes, côtes, filet, blanquette et paupiettes.",
       en: "Escalopes, chops, fillet, blanquette and paupiettes.",
     },
+    ambiance: "veauJarretVitrine",
     products: [
       p("cote-de-veau", "Côte de veau", "Veal chop", {
         note: { fr: "Avec ou sans os", en: "Bone-in or boneless" },
@@ -104,6 +105,7 @@ export const meatCategories: readonly Section<MeatCategoryId>[] = [
       fr: "Côtes, gigot, épaule, souris et morceaux à mijoter.",
       en: "Chops, leg, shoulder, shank and cuts for slow cooking.",
     },
+    ambiance: "agneauCotelettesGrillees",
     products: [
       p("cotes-agneau", "Côtes d'agneau", "Lamb chops"),
       p("tranche-de-gigot", "Tranche de gigot", "Leg of lamb steak"),

@@ -141,11 +141,11 @@ const en: Dictionary = {
     gallery: {
       kicker: "The counter",
       title: "A display *worth a look*",
-      text: "Ribs under the neon, marbled cuts, roasts, grills: a glimpse of what crosses the counter.",
+      text: "Ribs under the neon, prime cuts, roasts, grills: a glimpse of what crosses the counter.",
       hint: "Scroll",
       captions: {
         neon: "Under the neon",
-        persille: "The marbling",
+        exception: "The prime cut",
         rotie: "The roast",
         papier: "On HussCut paper",
         vitrine: "The display",
@@ -273,9 +273,7 @@ const en: Dictionary = {
       deliveryText: "Order online through the platforms, on their own terms:",
     },
     form: {
-      smsIntro:
-        "Your request is sent by text message from your phone: prepare it here, read it over, then open your messaging app to send it to the shop.",
-      emailIntro: "Your request is emailed to the shop, which will reply using the contact details you give.",
+      intro: "Fill in this form: your request goes to the shop, which will reply by phone or by email.",
       required: "required",
       optional: "optional",
       name: "Your name",
@@ -297,9 +295,10 @@ const en: Dictionary = {
         availability: "The cut, quantity or weight you'd like, and when you'd like to come by",
         platter: "The occasion, your preferences, anything to avoid",
       },
-      submitSms: "Prepare my text message",
-      submitEmail: "Send my request",
+      submit: "Send my request",
       sending: "Sending…",
+      privacyNotice: "Your contact details are only used to reply to your request.",
+      privacyLink: "Privacy policy",
       errorSummary: "Please fix the highlighted fields to continue.",
       errors: {
         nameRequired: "Please enter your name.",
@@ -311,38 +310,30 @@ const en: Dictionary = {
         dateInvalid: "Please choose a date from today onwards.",
         topicInvalid: "Please choose what your request is about.",
       },
-      sms: {
-        greeting: "Hello HussCut, this is {name}.",
+      lines: {
+        greeting: "New request from {name}.",
         topic: "Subject: {topic}",
         product: "Product: {product}",
         people: "Number of people: {n}",
         date: "Preferred date: {date}",
-        sentFrom: "Prepared on the HussCut website.",
+        sentFrom: "Received through the HussCut website form.",
       },
-      ready: {
-        title: "Your text message is ready",
-        text: "Read it over, then open your messaging app: nothing is sent until you press Send in the app.",
-        preview: "Message prepared for {phone}",
-        open: "Open my messages",
-        copy: "Copy the message",
-        copied: "Message copied. Paste it into a text to {phone}.",
-        copyFailed: "Automatic copy didn't work. Select the message text to copy it.",
+      preview: {
+        title: "Your request is ready",
+        text: "Online sending will be switched on very soon: this request has not been passed to the shop yet. To order right now, give the shop a call.",
         edit: "Edit my request",
-        desktopHint: "On a computer, copy the message and send it from your phone, or call the shop.",
       },
       result: {
         sent: "Request sent to the shop. HussCut will reply using the contact details you gave.",
-        failed: "Sending failed: your request was not delivered. Try again, prepare a text message or call the shop.",
+        failed: "Sending failed: your request was not delivered. Try again in a moment or call the shop.",
         rateLimited: "Too many requests from this connection. Try again in a few minutes or call the shop.",
-        fallbackSms: "Prepare a text message instead",
       },
     },
     map: {
       title: "Map",
       consent:
-        "The map is provided by Google Maps. Showing it loads content from Google, which may set cookies and receive your IP address.",
+        "The map is provided by Google Maps, which may set cookies and receive your IP address. It is shown if you accept it.",
       show: "Show the map",
-      remember: "Remember my choice on this device",
       hide: "Hide the map",
       frameTitle: "Google Maps: HussCut, 13 avenue Philippe-Auguste, Paris",
       alternative: "Without the map, directions open straight in your navigation app.",
@@ -411,7 +402,7 @@ const en: Dictionary = {
     design: { title: "Design and development", text: "Website designed and built by QuadCore." },
     ip: {
       title: "Intellectual property",
-      text: "The photographs, logo, emblem and HussCut sign belong to their respective owners. Any reproduction without permission is prohibited.",
+      text: "The photographs, logo, emblem and HussCut sign belong to their respective owners. Any reproduction without permission is prohibited. The illustrative photos in the Veal and Lamb sections come from the free image libraries Pexels and Unsplash.",
     },
     reviews: {
       title: "Customer reviews",
@@ -428,19 +419,14 @@ const en: Dictionary = {
     },
     sections: [
       {
-        id: "sms",
-        title: "Requests by text message",
-        text: "When you prepare a text message, it is composed in your browser and is not sent to the website. It is sent from your phone, through your carrier. The shop receives your number and the message in order to reply.",
-      },
-      {
         id: "email",
         title: "Requests by email",
-        text: "If email sending is enabled, your name, reply details and message are sent to the shop by an email delivery provider acting on its behalf. They are used only to answer your request.",
+        text: "The details entered in the Order form (name, phone or email, message and, where relevant, product, number of people and date) are emailed to the shop through an email delivery provider acting on its behalf. They are only used to reply to your request and are never sold or used for advertising.",
       },
       {
         id: "map",
         title: "Google Maps",
-        text: "The map only loads if you click “Show the map”. Google then receives your IP address and may set cookies, under its own privacy policy.",
+        text: "The map is only loaded if you accept it, from the cookie banner or the “Show the map” button. Google then receives your IP address and may set cookies, under its own privacy policy. You can change your mind at any time on the Cookies page.",
       },
       {
         id: "links",
@@ -464,19 +450,30 @@ const en: Dictionary = {
   },
 
   cookies: {
-    intro: "The HussCut website uses no analytics or advertising cookies. It does not set any cookies itself.",
+    intro:
+      "The HussCut website uses no analytics or advertising cookies. It does not set any cookies itself: only the Google Maps map, if you accept it, may do so.",
+    banner: {
+      label: "Cookies",
+      text: "To show the access map, Google Maps may set cookies. Nothing is loaded without your consent.",
+      accept: "Accept",
+      refuse: "Decline",
+      more: "Learn more",
+    },
     storageTitle: "What the site keeps on your device",
     storage: [
       "The animated introduction plays once per visit: this is remembered for your browser session only.",
-      "If you tick “Remember my choice” under the map, your consent to Google Maps is kept on this device until you withdraw it here.",
+      "Your choice for Google Maps (accepted or declined) is kept on this device, without a cookie, until you change it here.",
+      "The order form sets no cookies.",
     ],
     thirdPartyTitle: "Third-party content",
-    thirdParty: "Only the Google Maps map, loaded after your click, may set Google cookies.",
+    thirdParty: "Only the Google Maps map, loaded after your consent, may set Google cookies.",
     preferencesTitle: "Your preferences",
-    mapAllowed: "Google Maps: shown automatically on this device.",
-    mapAsk: "Google Maps: the site asks you before showing it.",
-    revoke: "Withdraw my consent for the map",
-    revoked: "Done: the map will no longer show without your click.",
+    mapAllowed: "Google Maps: accepted, shown automatically on this device.",
+    mapDenied: "Google Maps: declined. It only shows if you click “Show the map”.",
+    mapAsk: "Google Maps: no choice saved yet, the site will ask you.",
+    accept: "Accept the map",
+    revoke: "Decline the map",
+    saved: "Saved.",
   },
 
   errors: errorCopy.en,

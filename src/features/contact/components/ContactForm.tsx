@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { type ChangeEvent, type FormEvent, type ReactNode, useActionState, useEffect, useId, useRef, useState } from "react";
-import { AlertIcon, CheckIcon, CloseIcon, CopyIcon, MessageIcon, PhoneIcon } from "@/components/ui/icons";
+import { AlertIcon, ArrowIcon, CheckIcon, CloseIcon, PhoneIcon } from "@/components/ui/icons";
 import type { Locale } from "@/i18n/config";
 import { format } from "@/i18n/typography";
 import type { Dictionary } from "@/i18n/dictionaries/fr";
 import { type ContactActionState, sendContactRequest } from "../actions/send-contact-request";
-import { composeRequestText, smsHref } from "../lib/compose-message";
 import { type ContactTopic, contactTopics, isContactTopic } from "../lib/topics";
 import {
   type ContactField,
@@ -22,11 +22,16 @@ type FormCopy = Dictionary["contact"]["form"];
 
 interface ContactFormProps {
   locale: Locale;
-  /** « sms » tant que l'envoi e-mail n'est pas configuré côté serveur. */
-  mode: "sms" | "email";
+  /**
+   * « email » : la demande part réellement à la boutique (action serveur, prestataire d'envoi).
+   * « preview » : envoi pas encore configuré ; le formulaire le dit clairement, rien n'est transmis.
+   */
+  mode: "email" | "preview";
   copy: FormCopy;
   phone: { e164: string; display: string };
   callLabel: string;
+  /** Lien vers la politique de confidentialité, affiché sous le bouton d'envoi. */
+  privacyHref: string;
   /** Noms des produits dans la langue courante, pour le préremplissage depuis le catalogue. */
   productNames: Record<string, string>;
   /** Objet coché par défaut (sans paramètre ?topic dans l'adresse). */
@@ -47,19 +52,17 @@ const FIELD_ORDER: ContactField[] = ["name", "replyTo", "topic", "people", "date
 
 const initialValues: Values = { name: "", replyTo: "", topic: "question", item: "", people: "", date: "", message: "" };
 
-export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel, productNames, defaultTopic = "question" }: ContactFormProps) {
+/** Formulaire de demande : un vrai formulaire, transmis à la boutique par e-mail. */
+export function ContactForm({ locale, mode, copy, phone, callLabel, privacyHref, productNames, defaultTopic = "question" }: ContactFormProps) {
   const uid = useId();
-  const [mode, setMode] = useState(initialMode);
   const [values, setValues] = useState<Values>({ ...initialValues, topic: defaultTopic });
   const [errors, setErrors] = useState<FieldErrors>({});
   const [summary, setSummary] = useState(false);
-  const [smsText, setSmsText] = useState<string | null>(null);
-  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+  const [previewReady, setPreviewReady] = useState(false);
   const [session, setSession] = useState<{ today: string; startedAt: number; requestId: string } | null>(null);
   const [state, formAction, pending] = useActionState<ContactActionState, FormData>(sendContactRequest, { status: "idle" });
 
   const fieldRefs = useRef<Partial<Record<ContactField, HTMLElement | null>>>({});
-  const readyHeading = useRef<HTMLHeadingElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
   // Préremplissage depuis le catalogue (?topic=availability&item=…) et horodatage de session.
@@ -77,12 +80,8 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
   }, [productNames]);
 
   useEffect(() => {
-    if (smsText) readyHeading.current?.focus();
-  }, [smsText]);
-
-  useEffect(() => {
-    if (state.status === "sent" || state.status === "failed" || state.status === "rateLimited") resultRef.current?.focus();
-  }, [state]);
+    if (previewReady || state.status === "sent" || state.status === "failed" || state.status === "rateLimited") resultRef.current?.focus();
+  }, [state, previewReady]);
 
   const shownErrors: FieldErrors = Object.keys(errors).length > 0 ? errors : state.status === "invalid" ? state.errors : {};
 
@@ -96,16 +95,12 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
     };
   }
 
-  function validate() {
-    return validateContact(values, {
-      requireReplyTo: mode === "email",
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    const result = validateContact(values, {
+      requireReplyTo: true,
       today: session?.today ?? parisToday(),
       isKnownItem: (id) => id in productNames,
     });
-  }
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    const result = validate();
     if (!result.success) {
       event.preventDefault();
       setErrors(result.errors);
@@ -116,87 +111,51 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
     }
     setErrors({});
     setSummary(false);
-    if (mode === "sms") {
+    if (mode === "preview") {
+      // Envoi non configuré : rien ne part, et le visiteur en est informé.
       event.preventDefault();
-      setCopyState("idle");
-      setSmsText(
-        composeRequestText(result.data, {
-          locale,
-          copy: { ...copy.sms, topics: copy.topics },
-          productName: result.data.item ? productNames[result.data.item] : undefined,
-        }),
-      );
+      setPreviewReady(true);
     }
     // Mode e-mail : l'action serveur prend le relais (validation refaite côté serveur).
-  }
-
-  async function copyMessage() {
-    if (!smsText) return;
-    try {
-      await navigator.clipboard.writeText(smsText);
-      setCopyState("copied");
-    } catch {
-      setCopyState(legacyCopy(smsText) ? "copied" : "failed");
-    }
   }
 
   const describedBy = (field: ContactField, hint?: string) =>
     [shownErrors[field] ? `${uid}-${field}-error` : null, hint].filter(Boolean).join(" ") || undefined;
 
-  /* ---- SMS prêt ------------------------------------------------------------ */
-  if (mode === "sms" && smsText) {
+  /* ---- Envoi confirmé par le prestataire ----------------------------------- */
+  if (mode === "email" && state.status === "sent") {
     return (
-      <div className="flex flex-col gap-5" role="region" aria-labelledby={`${uid}-ready`}>
+      <div ref={resultRef} tabIndex={-1} role="status" className="flex items-start gap-3 focus:outline-none" data-form-result="sent">
+        <span className="mt-1 inline-flex size-8 flex-none items-center justify-center rounded-full bg-gold text-ink">
+          <CheckIcon />
+        </span>
+        <p className="lede">{copy.result.sent}</p>
+      </div>
+    );
+  }
+
+  /* ---- Aperçu : demande prête, mais pas transmise --------------------------- */
+  if (mode === "preview" && previewReady) {
+    return (
+      <div ref={resultRef} tabIndex={-1} role="status" className="flex flex-col gap-5 focus:outline-none" data-form-result="preview">
         <div className="flex items-start gap-3">
           <span className="mt-1 inline-flex size-8 flex-none items-center justify-center rounded-full bg-gold text-ink">
             <CheckIcon />
           </span>
           <div>
-            <h3 id={`${uid}-ready`} ref={readyHeading} tabIndex={-1} className="display-3 focus:outline-none">
-              {copy.ready.title}
-            </h3>
-            <p className="mt-2 text-mute">{copy.ready.text}</p>
+            <h3 className="display-3">{copy.preview.title}</h3>
+            <p className="mt-2 text-mute">{copy.preview.text}</p>
           </div>
         </div>
-        <div>
-          <p className="text-sm font-semibold">{format(copy.ready.preview, { phone: phone.display })}</p>
-          <pre data-sms-preview className="mt-2 rounded-[14px] border border-ivory/15 bg-ink p-4 font-sans text-[0.9875rem] whitespace-pre-wrap select-all">
-            {smsText}
-          </pre>
-        </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-          <a href={smsHref(phone.e164, smsText)} className="btn btn-primary" data-sms-link>
-            <MessageIcon />
-            {copy.ready.open}
-          </a>
-          <button type="button" className="btn btn-secondary" onClick={copyMessage}>
-            <CopyIcon />
-            {copy.ready.copy}
-          </button>
-          <a href={`tel:${phone.e164}`} className="btn btn-secondary">
+          <a href={`tel:${phone.e164}`} className="btn btn-primary">
             <PhoneIcon />
             {callLabel}
           </a>
+          <button type="button" className="btn btn-secondary" onClick={() => setPreviewReady(false)}>
+            {copy.preview.edit}
+          </button>
         </div>
-        <p aria-live="polite" className="min-h-6 text-[0.9375rem] font-medium">
-          {copyState === "copied" ? format(copy.ready.copied, { phone: phone.display }) : copyState === "failed" ? copy.ready.copyFailed : ""}
-        </p>
-        <p className="hidden text-sm text-mute [@media(hover:hover)_and_(pointer:fine)]:block">{copy.ready.desktopHint}</p>
-        <button type="button" className="link-quiet self-start" onClick={() => setSmsText(null)}>
-          {copy.ready.edit}
-        </button>
-      </div>
-    );
-  }
-
-  /* ---- E-mail envoyé -------------------------------------------------------- */
-  if (mode === "email" && state.status === "sent") {
-    return (
-      <div ref={resultRef} tabIndex={-1} role="status" className="flex items-start gap-3 focus:outline-none">
-        <span className="mt-1 inline-flex size-8 flex-none items-center justify-center rounded-full bg-gold text-ink">
-          <CheckIcon />
-        </span>
-        <p className="lede">{copy.result.sent}</p>
       </div>
     );
   }
@@ -208,7 +167,7 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
   return (
     <form action={formAction} onSubmit={handleSubmit} noValidate className="flex flex-col gap-6" aria-describedby={`${uid}-intro`}>
       <p id={`${uid}-intro`} className="text-mute">
-        {mode === "sms" ? copy.smsIntro : copy.emailIntro}
+        {copy.intro}
       </p>
 
       {summary && Object.keys(shownErrors).length > 0 ? (
@@ -226,34 +185,28 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
         <input id={`${uid}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
       </div>
 
-      <Field id={`${uid}-name`} label={copy.name} flag={copy.required} error={shownErrors.name && copy.errors[shownErrors.name]} errorId={`${uid}-name-error`}>
-        <input
-          ref={(node) => {
-            fieldRefs.current.name = node;
-          }}
-          id={`${uid}-name`}
-          name="name"
-          type="text"
-          className="field"
-          autoComplete="name"
-          maxLength={120}
-          required
-          aria-required="true"
-          aria-invalid={shownErrors.name ? true : undefined}
-          aria-describedby={describedBy("name")}
-          value={values.name}
-          onChange={update("name")}
-        />
-      </Field>
+      <div className="grid gap-6 sm:grid-cols-2">
+        <Field id={`${uid}-name`} label={copy.name} flag={copy.required} error={shownErrors.name && copy.errors[shownErrors.name]} errorId={`${uid}-name-error`}>
+          <input
+            ref={(node) => {
+              fieldRefs.current.name = node;
+            }}
+            id={`${uid}-name`}
+            name="name"
+            type="text"
+            className="field"
+            autoComplete="name"
+            maxLength={120}
+            required
+            aria-required="true"
+            aria-invalid={shownErrors.name ? true : undefined}
+            aria-describedby={describedBy("name")}
+            value={values.name}
+            onChange={update("name")}
+          />
+        </Field>
 
-      {mode === "email" ? (
-        <Field
-          id={`${uid}-replyTo`}
-          label={copy.replyTo}
-          flag={copy.required}
-          error={shownErrors.replyTo && copy.errors[shownErrors.replyTo]}
-          errorId={`${uid}-replyTo-error`}
-        >
+        <Field id={`${uid}-replyTo`} label={copy.replyTo} flag={copy.required} error={shownErrors.replyTo && copy.errors[shownErrors.replyTo]} errorId={`${uid}-replyTo-error`}>
           <input
             ref={(node) => {
               fieldRefs.current.replyTo = node;
@@ -272,7 +225,7 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
             onChange={update("replyTo")}
           />
         </Field>
-      ) : null}
+      </div>
 
       <fieldset
         ref={(node) => {
@@ -387,22 +340,25 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
             <AlertIcon className="mt-0.5 flex-none" />
             {failure === "rateLimited" ? copy.result.rateLimited : copy.result.failed}
           </p>
-          <div className="mt-2 flex flex-wrap gap-3">
-            <button type="button" className="link-quiet" onClick={() => setMode("sms")}>
-              {copy.result.fallbackSms}
-            </button>
-            <a href={`tel:${phone.e164}`} className="link-quiet">
-              {callLabel}
-            </a>
-          </div>
+          <a href={`tel:${phone.e164}`} className="link-quiet mt-2 self-start">
+            <PhoneIcon />
+            {callLabel}
+          </a>
         </div>
       ) : null}
 
-      <div>
-        <button type="submit" className="btn btn-primary w-full sm:w-auto" aria-busy={pending || undefined} disabled={pending}>
-          {pending ? <span className="spinner" aria-hidden="true" /> : mode === "sms" ? <MessageIcon /> : null}
-          {pending ? copy.sending : mode === "sms" ? copy.submitSms : copy.submitEmail}
+      <div className="flex flex-col gap-4">
+        <button type="submit" className="btn btn-primary w-full sm:w-auto sm:self-start" aria-busy={pending || undefined} disabled={pending}>
+          {pending ? <span className="spinner" aria-hidden="true" /> : null}
+          {pending ? copy.sending : copy.submit}
+          {pending ? null : <ArrowIcon />}
         </button>
+        <p className="text-sm text-mute">
+          {copy.privacyNotice}{" "}
+          <Link href={privacyHref} className="link-inline">
+            {copy.privacyLink}
+          </Link>
+        </p>
       </div>
     </form>
   );
@@ -423,23 +379,4 @@ function Field({ id, label, flag, error, errorId, children }: { id: string; labe
       ) : null}
     </div>
   );
-}
-
-/** Copie de secours pour les navigateurs sans API Clipboard (contexte non sécurisé, anciens WebView). */
-function legacyCopy(text: string): boolean {
-  const area = document.createElement("textarea");
-  area.value = text;
-  area.setAttribute("readonly", "");
-  area.style.position = "fixed";
-  area.style.opacity = "0";
-  document.body.appendChild(area);
-  area.select();
-  let copied = false;
-  try {
-    copied = document.execCommand("copy");
-  } catch {
-    copied = false;
-  }
-  area.remove();
-  return copied;
 }

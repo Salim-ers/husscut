@@ -97,9 +97,11 @@ describe("dictionnaires", () => {
       const text = JSON.stringify(dict);
       expect(text).not.toMatch(/\bd[ée]mo\b|lorem|ipsum/i);
       expect(text).not.toMatch(/€/);
-      // « envoyé » n'apparaît que dans le résultat du mode e-mail, après acceptation du prestataire.
-      const smsCopy = JSON.stringify({ ready: dict.contact.form.ready, sms: dict.contact.form.sms });
-      expect(smsCopy).not.toMatch(/message envoyé|message sent/i);
+      // « envoyé » n'apparaît que dans le résultat du mode e-mail, après acceptation du prestataire :
+      // l'aperçu (envoi non configuré) dit explicitement que rien n'a été transmis.
+      const preview = JSON.stringify(dict.contact.form.preview);
+      expect(preview).not.toMatch(/envoyée?\b|\bsent\b/i);
+      expect(preview).toMatch(/pas encore été transmise|not been passed/);
     }
   });
 });

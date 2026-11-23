@@ -38,11 +38,12 @@ Ces résultats ne constituent pas un audit indépendant : ils ont été produits
   l'écran se révèle.
 - Catalogue : filtre par rayon, URL partageable, lien direct filtré, « Demander la disponibilité »
   préremplit le formulaire (sujet + produit), retrait du produit, coffrets avec personnes et date.
-- Formulaire : erreurs explicites et focus sur le premier champ fautif ; « Préparer mon SMS »
-  produit un lien `sms:+33665637611?&body=…` contenant la demande ; aucune mention d'envoi ;
-  copie du message ; retour à l'édition sans perte ; version anglaise.
-- Carte : aucune requête vers Google avant le clic ; itinéraire disponible sans la carte ;
-  accord mémorisé à la demande ; retrait depuis la page Cookies.
+- Formulaire (page Commander uniquement) : erreurs explicites et focus sur le premier champ fautif ;
+  sans envoi configuré, la demande n'est jamais présentée comme envoyée (aperçu explicite, appel
+  proposé) ; aucun lien `sms:` ; lien vers la politique de confidentialité ; version anglaise.
+- Cookies et carte : bandeau à la première visite (Accepter / Refuser de même poids) ; refus gardé,
+  aucune requête vers Google ; accord : carte affichée d'emblée dans « Nous trouver » ; choix
+  modifiable sur la page Cookies ; itinéraire disponible sans la carte.
 - Clavier : lien d'évitement ; menu mobile ouvert au clavier, Échap, focus restitué.
 - Cibles tactiles ≥ 44 px pour les actions principales (accueil, viandes, contact).
 
@@ -50,9 +51,9 @@ Ces résultats ne constituent pas un audit indépendant : ils ont été produits
 
 Catalogue (pas de doublon, pas de prix ni de poids, espèce explicite pour les noms ambigus),
 avis (initiales seulement), données de la boutique, dictionnaires FR/EN de même forme et sans
-« message envoyé » côté SMS, routes et ancres, typographie, horaires (fuseau de Paris, changement
+« demande envoyée » dans l'aperçu, routes et ancres, typographie, horaires (fuseau de Paris, changement
 d'heure), données structurées (pas de note agrégée ni d'horaires non confirmés), validation du
-formulaire, composition du SMS, envoi e-mail simulé (succès uniquement avec identifiant ; refus,
+formulaire, composition de l'e-mail, envoi e-mail simulé (succès uniquement avec identifiant ; refus,
 réponse invalide, coupure réseau et délai dépassé traités comme échecs ; journaux sans données
 personnelles ; en-têtes neutralisés), limitation de débit, contrôle de publication.
 
@@ -84,7 +85,6 @@ la photo d'ouverture sur mobile.
 - Appareils réels (iPhone, Android, iPad), Safari et Firefox : non disponibles dans cet
   environnement. Les View Transitions sont une amélioration progressive ; sans elles, la
   navigation est instantanée.
-- Ouverture effective de l'application SMS sur téléphone (le lien est vérifié, pas son ouverture).
 - Envoi e-mail réel : non configuré, testé uniquement avec un prestataire simulé.
 - Téléviseurs et bornes : couverts par le balayage 2560/3840 px seulement (pas de navigation télécommande prévue).
 - Mesures de terrain des Core Web Vitals.
@@ -95,7 +95,7 @@ la photo d'ouverture sur mobile.
 |---|---|---|
 | Architecture | Validé | Modules par fonctionnalité, contenu centralisé, typage strict |
 | Frontend | Validé | Recette sur 4 largeurs, balayage de 11 largeurs, axe sans violation |
-| Backend | Partiellement validé | Mode SMS opérationnel ; mode e-mail testé en simulation, non configuré |
+| Backend | Partiellement validé | Formulaire en mode aperçu ; envoi e-mail testé en simulation, non configuré |
 | Database | Non applicable | Aucune donnée persistée |
 | Sécurité | Partiellement validé | En-têtes, validation serveur, secrets hors client ; CSP avec `'unsafe-inline'` (limite connue) ; limitation de débit par instance |
 | UX/UI | Validé | Direction artistique propre à HussCut, revue sur captures |

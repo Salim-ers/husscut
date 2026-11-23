@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { fontVariables } from "@/app/fonts";
+import { CookieBanner } from "@/components/layout/CookieBanner";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { BOOT_SCRIPT, NeonIntro } from "@/components/motion/NeonIntro";
@@ -10,6 +11,7 @@ import { RouteEffects } from "@/components/motion/RouteEffects";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { isLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
+import { pathFor } from "@/i18n/routes";
 import { plain } from "@/i18n/typography";
 import { siteUrl } from "@/lib/site";
 import { storeJsonLd } from "@/lib/structured-data";
@@ -60,6 +62,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
           {children}
         </main>
         <SiteFooter locale={locale} dict={dict} />
+        <CookieBanner copy={dict.cookies.banner} cookiesHref={pathFor(locale, "cookies")} />
         <RouteEffects mainId={MAIN_ID} />
         <JsonLd data={storeJsonLd(locale, plain(dict.meta.home.description))} />
       </body>

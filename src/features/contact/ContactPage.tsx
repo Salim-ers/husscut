@@ -38,8 +38,8 @@ export function ContactPage({ locale, dict }: { locale: Locale; dict: Dictionary
 
       {/* Venir au comptoir */}
       <section id={pageAnchors.visit[locale]} className="section scroll-mt-24" aria-labelledby="visit-title">
-        <div className="container-site grid gap-14 lg:grid-cols-12 lg:gap-6">
-          <div className="lg:col-span-6">
+        <div className="container-site grid gap-12 md:grid-cols-12 md:gap-8 lg:gap-6">
+          <div className="md:col-span-7 lg:col-span-6">
             <SplitWords as="h2" id="visit-title" text={c.visit.title} className="display-1" />
             <dl className="mt-10 grid gap-6 sm:grid-cols-2" data-reveal="up">
               <div className="sm:col-span-2">
@@ -75,8 +75,8 @@ export function ContactPage({ locale, dict }: { locale: Locale; dict: Dictionary
               <HoursTable locale={locale} dict={dict.hours} />
             </div>
           </div>
-          <div className="self-start lg:col-span-5 lg:col-start-8">
-            <Photo photo="silhouetteNeon" locale={locale} sizes="(min-width: 64rem) 36vw, 92vw" ratio="4 / 5" large reveal />
+          <div className="mx-auto w-full max-w-sm self-start md:col-span-5 md:max-w-none lg:col-start-8">
+            <Photo photo="silhouetteNeon" locale={locale} sizes="(min-width: 64rem) 36vw, (min-width: 48rem) 40vw, 92vw" ratio="4 / 5" large reveal />
           </div>
         </div>
       </section>
@@ -129,12 +129,12 @@ export function ContactPage({ locale, dict }: { locale: Locale; dict: Dictionary
               </h2>
               <p className="mt-2 text-mute">{c.map.alternative}</p>
             </div>
-            <ExternalLink href={business.directionsUrl} newTabLabel={dict.a11y.newTab} className="btn btn-secondary self-start sm:self-auto">
+            <ExternalLink href={business.directionsUrl} newTabLabel={dict.a11y.newTab} className="btn btn-secondary shrink-0 self-start whitespace-nowrap sm:self-auto">
               <PinIcon />
               {dict.actions.startDirections}
             </ExternalLink>
           </div>
-          <MapConsent embedUrl={business.mapEmbedUrl} copy={c.map} />
+          <MapConsent embedUrl={business.mapEmbedUrl} address={`${business.address.street}, ${business.address.postalCode} ${business.address.city}`} copy={c.map} />
         </div>
       </section>
     </>

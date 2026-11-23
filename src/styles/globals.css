@@ -155,7 +155,7 @@
 
   /* Rythme vertical commun à toutes les sections. */
   .section {
-    padding-block: clamp(5rem, 3rem + 6vw, 9rem);
+    padding-block: clamp(4rem, 2.4rem + 6vw, 9rem);
   }
 
   /* ---- Ambiance ----------------------------------------------------------
@@ -881,6 +881,19 @@ html[data-intro="play"] {
   background: var(--color-char);
   clip-path: var(--hero-clip);
 }
+@media (max-width: 63.999rem) {
+  /* Téléphone et tablette : la photo occupe le haut de l'écran, bord bas taillé en biais
+     (la coupe), et le texte se lit ensuite sur l'ardoise, jamais sur le néon. */
+  .hero__media {
+    bottom: auto;
+    height: var(--hero-photo-h);
+    --hero-clip-from: polygon(0 0, 0 0, 0 100%, 0 100%);
+    --hero-clip: polygon(0 0, 100% 0, 100% 86%, 0 100%);
+  }
+  .hero {
+    --hero-photo-h: clamp(17rem, 47svh, 34rem);
+  }
+}
 @media (min-width: 64rem) {
   /* Sur grand écran, la photo occupe la droite, bord gauche taillé en biais. */
   .hero__media {
@@ -898,8 +911,8 @@ html[data-intro="play"] {
   z-index: -1;
   pointer-events: none;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--color-ink) 50%, transparent) 0%, transparent 26%, color-mix(in srgb, var(--color-ink) 35%, transparent) 50%, var(--color-ink) 100%),
-    radial-gradient(70% 45% at 0% 100%, color-mix(in srgb, var(--color-crimson) 40%, transparent), transparent 70%);
+    linear-gradient(180deg, color-mix(in srgb, var(--color-ink) 60%, transparent) 0, transparent 7rem, transparent calc(var(--hero-photo-h, 52svh) - 9rem), color-mix(in srgb, var(--color-ink) 70%, transparent) var(--hero-photo-h, 52svh)),
+    radial-gradient(80% 40% at 0% 85%, color-mix(in srgb, var(--color-crimson) 32%, transparent), transparent 100%);
 }
 @media (min-width: 64rem) {
   .hero__veil {
@@ -928,6 +941,11 @@ html[data-intro="play"] {
   transform-origin: left center;
   opacity: 0;
 }
+@media (max-width: 63.999rem) {
+  .hero__cutline {
+    top: 30svh;
+  }
+}
 .hero__blade {
   position: absolute;
   top: calc(58% - 1.3rem);
@@ -935,6 +953,11 @@ html[data-intro="play"] {
   width: clamp(9rem, 22vw, 16rem);
   transform-origin: left center;
   opacity: 0;
+}
+@media (max-width: 63.999rem) {
+  .hero__blade {
+    top: calc(30svh - 1.3rem);
+  }
 }
 .hero-line-mask {
   display: block;
@@ -1258,9 +1281,18 @@ html[data-intro="play"] {
   transform: translate3d(calc(var(--k) * 2.5%), calc(var(--k) * 3%), 0) rotate(calc(var(--k) * 1.5deg));
 }
 .knife-scene {
-  /* Avancement de la lame (0,1 → 0,7 du défilement) et de l'écartement (0,55 → 1). */
-  --b: clamp(0, (var(--p) - 0.1) / 0.6, 1);
-  --k: clamp(0, (var(--p) - 0.55) / 0.45, 1);
+  /* Mobile (scène non épinglée) : la coupe se joue pendant que la photo traverse le milieu
+     de l'écran, l'écartement est fini avant qu'elle n'en sorte. */
+  --b: clamp(0, (var(--p) - 0.3) / 0.28, 1);
+  --k: clamp(0, (var(--p) - 0.55) / 0.15, 1);
+}
+@media (min-width: 64rem) {
+  /* Épinglée : la lame (0,05 → 0,55) puis l'écartement (0,5 → 0,85) ; la scène se libère
+     aussitôt après, sans défilement « à vide ». */
+  .knife-scene {
+    --b: clamp(0, (var(--p) - 0.05) / 0.5, 1);
+    --k: clamp(0, (var(--p) - 0.5) / 0.35, 1);
+  }
 }
 .knife-scene__cut {
   position: absolute;
@@ -1294,14 +1326,14 @@ html[data-intro="play"] {
   /* Pointe du couteau (99,5 % ; 61 %) posée sur la coupe ; pente de la coupe dans un cadre 4/5 : atan(0,4). */
   transform: translate(-99.5%, -61%) rotate(-21.8deg);
   transform-origin: 99.5% 61%;
-  opacity: calc(1 - var(--k));
+  opacity: calc(min(1, var(--b) * 12) * (1 - var(--k)));
   filter: drop-shadow(0 10px 20px rgb(0 0 0 / 0.6));
 }
 
 /* ---- Zoom : la photo grandit dans son cadre à mesure qu'on avance. ------------- */
 .zoom-scene {
   /* Sur mobile (non épinglé), le zoom est complet à mi-traversée de l'écran. */
-  --z: clamp(0, var(--p) * 2, 1);
+  --z: clamp(0, (var(--p) - 0.1) * 2.6, 1);
 }
 .zoom-scene__frame {
   position: relative;
@@ -1318,7 +1350,7 @@ html[data-intro="play"] {
 }
 @media (min-width: 64rem) {
   .zoom-scene {
-    --z: clamp(0, var(--p) * 1.6, 1);
+    --z: clamp(0, var(--p) * 1.25, 1);
   }
   .zoom-scene__content {
     opacity: clamp(0, (var(--p) + 0.05) * 4, 1);
@@ -1356,8 +1388,10 @@ html[data-intro="play"] {
 .hscroll__card:nth-child(3n + 2) {
   width: min(82vw, 30rem);
 }
-.hscroll__card:nth-child(even) {
-  margin-top: 2.5rem;
+@media (min-width: 64rem) {
+  .hscroll__card:nth-child(even) {
+    margin-top: 2.5rem;
+  }
 }
 .hscroll.is-pinned {
   height: var(--pin-h, 300vh);
@@ -1400,11 +1434,16 @@ html[data-intro="play"] {
 
 /* ---- Cartes empilées (« La carte ») ---------------------------------------- */
 .stack-card {
-  position: sticky;
-  top: calc(var(--header-h) + 0.75rem + var(--i, 0) * 1.25rem);
+  position: relative;
   border-radius: var(--radius-comp);
   overflow: hidden;
   box-shadow: 0 -24px 60px -30px rgb(0 0 0 / 0.85);
+}
+@media (min-width: 48rem) and (min-height: 40rem) {
+  .stack-card {
+    position: sticky;
+    top: calc(var(--header-h) + 0.75rem + var(--i, 0) * 1.25rem);
+  }
 }
 
 /* ==========================================================================
@@ -1692,5 +1731,123 @@ html[data-intro="play"] .intro {
 @media (min-width: 64rem) {
   .hscroll:not(.is-pinned) {
     padding-block: clamp(5rem, 3rem + 6vw, 9rem);
+  }
+}
+
+/* ==========================================================================
+   Bandeau cookies (Google Maps) : compact, non bloquant, deux choix de même poids
+   ========================================================================== */
+
+.cookie-banner {
+  position: fixed;
+  z-index: 70;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: max(0.75rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-width: 34rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-card);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 22%, transparent);
+  background: color-mix(in srgb, var(--color-char) 94%, transparent);
+  box-shadow: 0 24px 60px -20px rgb(0 0 0 / 0.85);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+@media (min-width: 40rem) {
+  .cookie-banner {
+    left: 1.25rem;
+    right: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.25rem;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cookie-banner {
+    animation: rise-in 600ms var(--ease-soft) both;
+    animation-delay: calc(var(--intro-offset) + 1.2s);
+  }
+}
+
+/* ==========================================================================
+   Plan dessiné (avant accord pour Google Maps) : rues, avenue dorée, repère
+   ========================================================================== */
+
+.map-placeholder {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  background:
+    radial-gradient(40% 30% at var(--glow-at, 50% 20%), color-mix(in srgb, var(--color-crimson) 34%, transparent), transparent 100%),
+    linear-gradient(118deg, transparent 47.2%, color-mix(in srgb, var(--color-gold) 30%, transparent) 47.4% 48.6%, transparent 48.8%),
+    linear-gradient(28deg, transparent 61%, color-mix(in srgb, var(--color-ivory) 12%, transparent) 61.2% 62.2%, transparent 62.4%),
+    repeating-linear-gradient(28deg, transparent 0 54px, color-mix(in srgb, var(--color-ivory) 6%, transparent) 54px 56px),
+    repeating-linear-gradient(-62deg, transparent 0 78px, color-mix(in srgb, var(--color-ivory) 5%, transparent) 78px 80px),
+    linear-gradient(165deg, var(--color-char-2), var(--color-ink));
+}
+.map-placeholder__pin {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin: -1.625rem 0 0 -1.625rem;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-ink);
+  box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-gold) 18%, transparent), 0 12px 30px -8px rgb(0 0 0 / 0.8);
+}
+.map-placeholder__pin svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .map-placeholder__pin::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid var(--color-gold);
+    animation: pin-pulse 2.4s var(--ease-soft) infinite;
+  }
+}
+@keyframes pin-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+.map-placeholder__panel {
+  position: relative;
+  margin: 1rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--color-ink) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-ivory) 10%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+@media (min-width: 40rem) {
+  .map-placeholder {
+    --glow-at: 74% 40%;
+  }
+  .map-placeholder__pin {
+    left: 74%;
+    top: 40%;
+  }
+  .map-placeholder__panel {
+    margin: 1.5rem;
+    max-width: 30rem;
   }
 }

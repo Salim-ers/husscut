@@ -66,17 +66,27 @@ tests/e2e/                        Playwright
 Catalogue ─ ligne produit (lien) → /commander?topic=availability&item=<id>#formulaire
                                                     │
                        validation Zod (navigateur) ─┤
-                                                    ├─ mode SMS (défaut) : texte composé localement,
-                                                    │  lien sms: explicite, copie, appel. Rien ne transite
-                                                    │  par le site ; jamais « message envoyé ».
-                                                    └─ mode e-mail (si configuré) : action serveur →
-                                                       champ piège, délai minimal, limitation de débit,
-                                                       validation Zod serveur, Resend avec délai (8 s)
-                                                       et clé d'idempotence → « envoyée » seulement si
-                                                       le prestataire renvoie un identifiant.
+                                                    ├─ mode e-mail (si configuré) : action serveur →
+                                                    │  champ piège, délai minimal, limitation de débit,
+                                                    │  validation Zod serveur, Resend avec délai (8 s)
+                                                    │  et clé d'idempotence → « envoyée » seulement si
+                                                    │  le prestataire renvoie un identifiant.
+                                                    └─ mode aperçu (envoi non configuré) : rien ne part ;
+                                                       le visiteur lit que sa demande n'a pas été
+                                                       transmise et peut appeler la boutique.
 ```
 
-Le formulaire n'existe que sur la page « Commander » ; « Nous trouver » renvoie vers elle.
+Le formulaire n'existe que sur la page « Commander » ; « Nous trouver » renvoie vers elle. Aucun SMS
+n'est préparé côté visiteur : la boutique reçoit la demande par e-mail. Sous le bouton d'envoi, un
+lien mène à la politique de confidentialité.
+
+## Cookies et carte
+
+Un bandeau (`CookieBanner`) demande l'accord pour Google Maps, seul contenu tiers pouvant déposer des
+cookies : « Accepter » et « Refuser » ont le même poids. Le choix (`granted` / `denied`) est gardé dans
+`localStorage` (`src/lib/consent.ts`) et modifiable sur la page Cookies. Accepté : la carte s'affiche
+d'emblée dans « Nous trouver ». Refusé ou sans choix : un plan dessiné en CSS, sans aucune requête vers
+Google, avec un bouton « Afficher la carte ».
 
 ## Couleurs
 
@@ -121,7 +131,7 @@ Sans prise en charge des View Transitions, la navigation est simplement instanta
   `Permissions-Policy`, HSTS, COOP ; `noindex` hors production.
 - CSP avec `'unsafe-inline'` pour les scripts : nécessaire aux scripts en ligne de Next.js sur des
   pages statiques (pas de nonce par requête). Les autres directives sont strictes ; seule
-  `frame-src` autorise Google Maps, chargé après clic.
+  `frame-src` autorise Google Maps, chargé après accord du visiteur.
 - Aucun secret côté navigateur ; clés uniquement en variables d'environnement serveur.
 - Journaux sans données personnelles (codes d'erreur uniquement).
 - Limitation de débit en mémoire : limite connue sur une plateforme serverless (une mémoire par
@@ -130,5 +140,5 @@ Sans prise en charge des View Transitions, la navigation est simplement instanta
 ## Données personnelles
 
 Aucun cookie déposé par le site, aucune mesure d'audience. `sessionStorage` retient que l'intro a
-été vue ; `localStorage` retient l'accord pour la carte uniquement si le visiteur coche « Se souvenir ».
+été vue ; `localStorage` retient le choix du visiteur pour la carte (accepté ou refusé), modifiable sur la page Cookies.
 La page Cookies permet de retirer cet accord.

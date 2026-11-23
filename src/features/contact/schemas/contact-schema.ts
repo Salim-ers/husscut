@@ -51,7 +51,7 @@ export function parisToday(now: Date = new Date()): string {
 
 /**
  * Schéma partagé navigateur / serveur. Les messages d'erreur sont des codes, traduits à l'affichage.
- * `requireReplyTo` : obligatoire en mode e-mail (en SMS, la boutique reçoit déjà le numéro).
+ * `requireReplyTo` : toujours demandé par le formulaire : la boutique doit pouvoir répondre.
  */
 export function contactSchema(options: { requireReplyTo: boolean; today: string; isKnownItem: (id: string) => boolean }) {
   return z.object({

@@ -33,7 +33,7 @@ export function CatalogueSection<Id extends string>({
             <p className="mt-4 max-w-[36ch] text-mute">{typo(locale, section.description[locale])}</p>
             <p className="mt-2 text-sm text-gold">{format(labels.sectionCount, { n: section.products.length })}</p>
             {section.ambiance ? (
-              <Photo photo={section.ambiance} locale={locale} sizes="(min-width: 64rem) 30vw, 92vw" ratio="5 / 4" className="mt-8 hidden max-w-sm sm:block" reveal />
+              <Photo photo={section.ambiance} locale={locale} sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 60vw, 92vw" className="mt-8 aspect-[16/10] w-full sm:max-w-md lg:aspect-[5/4] lg:max-w-sm" reveal />
             ) : null}
           </div>
         </header>

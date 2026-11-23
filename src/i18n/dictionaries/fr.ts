@@ -145,11 +145,11 @@ const fr = {
     gallery: {
       kicker: "La vitrine",
       title: "Un étal *qui se regarde*",
-      text: "Côtes sous le néon, pièces persillées, rôtis, grillades : un aperçu de ce qui passe au comptoir.",
+      text: "Côtes sous le néon, pièces d'exception, rôtis, grillades : un aperçu de ce qui passe au comptoir.",
       hint: "Faites défiler",
       captions: {
         neon: "Sous le néon",
-        persille: "Le persillé",
+        exception: "La pièce d'exception",
         rotie: "La pièce rôtie",
         papier: "Sur le papier HussCut",
         vitrine: "La vitrine",
@@ -277,9 +277,7 @@ const fr = {
       deliveryText: "Commande en ligne sur les plateformes, selon leurs propres conditions :",
     },
     form: {
-      smsIntro:
-        "Votre demande part par SMS depuis votre téléphone : préparez le message ici, relisez-le, puis ouvrez votre messagerie pour l'envoyer à la boutique.",
-      emailIntro: "Votre demande est transmise par e-mail à la boutique, qui vous répond par le moyen indiqué.",
+      intro: "Remplissez ce formulaire : votre demande est transmise à la boutique, qui vous répond par téléphone ou par e-mail.",
       required: "obligatoire",
       optional: "facultatif",
       name: "Votre nom",
@@ -301,9 +299,10 @@ const fr = {
         availability: "La pièce, la quantité ou le poids souhaités, et quand vous aimeriez passer",
         platter: "L'occasion, vos préférences, ce que vous souhaitez éviter",
       },
-      submitSms: "Préparer mon SMS",
-      submitEmail: "Envoyer ma demande",
+      submit: "Envoyer ma demande",
       sending: "Envoi en cours…",
+      privacyNotice: "Vos coordonnées servent uniquement à répondre à votre demande.",
+      privacyLink: "Politique de confidentialité",
       errorSummary: "Corrigez les champs signalés pour continuer.",
       errors: {
         nameRequired: "Indiquez votre nom.",
@@ -315,39 +314,30 @@ const fr = {
         dateInvalid: "Choisissez une date à partir d'aujourd'hui.",
         topicInvalid: "Choisissez l'objet de votre demande.",
       },
-      sms: {
-        greeting: "Bonjour HussCut, c'est {name}.",
+      lines: {
+        greeting: "Nouvelle demande de {name}.",
         topic: "Objet : {topic}",
         product: "Produit : {product}",
         people: "Nombre de personnes : {n}",
         date: "Date souhaitée : {date}",
-        sentFrom: "Message préparé sur le site HussCut.",
+        sentFrom: "Demande reçue via le formulaire du site HussCut.",
       },
-      ready: {
-        title: "Votre SMS est prêt",
-        text: "Relisez-le, puis ouvrez votre application SMS : le message ne part qu'au moment où vous appuyez sur Envoyer.",
-        preview: "Message préparé pour le {phone}",
-        open: "Ouvrir mes SMS",
-        copy: "Copier le message",
-        copied: "Message copié. Collez-le dans un SMS au {phone}.",
-        copyFailed: "La copie automatique n'a pas fonctionné. Sélectionnez le texte du message pour le copier.",
+      preview: {
+        title: "Votre demande est prête",
+        text: "L'envoi en ligne sera activé très prochainement : cette demande n'a pas encore été transmise à la boutique. Pour commander dès maintenant, appelez-la.",
         edit: "Modifier ma demande",
-        desktopHint: "Sur ordinateur, copiez le message puis envoyez-le depuis votre téléphone, ou appelez la boutique.",
       },
       result: {
         sent: "Demande envoyée à la boutique. HussCut vous répondra par le moyen indiqué.",
-        failed:
-          "L'envoi n'a pas abouti : votre demande n'a pas été transmise. Réessayez, préparez un SMS ou appelez la boutique.",
+        failed: "L'envoi n'a pas abouti : votre demande n'a pas été transmise. Réessayez dans un instant ou appelez la boutique.",
         rateLimited: "Trop de demandes envoyées depuis cette connexion. Réessayez dans quelques minutes ou appelez la boutique.",
-        fallbackSms: "Préparer un SMS à la place",
       },
     },
     map: {
       title: "Plan d'accès",
       consent:
-        "La carte est fournie par Google Maps. L'afficher charge un contenu de Google, qui peut déposer des cookies et recevoir votre adresse IP.",
+        "La carte est fournie par Google Maps, qui peut déposer des cookies et recevoir votre adresse IP. Elle s'affiche si vous l'acceptez.",
       show: "Afficher la carte",
-      remember: "Se souvenir de mon choix sur cet appareil",
       hide: "Masquer la carte",
       frameTitle: "Carte Google Maps : HussCut, 13 avenue Philippe-Auguste, Paris",
       alternative: "Sans carte, l'itinéraire s'ouvre directement dans votre application de navigation.",
@@ -416,7 +406,7 @@ const fr = {
     design: { title: "Conception et réalisation", text: "Site conçu et développé par QuadCore." },
     ip: {
       title: "Propriété intellectuelle",
-      text: "Les photographies, le logo, l'emblème et l'enseigne HussCut appartiennent à leurs titulaires. Toute reproduction sans autorisation est interdite.",
+      text: "Les photographies, le logo, l'emblème et l'enseigne HussCut appartiennent à leurs titulaires. Toute reproduction sans autorisation est interdite. Les photos d'illustration des rayons Veau et Agneau proviennent des banques d'images libres Pexels et Unsplash.",
     },
     reviews: {
       title: "Avis clients",
@@ -433,19 +423,14 @@ const fr = {
     },
     sections: [
       {
-        id: "sms",
-        title: "Demande par SMS",
-        text: "Lorsque vous préparez un SMS, le message est composé dans votre navigateur et n'est pas envoyé au site. Il part depuis votre téléphone, par votre opérateur. La boutique reçoit votre numéro et le contenu du message pour vous répondre.",
-      },
-      {
         id: "email",
         title: "Demande par e-mail",
-        text: "Si l'envoi par e-mail est activé, votre nom, vos coordonnées de réponse et votre message sont transmis à la boutique par un prestataire d'envoi d'e-mails agissant pour son compte. Ils servent uniquement à répondre à votre demande.",
+        text: "Les informations saisies dans le formulaire « Commander » (nom, téléphone ou e-mail, message, et le cas échéant produit, nombre de personnes et date) sont transmises par e-mail à la boutique, via un prestataire d'envoi agissant pour son compte. Elles servent uniquement à répondre à votre demande et ne sont ni revendues ni utilisées à des fins publicitaires.",
       },
       {
         id: "map",
         title: "Carte Google Maps",
-        text: "La carte n'est chargée que si vous cliquez sur « Afficher la carte ». Google reçoit alors votre adresse IP et peut déposer des cookies, selon sa propre politique de confidentialité.",
+        text: "La carte n'est chargée que si vous l'acceptez, depuis le bandeau cookies ou le bouton « Afficher la carte ». Google reçoit alors votre adresse IP et peut déposer des cookies, selon sa propre politique de confidentialité. Vous pouvez changer d'avis à tout moment sur la page Cookies.",
       },
       {
         id: "links",
@@ -470,19 +455,29 @@ const fr = {
 
   cookies: {
     intro:
-      "Le site HussCut n'utilise aucun cookie de mesure d'audience ni de publicité. Il n'en dépose aucun lui-même.",
+      "Le site HussCut n'utilise aucun cookie de mesure d'audience ni de publicité. Il n'en dépose aucun lui-même : seule la carte Google Maps, si vous l'acceptez, peut le faire.",
+    banner: {
+      label: "Cookies",
+      text: "Pour afficher la carte d'accès, Google Maps peut déposer des cookies. Rien n'est chargé sans votre accord.",
+      accept: "Accepter",
+      refuse: "Refuser",
+      more: "En savoir plus",
+    },
     storageTitle: "Ce que le site garde sur votre appareil",
     storage: [
       "L'introduction animée n'est jouée qu'une fois par visite : cette information est gardée le temps de la session de votre navigateur.",
-      "Si vous cochez « Se souvenir de mon choix » sous la carte, votre accord pour Google Maps est gardé sur cet appareil jusqu'à ce que vous le retiriez ici.",
+      "Votre choix pour Google Maps (accepté ou refusé) est gardé sur cet appareil, sans cookie, jusqu'à ce que vous le changiez ici.",
+      "Le formulaire de commande ne dépose aucun cookie.",
     ],
     thirdPartyTitle: "Contenu tiers",
-    thirdParty: "Seule la carte Google Maps, chargée après votre clic, peut déposer des cookies de Google.",
+    thirdParty: "Seule la carte Google Maps, chargée après votre accord, peut déposer des cookies de Google.",
     preferencesTitle: "Vos préférences",
-    mapAllowed: "Carte Google Maps : affichée automatiquement sur cet appareil.",
-    mapAsk: "Carte Google Maps : le site vous demande avant de l'afficher.",
-    revoke: "Retirer mon accord pour la carte",
-    revoked: "C'est fait : la carte ne sera plus affichée sans votre clic.",
+    mapAllowed: "Carte Google Maps : acceptée, affichée automatiquement sur cet appareil.",
+    mapDenied: "Carte Google Maps : refusée. Elle ne s'affiche que si vous cliquez sur « Afficher la carte ».",
+    mapAsk: "Carte Google Maps : aucun choix enregistré, le site vous le demandera.",
+    accept: "Accepter la carte",
+    revoke: "Refuser la carte",
+    saved: "C'est enregistré.",
   },
 
   errors: errorCopy.fr,

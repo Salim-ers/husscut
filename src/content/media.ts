@@ -33,6 +33,11 @@ import piecePapierSigne from "@/assets/photos/piece-papier-signe.webp";
 import pieceRotieFleurs from "@/assets/photos/piece-rotie-fleurs.webp";
 import cotesNeonPlanche from "@/assets/photos/cotes-neon-planche.webp";
 import rotiRouleAgrumes from "@/assets/photos/roti-roule-agrumes.webp";
+/* Photos d'illustration libres de droit (rayons sans photo fournie par HussCut) :
+   - veau : Pexels, photo 7741801 (licence Pexels, usage commercial libre) ;
+   - agneau : Unsplash, photo V65tvNj3GXI (licence Unsplash, usage commercial libre). */
+import veauJarretVitrine from "@/assets/photos/veau-jarret-vitrine.webp";
+import agneauCotelettesGrillees from "@/assets/photos/agneau-cotelettes-grillees.webp";
 import grilladeArdoise from "@/assets/photos/grillade-ardoise.webp";
 import vitrineAgrumes from "@/assets/photos/vitrine-agrumes.webp";
 import coteGrilleeBeurre from "@/assets/photos/cote-grillee-beurre.webp";
@@ -347,6 +352,22 @@ export const photos = {
       en: "Two beef steaks and rosemary on HussCut paper.",
     },
     focus: "50% 40%",
+  },
+  veauJarretVitrine: {
+    src: veauJarretVitrine,
+    alt: {
+      fr: "Tranches de jarret à l'os, façon osso buco, sur un plateau noir en vitrine (photo d'illustration).",
+      en: "Bone-in shank slices, osso buco style, on a black tray in a display counter (illustrative photo).",
+    },
+    focus: "55% 50%",
+  },
+  agneauCotelettesGrillees: {
+    src: agneauCotelettesGrillees,
+    alt: {
+      fr: "Côtelettes d'agneau grillées sur une plaque en fonte (photo d'illustration).",
+      en: "Grilled lamb chops on a cast-iron plate (illustrative photo).",
+    },
+    focus: "50% 45%",
   },
 } as const satisfies Record<string, Photo>;
 
