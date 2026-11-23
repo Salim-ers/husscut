@@ -80,13 +80,19 @@
 
   /* Grain très léger sur tout le site : la matière du papier de boucher et de l'ardoise. */
   body::after {
-    content: "";
+    content: none;
     position: fixed;
     inset: 0;
     z-index: 400;
     pointer-events: none;
     opacity: 0.05;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media (pointer: fine) {
+    body::after {
+      content: "";
+    }
   }
 
   main {
@@ -730,10 +736,23 @@ html[data-scrolled] .site-header__bar {
   -webkit-backdrop-filter: blur(16px) saturate(140%);
   backdrop-filter: blur(16px) saturate(140%);
 }
+/* La capsule garde une marge intérieure : le logo et les boutons ne touchent jamais son bord. */
+html[data-scrolled] .site-header__bar {
+  padding-inline: 0.75rem;
+  margin-inline: -0.5rem;
+}
 @media (min-width: 64rem) {
   html[data-scrolled] .site-header__bar {
     padding-inline: 1.25rem;
     margin-inline: -1.25rem;
+  }
+}
+/* Écrans tactiles : fond plein au lieu du flou d'arrière-plan (bien plus léger au défilement). */
+@media (pointer: coarse) {
+  html[data-scrolled] .site-header__bar {
+    background: color-mix(in srgb, var(--color-ink) 96%, transparent);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }
 html[data-header-hidden] .site-header {
@@ -787,6 +806,63 @@ html[data-header-hidden] .site-header {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-size: 0.8rem;
+}
+/* En-tête mobile : la zone de toucher reste de 44 px, mais le rendu visible est plus fin
+   (36 px), centré dans cette zone : bouton et menu ne saturent plus la barre. */
+.header-cta {
+  min-height: 2.75rem;
+  padding: 0 0.95rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  background: transparent;
+}
+.header-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0.25rem 0;
+  z-index: -2;
+  border-radius: 12px;
+  background: var(--color-gold);
+  transition: background-color 160ms ease;
+}
+.header-cta:hover:not(:disabled) {
+  background: transparent;
+}
+.header-cta:hover::before {
+  background: var(--color-gold-hover);
+}
+.header-cta::after {
+  top: 0.25rem;
+  bottom: 0.25rem;
+}
+.header-icon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--color-ivory);
+  transition: color 160ms ease;
+}
+.header-icon-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0.25rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--color-ivory) 20%, transparent);
+  transition: border-color 160ms ease;
+}
+.header-icon-btn:hover {
+  color: var(--color-gold);
+}
+.header-icon-btn:hover::before {
+  border-color: var(--color-gold);
+}
+.header-icon-btn svg {
+  position: relative;
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
 /* ---- Menu mobile (dialog natif) ------------------------------------------- */
@@ -1096,29 +1172,14 @@ html[data-intro="play"] {
     transform: translateY(2rem);
   }
 
-  /* Photo : un rideau d'ardoise taillé en biais glisse hors du cadre (la coupe), puis l'image
-     se pose. Le rideau est un pseudo-élément déplacé par transform : ni le cadre (observé par
-     l'IntersectionObserver) ni l'image (chargement différé du navigateur) ne sont découpés. */
-  html.js [data-reveal="photo"]::after {
-    content: "";
-    position: absolute;
-    inset: -2px -40%;
-    z-index: 3;
-    pointer-events: none;
-    background: var(--color-char);
-    transform: translateX(0) skewX(-14deg);
-    transition: transform 750ms var(--ease-cut);
-    transition-delay: calc(var(--d, 0) * 0.6ms);
-  }
-  html.js [data-reveal="photo"].is-revealed::after {
-    transform: translateX(160%) skewX(-14deg);
-  }
+  /* Photo : aucun cache, l'aperçu flou puis l'image s'affichent immédiatement ; à l'entrée dans
+     l'écran, l'image se pose par un léger dézoom (transform seul). */
   html.js [data-reveal="photo"] img {
-    transition: transform 1100ms var(--ease-soft);
+    transition: transform 1000ms var(--ease-soft);
     transition-delay: calc(var(--d, 0) * 0.6ms);
   }
   html.js [data-reveal="photo"]:not(.is-revealed) img {
-    transform: scale(1.08);
+    transform: scale(1.06);
   }
 
   /* Titre : chaque mot sort de sous la ligne. */
@@ -1338,15 +1399,18 @@ html[data-intro="play"] {
 .zoom-scene__frame {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
   border-radius: var(--radius-comp);
-  transform: scale(calc(0.7 + var(--z) * 0.3));
-  will-change: transform;
+  /* Coins arrondis nets pendant le zoom (Safari) : le cadre a son propre calque. */
+  transform: translateZ(0);
+  background: var(--color-char);
 }
 .zoom-scene__frame img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(calc(1.25 - var(--z) * 0.25));
+  transform: scale(calc(1.22 - var(--z) * 0.22));
+  will-change: transform;
 }
 @media (min-width: 64rem) {
   .zoom-scene {
@@ -1609,44 +1673,54 @@ html[data-intro="play"] .intro {
 }
 
 /* ==========================================================================
-   Transition de page « La coupe » (View Transitions natives)
+   Entrée de page « La coupe » : fondu, légère montée, fil doré qui traverse le haut
    ========================================================================== */
 
-::view-transition {
+.page-enter__blade {
+  position: fixed;
+  z-index: 90;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
   pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--color-gold) 35%, var(--color-red) 75%, transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
 }
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-}
-::view-transition-group(site-header) {
-  animation: none;
-  z-index: 100;
-}
-::view-transition-old(site-header) {
-  display: none;
-}
-::view-transition-new(site-header) {
-  animation: none;
-}
-::view-transition-old(.cut) {
-  animation: cut-dim 380ms var(--ease-cut) both;
-}
-::view-transition-new(.cut) {
-  animation: cut-reveal 520ms var(--ease-cut) both;
-}
-@keyframes cut-dim {
-  to {
-    opacity: 0.25;
-    transform: scale(0.985);
+@media (prefers-reduced-motion: no-preference) {
+  .page-enter {
+    animation: page-in 420ms var(--ease-soft) both;
+    animation-delay: var(--intro-offset);
+  }
+  .page-enter__blade {
+    animation: page-blade 620ms var(--ease-cut) both;
+    animation-delay: var(--intro-offset);
   }
 }
-@keyframes cut-reveal {
+@keyframes page-in {
   from {
-    clip-path: polygon(0 0, 0 0, -28vw 100vh, -28vw 100%, 0 100%);
+    opacity: 0;
+    transform: translate3d(0, 0.75rem, 0);
   }
   to {
-    clip-path: polygon(0 0, 128vw 0, 100vw 100vh, 100vw 100%, 0 100%);
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes page-blade {
+  0% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+  70% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
   }
 }
 
@@ -1655,12 +1729,6 @@ html[data-intro="play"] .intro {
    ========================================================================== */
 
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(.cut) {
-    animation: fade-out-quick 120ms ease-out both;
-  }
-  ::view-transition-new(.cut) {
-    animation: fade-in 160ms ease-out both;
-  }
   .intro {
     display: none !important;
   }
@@ -1674,11 +1742,6 @@ html[data-intro="play"] .intro {
     scroll-behavior: auto !important;
   }
 }
-@keyframes fade-out-quick {
-  to {
-    opacity: 0;
-  }
-}
 
 @media print {
   html.js [data-reveal],
@@ -1687,9 +1750,6 @@ html[data-intro="play"] .intro {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
-  }
-  html.js [data-reveal="photo"]::after {
-    display: none !important;
   }
   .intro,
   header nav,
@@ -1757,12 +1817,27 @@ html[data-intro="play"] .intro {
   backdrop-filter: blur(14px);
 }
 @media (min-width: 40rem) {
+  /* À droite : le texte et les actions du hero sont à gauche, rien n'est recouvert. */
   .cookie-banner {
-    left: 1.25rem;
-    right: auto;
+    left: auto;
+    right: 1.25rem;
     flex-direction: row;
     align-items: center;
     gap: 1.25rem;
+  }
+}
+@media (pointer: coarse) {
+  .cookie-banner,
+  .filter-bar,
+  .map-placeholder__panel {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .cookie-banner {
+    background: var(--color-char);
+  }
+  .filter-bar {
+    background: color-mix(in srgb, var(--color-ink) 97%, transparent);
   }
 }
 @media (prefers-reduced-motion: no-preference) {

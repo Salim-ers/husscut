@@ -83,8 +83,8 @@ la photo d'ouverture sur mobile.
 ## Non vérifié ici (à faire)
 
 - Appareils réels (iPhone, Android, iPad), Safari et Firefox : non disponibles dans cet
-  environnement. Les View Transitions sont une amélioration progressive ; sans elles, la
-  navigation est instantanée.
+  environnement. L'entrée de page n'utilise que opacity et transform ; en
+  mouvement réduit, la navigation est instantanée.
 - Envoi e-mail réel : non configuré, testé uniquement avec un prestataire simulé.
 - Téléviseurs et bornes : couverts par le balayage 2560/3840 px seulement (pas de navigation télécommande prévue).
 - Mesures de terrain des Core Web Vitals.

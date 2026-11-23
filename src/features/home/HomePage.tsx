@@ -176,7 +176,7 @@ function Universes({ locale, dict }: Props) {
                     alt={photos[item.photo].alt[locale]}
                     fill
                     sizes="(min-width: 64rem) 58vw, 100vw"
-                    quality={78}
+                    quality={70}
                     placeholder="blur"
                     className="object-cover"
                     style={{ objectPosition: photos[item.photo].focus }}
@@ -236,10 +236,10 @@ function Gesture({ locale, dict }: Props) {
           <div className="lg:col-span-6 lg:col-start-7">
             <div className="knife-scene__frame mx-auto max-w-[28rem] lg:max-w-[min(30rem,62svh)]">
               <div className="knife-scene__half knife-scene__half--a">
-                <Image src={photo.src} alt={photo.alt[locale]} fill sizes="(min-width: 64rem) 30rem, 90vw" quality={78} placeholder="blur" style={{ objectPosition: photo.focus }} />
+                <Image src={photo.src} alt={photo.alt[locale]} fill sizes="(min-width: 64rem) 30rem, 90vw" quality={70} placeholder="blur" style={{ objectPosition: photo.focus }} />
               </div>
               <div className="knife-scene__half knife-scene__half--b" aria-hidden="true">
-                <Image src={photo.src} alt="" fill sizes="(min-width: 64rem) 30rem, 90vw" quality={78} placeholder="blur" style={{ objectPosition: photo.focus }} />
+                <Image src={photo.src} alt="" fill sizes="(min-width: 64rem) 30rem, 90vw" quality={70} placeholder="blur" style={{ objectPosition: photo.focus }} />
               </div>
               <svg className="knife-scene__cut" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
                 <line x1="0" y1="66" x2="100" y2="34" />
@@ -323,7 +323,7 @@ function Ageing({ locale, dict }: Props) {
         <div className="container-site grid gap-10 py-16 md:py-20 lg:h-full lg:grid-cols-12 lg:items-center lg:gap-6 lg:py-0">
           <div className="lg:col-span-6">
             <div className="zoom-scene__frame mx-auto aspect-[4/5] w-full max-w-[min(34rem,64svh)]">
-              <Image src={photo.src} alt={photo.alt[locale]} fill sizes="(min-width: 64rem) 40vw, 90vw" quality={78} placeholder="blur" style={{ objectPosition: photo.focus }} />
+              <Image src={photo.src} alt={photo.alt[locale]} fill sizes="(min-width: 64rem) 40vw, 90vw" quality={70} placeholder="blur" style={{ objectPosition: photo.focus }} />
             </div>
           </div>
           <div className="zoom-scene__content lg:col-span-5 lg:col-start-8">

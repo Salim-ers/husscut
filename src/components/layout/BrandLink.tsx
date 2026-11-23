@@ -9,17 +9,17 @@ import wordmark from "@/assets/brand/wordmark.webp";
  */
 export function BrandLink({ href, label }: { href: string; label: string }) {
   return (
-    <Link href={href} aria-label={label} className="group flex shrink-0 items-center gap-2 rounded-lg py-1">
+    <Link href={href} aria-label={label} className="group flex shrink-0 items-center gap-2 rounded-lg py-1 pr-1">
       <Image
         src={emblem}
         alt=""
         width={40}
         height={38}
         sizes="40px"
-        className="h-[2.375rem] w-auto transition-transform duration-500 ease-[var(--ease-soft)] group-hover:-rotate-6 lg:h-[2.625rem]"
+        className="h-[2.125rem] w-auto transition-transform duration-500 ease-[var(--ease-soft)] group-hover:-rotate-6 lg:h-[2.625rem]"
         preload
       />
-      <Image src={wordmark} alt="" width={84} height={30} sizes="96px" className="h-[1.875rem] w-auto max-[379px]:hidden lg:h-[2.125rem]" preload />
+      <Image src={wordmark} alt="" width={84} height={30} sizes="96px" className="h-[1.625rem] w-auto max-[359px]:hidden sm:h-[1.875rem] lg:h-[2.125rem]" preload />
     </Link>
   );
 }

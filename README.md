@@ -11,7 +11,7 @@ une demande de commande est une prise de contact que la boutique confirme.
 
 | Élément | Choix | Pourquoi |
 |---|---|---|
-| Framework | Next.js 16 (App Router), React 19.3 | Pages statiques rapides, transitions natives (`<ViewTransition>`), déploiement Vercel simple |
+| Framework | Next.js 16 (App Router), React 19.3 | Pages statiques rapides, entrées de page légères (opacity, transform), déploiement Vercel simple |
 | Langage | TypeScript strict (`noUncheckedIndexedAccess`) | Contenu typé, dictionnaires FR/EN forcés à la même forme |
 | Styles | Tailwind CSS 4 + tokens CSS (`src/styles/globals.css`) | Design system centralisé, pas de bibliothèque d'interface |
 | Validation | Zod 4 | Un seul schéma pour le navigateur et le serveur |

@@ -33,7 +33,7 @@ export function MobileMenu({ items, labels, brand, footer }: MobileMenuProps) {
     <>
       <button
         type="button"
-        className="inline-flex size-11 items-center justify-center rounded-[14px] border border-ivory/25 text-ivory transition-colors hover:border-gold hover:text-gold lg:hidden"
+        className="header-icon-btn lg:hidden"
         aria-haspopup="dialog"
         aria-controls="menu-mobile"
         aria-label={labels.open}
@@ -55,7 +55,7 @@ export function MobileMenu({ items, labels, brand, footer }: MobileMenuProps) {
             {brand}
             <button
               type="button"
-              className="inline-flex size-11 items-center justify-center rounded-[14px] border border-ivory/25 hover:border-gold hover:text-gold"
+              className="header-icon-btn"
               aria-label={labels.close}
               onClick={close}
               autoFocus

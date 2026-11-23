@@ -1,14 +1,16 @@
-import { type ReactNode, ViewTransition } from "react";
+import type { ReactNode } from "react";
 
 /**
- * Transition « La coupe » entre deux pages : React déclenche la View Transition du
- * navigateur lors de chaque navigation (liens, retour/avance). Le CSS (classe « cut »)
- * révèle la nouvelle page par un bord diagonal. Sans prise en charge, rien ne change.
+ * Entrée de page « La coupe » : à chaque navigation, la nouvelle page est montée à neuf ;
+ * elle apparaît en fondu avec une légère montée, pendant qu'un fil doré traverse le haut de
+ * l'écran comme une lame. Uniquement opacity et transform (composités, sans capture d'écran
+ * de la page entière comme le faisaient les View Transitions) : fluide même sur téléphone.
  */
 export function PageTransition({ children }: { children: ReactNode }) {
   return (
-    <ViewTransition enter="cut" exit="cut" default="none">
-      <div className="bg-ink">{children}</div>
-    </ViewTransition>
+    <div className="page-enter">
+      <span className="page-enter__blade" aria-hidden="true" />
+      {children}
+    </div>
   );
 }

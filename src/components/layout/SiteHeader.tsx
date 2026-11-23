@@ -39,7 +39,7 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
   );
 
   return (
-    <header className="site-header" style={{ viewTransitionName: "site-header" }}>
+    <header className="site-header">
       <div className="container-site">
         <div className="site-header__bar">
           <BrandLink href={homeHref} label={dict.a11y.homeLink} />
@@ -48,7 +48,7 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
             <NavLinks items={items} variant="bar" />
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <div className="hidden lg:block">{switcher}</div>
             <a
               href={`tel:${business.phone.e164}`}
@@ -57,7 +57,7 @@ export function SiteHeader({ locale, dict }: { locale: Locale; dict: Dictionary 
             >
               <PhoneIcon />
             </a>
-            <Link href={pathFor(locale, "order")} className="btn btn-primary btn-sm nav-cta px-4 lg:hidden">
+            <Link href={pathFor(locale, "order")} className="btn btn-primary nav-cta header-cta lg:hidden">
               {dict.actions.order}
             </Link>
             <MobileMenu

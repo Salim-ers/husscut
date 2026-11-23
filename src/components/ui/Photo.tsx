@@ -42,7 +42,7 @@ export function Photo({ photo, locale, sizes, ratio, large, zoom, reveal, delay,
         src={entry.src}
         alt={decorative ? "" : entry.alt[locale]}
         sizes={sizes}
-        quality={78}
+        quality={eager ? 78 : 70}
         preload={eager}
         loading={eager ? "eager" : "lazy"}
         fetchPriority={eager ? "high" : "auto"}

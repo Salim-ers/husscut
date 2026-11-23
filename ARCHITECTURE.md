@@ -112,18 +112,18 @@ clip-path ; tout respecte `prefers-reduced-motion` ; rien ne dépend du survol.
 | Hero d'accueil | Une seule photo, révélée par une lame qui traverse l'écran le long de la coupe, puis qui se pose ; titre ligne à ligne | Photo statique |
 | En-tête | Transparent en haut de page, capsule vitrée au défilement, s'efface en descendant (geste du visiteur seulement), revient en remontant (`ScrollChrome`) | Sans transition |
 | Titres | Mots qui sortent de sous la ligne (`SplitWords`) : à l'affichage (haut de page) ou à l'entrée dans l'écran | Visibles d'emblée |
-| Photos | Rideau d’ardoise taillé en biais qui glisse hors du cadre (transform), puis léger dézoom ; ni le cadre ni l’image ne sont découpés (observation et chargement différé intacts) | Visibles d’emblée |
+| Photos | Aperçu flou visible immédiatement, puis l'image se pose par un léger dézoom (transform) à l'entrée dans l'écran ; aucun cache qui masque l'image | Visibles d'emblée |
 | Trait de couteau | Une lame traverse la largeur et laisse un fil doré (`KnifeRule`) | Statique |
 | « La carte » | Cartes empilées (sticky, CSS) | Identique (pas d'animation) |
 | « Le geste » | Scène épinglée : la lame suit la diagonale de la photo, qui s'ouvre en deux (--p) | État final |
 | « La vitrine » | Galerie horizontale épinglée sur ordinateur, glissée (scroll-snap) sur mobile | Défilement horizontal natif |
-| « Maturation » | Photo qui grandit dans son cadre au défilement (--p) | État final |
-| Transition « La coupe » | `<ViewTransition>` de React 19.3 + View Transitions du navigateur ; révélation diagonale 520 ms | Fondu 160 ms |
+| « Maturation » | Le cadre reste fixe ; seule la photo zoome à l'intérieur (--p, transform composité) ; scène épinglée raccourcie | État final |
+| Entrée de page « La coupe » | Nouvelle page en fondu avec légère montée (420 ms), fil doré qui traverse le haut de l'écran ; opacity et transform seulement, sans capture de la page (les View Transitions, trop lourdes sur téléphone, ont été retirées) | Instantanée |
 
 Les scènes liées au défilement reçoivent leur avancement `--p` (0 → 1) de `RouteEffects` ;
 sans script ou en mouvement réduit, `--p` vaut 1 et le CSS affiche l'état final. Les scènes
 épinglées portent `overflow-x: clip` (pas de débordement horizontal, l'épinglage reste possible).
-Sans prise en charge des View Transitions, la navigation est simplement instantanée.
+Sur écran tactile, ni grain plein écran ni flou d'arrière-plan (`backdrop-filter`) : fonds pleins, défilement plus léger.
 
 ## Sécurité
 
