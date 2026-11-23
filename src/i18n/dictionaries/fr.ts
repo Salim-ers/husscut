@@ -80,7 +80,6 @@ const fr = {
     directions: "Itinéraire",
     startDirections: "Lancer l'itinéraire",
     instagram: "Instagram",
-    askAvailability: "Demander la disponibilité",
     order: "Commander",
   },
 
@@ -103,7 +102,7 @@ const fr = {
 
   home: {
     hero: {
-      kicker: "Boucherie · Charcuterie · Paris 11^e",
+      kicker: "Boucherie et charcuterie, Paris 11^e",
       titleLines: ["L'excellence", "de la viande"],
       halal: "Halal",
       subtitle:
@@ -112,11 +111,6 @@ const fr = {
       secondary: "Découvrir nos viandes",
       metro: "Métro Nation",
       scroll: "Défiler",
-      slides: ["Le billot", "Le néon", "Le persillé", "La maturation"],
-    },
-    marquee: {
-      cuts: ["Bœuf", "Veau", "Agneau", "Volaille", "Grillades", "Charcuterie", "Coffrets"],
-      gestures: ["maturé", "persillé", "paré", "ficelé", "mariné", "tranché devant vous"],
     },
     manifesto: {
       kicker: "La maison HussCut",
@@ -151,19 +145,17 @@ const fr = {
     gallery: {
       kicker: "La vitrine",
       title: "Un étal *qui se regarde*",
-      text: "Côtes sous le néon, rôtis ficelés, brochettes marinées, coffrets fleuris : un aperçu de ce qui passe au comptoir.",
+      text: "Côtes sous le néon, pièces persillées, rôtis, grillades : un aperçu de ce qui passe au comptoir.",
       hint: "Faites défiler",
       captions: {
         neon: "Sous le néon",
-        rotis: "Les rôtis ficelés",
-        brochettes: "Les brochettes marinées",
-        coffret: "Le coffret",
         persille: "Le persillé",
-        selection: "La sélection",
-        sechage: "Le séchage",
-        roules: "Les roulés au fromage",
-        vitrine: "La vitrine",
+        rotie: "La pièce rôtie",
         papier: "Sur le papier HussCut",
+        vitrine: "La vitrine",
+        roule: "Le rôti roulé",
+        grillade: "La grillade",
+        cote: "La côte grillée",
       },
     },
     ageing: {
@@ -171,13 +163,6 @@ const fr = {
       title: "Le temps *fait le goût*",
       text: "Dans l'armoire de maturation, les côtes de bœuf reposent sur leurs clayettes. Demandez au comptoir celles qui sont prêtes.",
       cta: "Voir le bœuf",
-    },
-    platters: {
-      kicker: "Pour recevoir",
-      title: "Planches *& coffrets*",
-      text: "Charcuteries tranchées, fromages, fleurs comestibles : indiquez le nombre de personnes et la date souhaitée, la boutique vous répond sur ce qui est possible.",
-      cta: "Demander un coffret",
-      link: "Voir la charcuterie",
     },
     order: {
       kicker: "Commander",
@@ -216,6 +201,12 @@ const fr = {
       "Cette liste reflète l'offre habituelle de la boutique. Elle évolue selon les saisons et les arrivages, et aucun prix n'est communiqué en ligne : la boutique vous renseigne au comptoir ou par téléphone.",
   },
 
+  catalogue: {
+    rowHint: "demander la disponibilité",
+    orderTitle: "Une pièce vous tente ?",
+    orderText: "Touchez un produit de la carte ou préparez votre demande : la boutique vous confirme la disponibilité et le moment pour passer.",
+  },
+
   charcuterie: {
     kicker: "La carte",
     title: "La charcuterie",
@@ -235,7 +226,7 @@ const fr = {
     gestures: {
       kicker: "Les gestes",
       title: "Au couteau, *devant vous*",
-      items: ["Trancher", "Parer", "Présenter"],
+      items: ["Trancher", "Ficeler", "Présenter"],
     },
     lede: "HussCut est une boucherie-charcuterie halal de quartier, au 13 avenue Philippe-Auguste, à quelques pas de la place de la Nation.",
     portraitCaption: "Au comptoir de HussCut, sous l'enseigne néon.",
@@ -273,9 +264,9 @@ const fr = {
     title: "Nous trouver & contact",
     lede: "À quelques pas du métro Nation, au 13 avenue Philippe-Auguste. Le plus simple pour une pièce précise : appeler avant de passer.",
     question: {
-      title: "Une question ?",
-      text: "Écrivez à la boutique ou appelez-la. Pour une commande, une planche ou un coffret, passez par la page Commander.",
-      orderLink: "Préparer une commande",
+      title: "Une demande ?",
+      text: "Une question, une pièce précise, une planche ou un coffret : tout se prépare sur la page Commander, ou directement par téléphone.",
+      orderLink: "Préparer une demande",
     },
     visit: {
       title: "Venir au comptoir",
@@ -286,7 +277,6 @@ const fr = {
       deliveryText: "Commande en ligne sur les plateformes, selon leurs propres conditions :",
     },
     form: {
-      title: "Préparer une demande",
       smsIntro:
         "Votre demande part par SMS depuis votre téléphone : préparez le message ici, relisez-le, puis ouvrez votre messagerie pour l'envoyer à la boutique.",
       emailIntro: "Votre demande est transmise par e-mail à la boutique, qui vous répond par le moyen indiqué.",
@@ -365,7 +355,7 @@ const fr = {
   },
 
   order: {
-    kicker: "Retrait au comptoir · Livraison",
+    kicker: "Retrait au comptoir ou livraison",
     title: "Commander",
     lede: "Une pièce précise, une quantité pour une tablée, un coffret pour recevoir : préparez votre demande en deux minutes, la boutique vous confirme la disponibilité et le moment pour passer.",
     notice:
@@ -384,12 +374,6 @@ const fr = {
       title: "Plutôt *livré* ?",
       text: "HussCut est aussi présent sur deux plateformes de livraison. La commande se fait alors sur la plateforme, selon ses propres conditions.",
       cta: "Commander sur {name}",
-    },
-    platters: {
-      kicker: "Pour recevoir",
-      title: "Planches *& coffrets*",
-      text: "Pour un apéritif ou une réception, indiquez le nombre de personnes et la date souhaitée : la boutique vous répond sur ce qui est possible.",
-      cta: "Demander une planche ou un coffret",
     },
     call: {
       title: "Plus simple par téléphone ?",

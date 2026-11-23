@@ -148,19 +148,19 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
     return (
       <div className="flex flex-col gap-5" role="region" aria-labelledby={`${uid}-ready`}>
         <div className="flex items-start gap-3">
-          <span className="mt-1 inline-flex size-8 flex-none items-center justify-center rounded-full bg-ink text-ivory">
+          <span className="mt-1 inline-flex size-8 flex-none items-center justify-center rounded-full bg-gold text-ink">
             <CheckIcon />
           </span>
           <div>
             <h3 id={`${uid}-ready`} ref={readyHeading} tabIndex={-1} className="display-3 focus:outline-none">
               {copy.ready.title}
             </h3>
-            <p className="mt-2 text-mute-ink">{copy.ready.text}</p>
+            <p className="mt-2 text-mute">{copy.ready.text}</p>
           </div>
         </div>
         <div>
           <p className="text-sm font-semibold">{format(copy.ready.preview, { phone: phone.display })}</p>
-          <pre data-sms-preview className="mt-2 rounded-[14px] border border-ink/15 bg-paper p-4 font-sans text-[0.9875rem] whitespace-pre-wrap select-all">
+          <pre data-sms-preview className="mt-2 rounded-[14px] border border-ivory/15 bg-ink p-4 font-sans text-[0.9875rem] whitespace-pre-wrap select-all">
             {smsText}
           </pre>
         </div>
@@ -181,7 +181,7 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
         <p aria-live="polite" className="min-h-6 text-[0.9375rem] font-medium">
           {copyState === "copied" ? format(copy.ready.copied, { phone: phone.display }) : copyState === "failed" ? copy.ready.copyFailed : ""}
         </p>
-        <p className="hidden text-sm text-mute-ink [@media(hover:hover)_and_(pointer:fine)]:block">{copy.ready.desktopHint}</p>
+        <p className="hidden text-sm text-mute [@media(hover:hover)_and_(pointer:fine)]:block">{copy.ready.desktopHint}</p>
         <button type="button" className="link-quiet self-start" onClick={() => setSmsText(null)}>
           {copy.ready.edit}
         </button>
@@ -193,7 +193,7 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
   if (mode === "email" && state.status === "sent") {
     return (
       <div ref={resultRef} tabIndex={-1} role="status" className="flex items-start gap-3 focus:outline-none">
-        <span className="mt-1 inline-flex size-8 flex-none items-center justify-center rounded-full bg-ink text-ivory">
+        <span className="mt-1 inline-flex size-8 flex-none items-center justify-center rounded-full bg-gold text-ink">
           <CheckIcon />
         </span>
         <p className="lede">{copy.result.sent}</p>
@@ -207,12 +207,12 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
 
   return (
     <form action={formAction} onSubmit={handleSubmit} noValidate className="flex flex-col gap-6" aria-describedby={`${uid}-intro`}>
-      <p id={`${uid}-intro`} className="text-mute-ink">
+      <p id={`${uid}-intro`} className="text-mute">
         {mode === "sms" ? copy.smsIntro : copy.emailIntro}
       </p>
 
       {summary && Object.keys(shownErrors).length > 0 ? (
-        <p role="alert" className="field-error rounded-[12px] border border-bordeaux/40 bg-bordeaux/5 p-3">
+        <p role="alert" className="field-error rounded-[12px] border border-red/40 bg-red/5 p-3">
           <AlertIcon className="mt-0.5 flex-none" />
           {copy.errorSummary}
         </p>
@@ -302,15 +302,15 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
       </fieldset>
 
       {productName ? (
-        <div className="flex items-center justify-between gap-3 rounded-[14px] border border-ink/15 bg-paper py-2 pr-2 pl-4" data-prefilled-product>
+        <div className="flex items-center justify-between gap-3 rounded-[14px] border border-ivory/15 bg-ink py-2 pr-2 pl-4" data-prefilled-product>
           <p className="flex flex-col">
-            <span className="text-sm text-mute-ink">{copy.product}</span>
+            <span className="text-sm text-mute">{copy.product}</span>
             <span className="font-display text-xl leading-tight font-semibold">{productName}</span>
           </p>
           <input type="hidden" name="item" value={values.item} />
           <button
             type="button"
-            className="inline-flex size-11 flex-none items-center justify-center rounded-[12px] hover:bg-ink/5"
+            className="inline-flex size-11 flex-none items-center justify-center rounded-[12px] hover:bg-ivory/8"
             aria-label={`${copy.removeProduct} : ${productName}`}
             onClick={() => setValues((current) => ({ ...current, item: "" }))}
           >
@@ -382,7 +382,7 @@ export function ContactForm({ locale, mode: initialMode, copy, phone, callLabel,
       </Field>
 
       {failure ? (
-        <div ref={resultRef} tabIndex={-1} role="alert" className="field-error flex-col rounded-[12px] border border-bordeaux/40 bg-bordeaux/5 p-4 focus:outline-none">
+        <div ref={resultRef} tabIndex={-1} role="alert" className="field-error flex-col rounded-[12px] border border-red/40 bg-red/5 p-4 focus:outline-none">
           <p className="flex gap-2">
             <AlertIcon className="mt-0.5 flex-none" />
             {failure === "rateLimited" ? copy.result.rateLimited : copy.result.failed}

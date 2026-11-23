@@ -29,32 +29,15 @@ const raw = (file) => ({ file });
 /** clé de sortie → source */
 const PHOTOS = {
   "piece-papier-signe": ig("14-31-21"),
-  "bloc-persille-billot": ig("14-33-57"),
   "piece-rotie-fleurs": ig("14-34-03"),
   "cotes-neon-planche": ig("14-35-06"),
-  "saucisses-selection": ig("14-35-17"),
-  "brochettes-marinees": ig("14-35-20"),
-  "armoire-neon": ig("14-35-33"),
-  "sechage-selection": ig("14-35-47"),
-  "cote-neon-billot": ig("14-36-03"),
-  "rotis-ficeles": ig("14-36-46"),
   "roti-roule-agrumes": ig("14-36-55"),
   "grillade-ardoise": ig("14-36-59"),
   "vitrine-agrumes": ig("14-37-09"),
-  "roules-fromage-gros-plan": ig("14-37-19"),
-  "coffret-pensees-jaunes": ig("14-37-52"),
-  "coffret-charcuterie-fleurs": raw("1.jpg"),
-  "wagyu-plateau": raw("3.jpg"),
   "cote-grillee-beurre": raw("4.jpg"),
-  "steaks-persilles-billot": raw("8.jpg"),
   "tranches-persillees": raw("12.png"),
-  "cotes-maturees-suspendues": raw("14.jpg"),
   "burrata-tranches": raw("15.jpg"),
-  "geste-couteau-persille": raw("16.jpg"),
-  "pate-croute-couteau": raw("20.jpg"),
-  "geste-couteau-longue-lame": raw("21.jpg"),
   "paves-romarin": raw("22.jpg"),
-  "grand-coffret-fromages": raw("23.jpg"),
 };
 
 /** Nombre de lignes quasi noires (cadre de story) en haut et en bas de l'image. */

@@ -54,7 +54,7 @@ test.describe("transitions de page", () => {
     expect(count).toBeGreaterThan(3);
     for (let index = 0; index < count; index++) {
       const element = elements.nth(index);
-      // Au centre de l'écran : hors de la marge basse de l'observateur (-6 %).
+      // Au centre de l'écran : hors de la marge basse de l'observateur (-4 %).
       await element.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
       await expect(element).toHaveClass(/is-revealed/);
       await expect(element).toHaveCSS("opacity", "1");

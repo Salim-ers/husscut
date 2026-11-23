@@ -23,7 +23,7 @@ src/
 ├── components/
 │   ├── layout/                   SiteHeader, MobileMenu (<dialog>), LanguageSwitch, NavLinks, SiteFooter
 │   ├── motion/                   NeonIntro (+ script d'amorçage), PageTransition, RouteEffects,
-│   │                             SplitWords, Marquee, KnifeRule
+│   │                             SplitWords, KnifeRule
 │   ├── layout/ (suite)           ScrollChrome (en-tête au défilement)
 │   ├── shared/                   HoursTable, TodayMarker, JsonLd, PageHero
 │   └── ui/                       Photo, ExternalLink, RichText, icônes
@@ -63,7 +63,7 @@ tests/e2e/                        Playwright
 ## Formulaire de contact
 
 ```text
-Catalogue ─ « Demander la disponibilité » → /contact?topic=availability&item=<id>#formulaire
+Catalogue ─ ligne produit (lien) → /commander?topic=availability&item=<id>#formulaire
                                                     │
                        validation Zod (navigateur) ─┤
                                                     ├─ mode SMS (défaut) : texte composé localement,
@@ -76,6 +76,20 @@ Catalogue ─ « Demander la disponibilité » → /contact?topic=availability&i
                                                        le prestataire renvoie un identifiant.
 ```
 
+Le formulaire n'existe que sur la page « Commander » ; « Nous trouver » renvoie vers elle.
+
+## Couleurs
+
+Un seul fond (ardoise) sur tout le site, sans bande de couleur pleine largeur ni section ivoire.
+La couleur vient de lueurs `.glow` qui s'éteignent avant les bords, de cartes `.tone-char` /
+`.tone-ember` / `.tone-blood` et de panneaux arrondis `.panel-blood` (appels à commander).
+Pas de numérotation « 01 / 02 », pas de traits devant les surtitres, pas de points médians.
+
+## Photos
+
+Chaque photo de `src/content/media.ts` apparaît une seule fois sur tout le site (vérifié par
+`content.test.ts`). Les doublons visuels (même prise recadrée) ont été retirés de la photothèque.
+
 ## Mouvement
 
 Direction : une boucherie de luxe la nuit — ardoise, néon doré, rouge de la viande — et le jeu du
@@ -85,9 +99,8 @@ clip-path ; tout respecte `prefers-reduced-motion` ; rien ne dépend du survol.
 | Moment | Réalisation | Mouvement réduit |
 |---|---|---|
 | Intro « Le néon s'allume » | Script d'amorçage avant rendu ; CSS pur ; ~1,3 s ; interrompue à la première interaction ; une fois par session | Absente |
-| Hero d'accueil | Diaporama de 4 photos en fondu enchaîné avec recadrage lent (28 s, CSS) ; ouverture par une lame qui traverse l'écran et révèle la photo le long de la coupe ; titre ligne à ligne | Première photo, statique |
+| Hero d'accueil | Une seule photo, révélée par une lame qui traverse l'écran le long de la coupe, puis qui se pose ; titre ligne à ligne | Photo statique |
 | En-tête | Transparent en haut de page, capsule vitrée au défilement, s'efface en descendant (geste du visiteur seulement), revient en remontant (`ScrollChrome`) | Sans transition |
-| Bandeaux défilants | Rayons et gestes en boucle, séparés par des couteaux (`Marquee`), en pause au survol | À l'arrêt |
 | Titres | Mots qui sortent de sous la ligne (`SplitWords`) : à l'affichage (haut de page) ou à l'entrée dans l'écran | Visibles d'emblée |
 | Photos | Rideau d’ardoise taillé en biais qui glisse hors du cadre (transform), puis léger dézoom ; ni le cadre ni l’image ne sont découpés (observation et chargement différé intacts) | Visibles d’emblée |
 | Trait de couteau | Une lame traverse la largeur et laisse un fil doré (`KnifeRule`) | Statique |

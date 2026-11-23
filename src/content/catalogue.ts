@@ -9,7 +9,8 @@ import type { PhotoKey } from "./media";
  * - aucun prix, poids promis, stock ni délai ;
  * - chaque produit n'apparaît qu'une fois ;
  * - l'espèce n'est indiquée que lorsqu'elle figure dans le nom vérifié ;
- * - une photo n'est associée à un produit que si l'identification est certaine.
+ * - pas de vignette par produit : chaque rayon porte une seule photo d'ambiance, et
+ *   chaque photo n'apparaît qu'une fois sur le site (voir content.test.ts).
  *
  * Écartés en attendant confirmation de l'espèce par HussCut : « Smoky bacon »,
  * « Prosciutto by HussCut », « Chorizo fumé », « Chorizo à griller »,
@@ -22,7 +23,6 @@ export interface Product {
   id: string;
   name: L10n;
   note?: L10n;
-  photo?: PhotoKey;
 }
 
 export interface Section<Id extends string> {
@@ -57,7 +57,6 @@ export const meatCategories: readonly Section<MeatCategoryId>[] = [
     products: [
       p("cote-de-boeuf", "Côte de bœuf", "Rib of beef (côte de bœuf)", {
         note: { fr: "Simmental ou Galice, selon disponibilité", en: "Simmental or Galician, depending on availability" },
-        photo: "cotesMaturees",
       }),
       p("entrecote-wagyu", "Entrecôte Wagyu australien", "Australian Wagyu ribeye"),
       p("faux-filet", "Faux-filet", "Sirloin (faux-filet)", {
@@ -70,7 +69,7 @@ export const meatCategories: readonly Section<MeatCategoryId>[] = [
       p("basse-cote", "Basse côte", "Chuck rib (basse côte)"),
       p("gite", "Gîte de bœuf", "Beef shin (gîte)"),
       p("bourguignon", "Bourguignon", "Bourguignon braising beef"),
-      p("rosbif", "Rosbif", "Roast beef joint", { photo: "boeufFicele" }),
+      p("rosbif", "Rosbif", "Roast beef joint"),
       p("piece-du-boucher-marinee", "Pièce du boucher marinée", "Marinated butcher's cut"),
       p("emince-de-boeuf", "Émincé de bœuf", "Sliced beef strips"),
       p("steak-hache", "Steak haché", "Beef burger patty"),
@@ -254,12 +253,11 @@ export const charcuterieGroups: readonly Section<CharcuterieGroupId>[] = [
     products: [
       p("coffret-signature", "Coffret Signature", "Signature box", {
         note: { fr: "Pour 4 personnes", en: "Serves 4" },
-        photo: "coffretNoirFleurs",
       }),
       p("planche-charcuterie", "Planche de charcuterie", "Charcuterie board", {
         note: { fr: "Pour 2 à 3 personnes", en: "Serves 2 to 3" },
       }),
-      p("pate-en-croute", "Pâté en croûte Richelieu", "Pâté en croûte Richelieu", { photo: "pateEnCroute" }),
+      p("pate-en-croute", "Pâté en croûte Richelieu", "Pâté en croûte Richelieu"),
       p("pate-sel-poivre", "Pâté sel et poivre", "Salt and pepper pâté"),
       p("terrine-de-canard", "Terrine de canard confit", "Duck confit terrine"),
       p("foie-gras-mi-cuit", "Foie gras mi-cuit", "Mi-cuit foie gras"),

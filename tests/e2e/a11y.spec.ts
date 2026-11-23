@@ -55,7 +55,7 @@ test("cibles tactiles d'au moins 44 px pour les actions principales", async ({ p
   for (const path of ["/fr", "/fr/viandes", "/fr/contact"]) {
     await page.goto(path);
     const small = await page.evaluate(() =>
-      Array.from(document.querySelectorAll<HTMLElement>("main .btn, header .btn, header button, main .chip, main .product-cta"))
+      Array.from(document.querySelectorAll<HTMLElement>("main .btn, header .btn, header button, main .chip, main .product-row"))
         .filter((element) => element.offsetParent !== null)
         .map((element) => ({ text: element.textContent?.trim().slice(0, 30), h: element.getBoundingClientRect().height }))
         .filter((box) => box.h < 44),

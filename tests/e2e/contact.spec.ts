@@ -4,7 +4,7 @@ import { blockGoogle, skipIntro } from "./helpers";
 test.beforeEach(async ({ page }) => skipIntro(page));
 
 test("un envoi vide signale les champs et place le focus sur le premier", async ({ page }) => {
-  await page.goto("/fr/contact");
+  await page.goto("/fr/commander");
   await page.getByRole("button", { name: "Préparer mon SMS" }).click();
   await expect(page.locator("form").getByRole("alert")).toContainText("Corrigez les champs signalés");
   const name = page.getByLabel(/Votre nom/);
@@ -18,7 +18,7 @@ test("un envoi vide signale les champs et place le focus sur le premier", async 
 
 test("« Préparer mon SMS » prépare le message sans prétendre l'avoir envoyé", async ({ page, context }, info) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"], { origin: info.project.use.baseURL ?? "http://127.0.0.1:3100" });
-  await page.goto("/fr/contact");
+  await page.goto("/fr/commander");
   await page.getByLabel(/Votre nom/).fill("Nadia");
   await page.getByRole("radio", { name: "Planche ou coffret" }).check();
   await page.getByLabel(/Nombre de personnes/).fill("6");
@@ -68,8 +68,8 @@ test("la carte Google n'est chargée qu'après le clic, l'itinéraire marche san
   await expect(page.locator("iframe")).toHaveCount(0);
 });
 
-test("le contact anglais garde la même logique", async ({ page }) => {
-  await page.goto("/en/contact?topic=availability&item=rosbif#request-form");
+test("le formulaire anglais garde la même logique", async ({ page }) => {
+  await page.goto("/en/order?topic=availability&item=rosbif#request-form");
   await expect(page.getByRole("radio", { name: "Availability or an order" })).toBeChecked();
   await expect(page.locator("[data-prefilled-product]")).toContainText("Roast beef joint");
   await page.getByLabel(/Your name/).fill("Sam");

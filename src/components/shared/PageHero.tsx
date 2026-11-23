@@ -13,8 +13,6 @@ interface PageHeroProps {
   lede?: string;
   /** Photo principale (LCP), bord taillé en biais. */
   photo: PhotoKey;
-  /** Petite photo inclinée, posée en débord sur la principale. */
-  secondPhoto?: PhotoKey;
   children?: ReactNode;
 }
 
@@ -22,12 +20,12 @@ const delay = (i: number) => ({ "--i": i }) as CSSProperties;
 
 /**
  * Haut de page des pages intérieures : surtitre, titre dont les mots montent à l'affichage,
- * photo recadrée avec reflet de lame, seconde photo en débord, puis trait de couteau.
+ * photo taillée en biais avec reflet de lame, puis trait de couteau.
  */
-export function PageHero({ locale, kicker, title, lede, photo, secondPhoto, children }: PageHeroProps) {
+export function PageHero({ locale, kicker, title, lede, photo, children }: PageHeroProps) {
   return (
-    <section className="glow-red relative overflow-x-clip pt-8 pb-14 lg:pt-14 lg:pb-20" aria-labelledby="page-title">
-      <div className="container-site grid gap-14 lg:grid-cols-12 lg:items-end lg:gap-6">
+    <section className="glow relative overflow-x-clip pt-8 pb-14 lg:pt-14 lg:pb-20" aria-labelledby="page-title">
+      <div className="container-site grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-6">
         <div className="lg:col-span-6 xl:col-span-7">
           <p className="kicker load-in" style={delay(0)}>
             <span>
@@ -46,7 +44,7 @@ export function PageHero({ locale, kicker, title, lede, photo, secondPhoto, chil
             </div>
           ) : null}
         </div>
-        <div className="relative lg:col-span-6 xl:col-span-5">
+        <div className="lg:col-span-6 xl:col-span-5">
           <Photo
             photo={photo}
             locale={locale}
@@ -56,14 +54,9 @@ export function PageHero({ locale, kicker, title, lede, photo, secondPhoto, chil
             eager
             className="cut-edge [--cut:14%]"
           />
-          {secondPhoto ? (
-            <div className="absolute -bottom-10 -left-2 w-[40%] -rotate-3 rounded-[20px] ring-4 ring-ink sm:-left-8 lg:-left-14">
-              <Photo photo={secondPhoto} locale={locale} sizes="(min-width: 64rem) 16vw, 40vw" ratio="4 / 5" reveal delay={500} />
-            </div>
-          ) : null}
         </div>
       </div>
-      <div className="container-site mt-20">
+      <div className="container-site mt-16">
         <KnifeRule />
       </div>
     </section>

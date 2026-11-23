@@ -76,7 +76,6 @@ const en: Dictionary = {
     directions: "Directions",
     startDirections: "Get directions",
     instagram: "Instagram",
-    askAvailability: "Ask about availability",
     order: "Order",
   },
 
@@ -99,7 +98,7 @@ const en: Dictionary = {
 
   home: {
     hero: {
-      kicker: "Butcher · Charcuterie · Paris 11",
+      kicker: "Butcher and charcuterie, Paris 11",
       titleLines: ["Meat,", "at its finest"],
       halal: "Halal",
       subtitle:
@@ -108,11 +107,6 @@ const en: Dictionary = {
       secondary: "Explore our meats",
       metro: "Nation metro",
       scroll: "Scroll",
-      slides: ["The block", "The neon", "The marbling", "The ageing"],
-    },
-    marquee: {
-      cuts: ["Beef", "Veal", "Lamb", "Poultry", "Grill", "Charcuterie", "Boxes"],
-      gestures: ["dry-aged", "marbled", "trimmed", "tied", "marinated", "sliced before your eyes"],
     },
     manifesto: {
       kicker: "The HussCut house",
@@ -147,19 +141,17 @@ const en: Dictionary = {
     gallery: {
       kicker: "The counter",
       title: "A display *worth a look*",
-      text: "Ribs under the neon, tied roasts, marinated skewers, flower-topped boxes: a glimpse of what crosses the counter.",
+      text: "Ribs under the neon, marbled cuts, roasts, grills: a glimpse of what crosses the counter.",
       hint: "Scroll",
       captions: {
         neon: "Under the neon",
-        rotis: "Tied roasts",
-        brochettes: "Marinated skewers",
-        coffret: "The box",
         persille: "The marbling",
-        selection: "La sélection",
-        sechage: "Curing",
-        roules: "Cheese rolls",
-        vitrine: "The display",
+        rotie: "The roast",
         papier: "On HussCut paper",
+        vitrine: "The display",
+        roule: "The rolled roast",
+        grillade: "The grill",
+        cote: "The grilled rib",
       },
     },
     ageing: {
@@ -167,13 +159,6 @@ const en: Dictionary = {
       title: "Time *makes the flavour*",
       text: "In the dry-ageing cabinet, ribs of beef rest on their racks. Ask at the counter which ones are ready.",
       cta: "See the beef",
-    },
-    platters: {
-      kicker: "For guests",
-      title: "Boards *& boxes*",
-      text: "Sliced charcuterie, cheeses, edible flowers: tell the shop how many people and the date you have in mind, and the team will let you know what's possible.",
-      cta: "Ask for a box",
-      link: "See the charcuterie",
     },
     order: {
       kicker: "Order",
@@ -212,6 +197,12 @@ const en: Dictionary = {
       "This list reflects what the shop usually offers. It changes with the seasons and deliveries, and no prices are given online: the shop will tell you at the counter or by phone.",
   },
 
+  catalogue: {
+    rowHint: "ask about availability",
+    orderTitle: "Something caught your eye?",
+    orderText: "Tap a product on the menu or prepare your request: the shop will confirm availability and when to come by.",
+  },
+
   charcuterie: {
     kicker: "The menu",
     title: "Charcuterie",
@@ -231,7 +222,7 @@ const en: Dictionary = {
     gestures: {
       kicker: "The craft",
       title: "By the knife, *before your eyes*",
-      items: ["Slicing", "Trimming", "Presenting"],
+      items: ["Slicing", "Tying", "Presenting"],
     },
     lede: "HussCut is a neighbourhood halal butcher and charcuterie at 13 avenue Philippe-Auguste, a few steps from Place de la Nation.",
     portraitCaption: "At the HussCut counter, under the neon sign.",
@@ -269,9 +260,9 @@ const en: Dictionary = {
     title: "Find us & contact",
     lede: "A few steps from Nation metro, at 13 avenue Philippe-Auguste. Looking for a specific cut? Call before you come.",
     question: {
-      title: "A question?",
-      text: "Write to the shop or give it a call. For an order, a board or a box, use the Order page.",
-      orderLink: "Prepare an order",
+      title: "A request?",
+      text: "A question, a specific cut, a board or a box: everything is prepared on the Order page, or simply by phone.",
+      orderLink: "Prepare a request",
     },
     visit: {
       title: "Come to the counter",
@@ -282,7 +273,6 @@ const en: Dictionary = {
       deliveryText: "Order online through the platforms, on their own terms:",
     },
     form: {
-      title: "Prepare a request",
       smsIntro:
         "Your request is sent by text message from your phone: prepare it here, read it over, then open your messaging app to send it to the shop.",
       emailIntro: "Your request is emailed to the shop, which will reply using the contact details you give.",
@@ -360,7 +350,7 @@ const en: Dictionary = {
   },
 
   order: {
-    kicker: "Counter pick-up · Delivery",
+    kicker: "Counter pick-up or delivery",
     title: "Order",
     lede: "A specific cut, a quantity for a big table, a box for guests: prepare your request in two minutes, and the shop will confirm availability and when to come by.",
     notice:
@@ -379,12 +369,6 @@ const en: Dictionary = {
       title: "Rather have it *delivered*?",
       text: "HussCut is also available on two delivery platforms. Orders are then placed on the platform, on its own terms.",
       cta: "Order on {name}",
-    },
-    platters: {
-      kicker: "For guests",
-      title: "Boards *& boxes*",
-      text: "For drinks or a gathering, tell the shop how many people and the date you have in mind: the team will let you know what's possible.",
-      cta: "Ask for a board or box",
     },
     call: {
       title: "Easier by phone?",

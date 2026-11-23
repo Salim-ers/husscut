@@ -50,7 +50,7 @@ export function MapConsent({ embedUrl, copy }: MapConsentProps) {
   }
 
   return (
-    <div className="flex min-h-64 flex-col justify-center gap-5 rounded-[24px] border border-ivory/15 bg-char p-6 sm:p-10" data-map-placeholder>
+    <div className="flex min-h-64 flex-col justify-center gap-5 tone-char rounded-[24px] p-6 sm:p-10" data-map-placeholder>
       <p className="max-w-[52ch] text-mute">{copy.consent}</p>
       <label htmlFor={`${uid}-remember`} className="flex min-h-11 items-center gap-3 text-[0.9875rem]">
         <input

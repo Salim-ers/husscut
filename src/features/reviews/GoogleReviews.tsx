@@ -17,7 +17,7 @@ import { format, typo } from "@/i18n/typography";
 export function GoogleReviews({ locale, dict, newTabLabel }: { locale: Locale; dict: Dictionary["reviews"]; newTabLabel: string }) {
   const showExcerpts = business.reviews.showExcerpts && googleReviews.length > 0;
   return (
-    <section className="glow-red relative overflow-hidden py-24 lg:py-32" aria-labelledby="reviews-title">
+    <section className="section glow relative overflow-hidden" aria-labelledby="reviews-title">
       <span
         aria-hidden="true"
         data-text="“"
@@ -54,7 +54,7 @@ export function GoogleReviews({ locale, dict, newTabLabel }: { locale: Locale; d
                 style={{ "--d": index * 140 } as CSSProperties}
                 className={index % 2 === 1 ? "md:mt-14" : undefined}
               >
-                <figure className="flex h-full flex-col rounded-[24px] border border-ivory/12 bg-char/70 p-7 sm:p-10">
+                <figure className="flex h-full flex-col tone-char rounded-[24px] p-7 sm:p-10">
                   <p className="flex gap-1 text-gold" role="img" aria-label={format(dict.rating, { n: review.rating })}>
                     {Array.from({ length: 5 }, (_, star) => (
                       <StarIcon key={star} className={star < review.rating ? "" : "opacity-25"} />

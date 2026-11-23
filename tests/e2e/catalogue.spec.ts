@@ -26,7 +26,7 @@ test("un lien direct vers un rayon arrive filtré", async ({ page }) => {
 
 test("« Demander la disponibilité » préremplit le formulaire", async ({ page }) => {
   await page.goto("/fr/viandes");
-  await page.getByRole("link", { name: "Demander la disponibilité : Côte de bœuf" }).click();
+  await page.getByRole("link", { name: /^Côte de bœuf/ }).click();
   await expect(page).toHaveURL(/\/fr\/commander\?topic=availability&item=cote-de-boeuf#formulaire$/);
   await expect(page.getByRole("radio", { name: "Disponibilité ou commande" })).toBeChecked();
   await expect(page.locator("[data-prefilled-product]")).toContainText("Côte de bœuf");

@@ -38,7 +38,7 @@ export function SiteFooter({ locale, dict }: { locale: Locale; dict: Dictionary 
 
         <div className="lg:col-span-3">
           <h2 className="font-sans text-xs font-semibold tracking-[0.26em] text-gold uppercase">{dict.footer.visit}</h2>
-          <address className="filet mt-4 not-italic">
+          <address className="mt-4 not-italic">
             {business.address.street}
             <br />
             {business.address.postalCode} {business.address.city}

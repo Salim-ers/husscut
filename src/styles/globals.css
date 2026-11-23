@@ -121,10 +121,6 @@
     border-radius: 4px;
   }
 
-  .surface-light :focus-visible {
-    outline-color: var(--color-bronze);
-  }
-
   main:focus {
     outline: none;
   }
@@ -157,26 +153,60 @@
     padding-inline: clamp(1.25rem, 4.2vw, 3rem);
   }
 
-  .surface-light {
-    background: var(--color-ivory);
-    color: var(--color-ink);
-    color-scheme: light;
+  /* Rythme vertical commun à toutes les sections. */
+  .section {
+    padding-block: clamp(5rem, 3rem + 6vw, 9rem);
   }
 
-  /* Fond sang de bœuf : la couleur de la viande, sans quitter le noir. */
-  .surface-blood {
+  /* ---- Ambiance ----------------------------------------------------------
+     Un seul fond (ardoise) sur tout le site : aucune bande de couleur pleine largeur.
+     La couleur vient de lueurs qui s'éteignent avant les bords de la section, et de
+     panneaux arrondis posés dans la grille. */
+  .glow {
+    position: relative;
+    isolation: isolate;
+  }
+  .glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
     background:
-      radial-gradient(120% 90% at 85% 0%, color-mix(in srgb, var(--color-crimson) 55%, transparent), transparent 60%),
+      radial-gradient(38% 34% at 82% 46%, color-mix(in srgb, var(--color-crimson) 20%, transparent), transparent 100%),
+      radial-gradient(30% 26% at 12% 60%, color-mix(in srgb, var(--color-gold) 5%, transparent), transparent 100%);
+  }
+  .glow--left::before {
+    background:
+      radial-gradient(40% 36% at 24% 50%, color-mix(in srgb, var(--color-crimson) 26%, transparent), transparent 100%),
+      radial-gradient(28% 24% at 86% 40%, color-mix(in srgb, var(--color-gold) 5%, transparent), transparent 100%);
+  }
+
+  /* Tons des cartes et panneaux : charbon, braise, sang de bœuf. */
+  .tone-char {
+    background: linear-gradient(165deg, var(--color-char-2), var(--color-char) 60%);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-ivory) 6%, transparent);
+  }
+  .tone-ember {
+    background:
+      radial-gradient(90% 80% at 100% 100%, color-mix(in srgb, var(--color-blood) 85%, transparent), transparent 70%),
+      var(--color-char);
+  }
+  .tone-blood,
+  .panel-blood {
+    background:
+      radial-gradient(110% 90% at 90% 0%, color-mix(in srgb, var(--color-crimson) 60%, transparent), transparent 62%),
       radial-gradient(90% 80% at 0% 100%, color-mix(in srgb, var(--color-blood) 90%, transparent), transparent 70%),
       var(--color-oxblood);
     color: var(--color-ivory);
   }
-
-  /* Lueur rouge discrète, posée sous une section sombre. */
-  .glow-red {
-    background:
-      radial-gradient(70% 55% at 50% 100%, color-mix(in srgb, var(--color-crimson) 28%, transparent), transparent 70%),
-      var(--color-ink);
+  .panel-blood {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-comp);
+    box-shadow:
+      0 40px 80px -40px rgb(0 0 0 / 0.9),
+      inset 0 1px 0 color-mix(in srgb, var(--color-gold) 22%, transparent);
   }
 
   .display-xl {
@@ -188,14 +218,14 @@
   }
 
   .display-1 {
-    font-size: clamp(2rem, 0.9rem + 5.4vw, 6.75rem);
-    line-height: 1;
+    font-size: clamp(2rem, 1rem + 4.2vw, 5.5rem);
+    line-height: 1.02;
     letter-spacing: 0.005em;
   }
 
   .display-2 {
-    font-size: clamp(1.75rem, 1.05rem + 2.9vw, 4.25rem);
-    line-height: 1.04;
+    font-size: clamp(1.75rem, 1.1rem + 2.4vw, 3.75rem);
+    line-height: 1.05;
   }
 
   .display-3 {
@@ -215,56 +245,26 @@
   .accent-red {
     color: var(--color-red);
   }
-  .surface-light .accent {
-    color: var(--color-crimson);
-  }
 
   .serif {
     font-family: var(--font-serif);
     font-weight: 500;
   }
 
-  /* Surtitre : capitales espacées, précédées d'un trait doré. */
+  /* Surtitre : capitales espacées, en or. */
   .kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
+    display: inline-block;
     font-family: var(--font-sans);
     font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.26em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--color-gold);
-  }
-  .kicker > span {
-    display: inline;
-  }
-  .kicker::before {
-    content: "";
-    width: 2.25rem;
-    height: 1px;
-    background: currentColor;
-    flex: none;
-  }
-  .surface-light .kicker {
-    color: var(--color-crimson);
-  }
-  .surface-blood .kicker {
     color: var(--color-gold);
   }
 
   .lede {
     font-size: clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem);
     line-height: 1.5;
-  }
-
-  /* Filet vertical doré, repris de la carte de visite et du tee-shirt « HussCut From Paris ». */
-  .filet {
-    border-inline-start: 1px solid var(--color-gold);
-    padding-inline-start: 1.25rem;
-  }
-  .surface-light .filet {
-    border-inline-start-color: var(--color-bronze);
   }
 
   /* Petite étiquette (ex. « halal ») : discrète, sans rien promettre. */
@@ -280,6 +280,19 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-gold);
+  }
+
+  /* Capsule de texte (non cliquable). */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-gold) 30%, transparent);
+    background: color-mix(in srgb, var(--color-gold) 6%, transparent);
+    font-size: 0.9375rem;
+    font-weight: 500;
   }
 
   /* ---- Boutons ---------------------------------------------------------- */
@@ -365,23 +378,6 @@
     color: var(--color-gold);
     background: color-mix(in srgb, var(--color-gold) 7%, transparent);
   }
-  .surface-light .btn-secondary {
-    border-color: color-mix(in srgb, var(--color-ink) 32%, transparent);
-    color: var(--color-ink);
-  }
-  .surface-light .btn-secondary:hover:not(:disabled) {
-    border-color: var(--color-bronze);
-    color: var(--color-bronze);
-    background: color-mix(in srgb, var(--color-bronze) 6%, transparent);
-  }
-  /* Bouton plein sur ivoire : ardoise. */
-  .surface-light .btn-primary {
-    background: var(--color-ink);
-    color: var(--color-ivory);
-  }
-  .surface-light .btn-primary:hover:not(:disabled) {
-    background: var(--color-crimson);
-  }
 
   .btn-sm {
     min-height: 2.75rem;
@@ -414,9 +410,6 @@
   .link-quiet:hover {
     text-decoration-color: currentColor;
   }
-  .surface-light .link-quiet {
-    color: var(--color-bronze);
-  }
 
   .link-inline {
     color: inherit;
@@ -425,11 +418,33 @@
     text-underline-offset: 0.22em;
     text-decoration-color: color-mix(in srgb, var(--color-gold) 70%, transparent);
   }
-  .surface-light .link-inline {
-    text-decoration-color: var(--color-bronze);
-  }
   .link-inline:hover {
     text-decoration-thickness: 2px;
+  }
+
+  /* Carte-lien d'un choix (modes de commande, plateformes de livraison). */
+  .mode-link {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    min-height: 4.5rem;
+    padding: 1.15rem 1.5rem;
+    border-radius: var(--radius-card);
+    border: 1px solid color-mix(in srgb, var(--color-ivory) 14%, transparent);
+    background: color-mix(in srgb, var(--color-ink) 38%, transparent);
+    transition:
+      transform 300ms var(--ease-soft),
+      border-color 200ms ease,
+      background-color 200ms ease;
+  }
+  .mode-link:hover {
+    border-color: color-mix(in srgb, var(--color-gold) 60%, transparent);
+    background: color-mix(in srgb, var(--color-ink) 55%, transparent);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .mode-link:hover {
+      transform: translateY(-2px);
+    }
   }
 
   /* ---- Filtres (capsules) ----------------------------------------------- */
@@ -439,7 +454,7 @@
     min-height: 2.75rem;
     padding: 0.5rem 1.05rem;
     border-radius: 999px;
-    border: 1px solid color-mix(in srgb, var(--color-ivory) 26%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-ivory) 22%, transparent);
     font-size: 0.9375rem;
     font-weight: 500;
     white-space: nowrap;
@@ -459,56 +474,24 @@
     border-color: var(--color-gold);
     color: var(--color-ink);
   }
-  .surface-light .chip {
-    color: var(--color-ink);
-    border-color: color-mix(in srgb, var(--color-ink) 24%, transparent);
-  }
-  .surface-light .chip:hover {
-    border-color: var(--color-crimson);
-  }
-  .surface-light .chip[aria-current="true"] {
-    background: var(--color-crimson);
-    border-color: var(--color-crimson);
-    color: var(--color-ivory);
+
+  /* Barre de filtres collante : même ardoise que la page, vitrée. */
+  .filter-bar {
+    background: color-mix(in srgb, var(--color-ink) 88%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-ivory) 8%, transparent);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
   }
 
-  .product-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-height: 2.75rem;
-    flex: none;
-    align-self: flex-start;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--color-bronze);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.3em;
-    transition:
-      border-color 160ms ease,
-      color 160ms ease,
-      background-color 160ms ease;
-  }
-  @media (min-width: 40rem) {
-    .product-cta {
-      align-self: center;
-      padding: 0.5rem 1rem;
-      border: 1px solid color-mix(in srgb, var(--color-ink) 30%, transparent);
-      border-radius: var(--radius-btn-2);
-      color: var(--color-ink);
-      text-decoration: none;
-    }
-    .product-cta:hover {
-      border-color: var(--color-crimson);
-      color: var(--color-crimson);
-      background: color-mix(in srgb, var(--color-crimson) 6%, transparent);
-    }
-  }
-
-  /* Ligne de produit : un trait rouge glisse sous le nom au survol (ordinateur). */
+  /* Ligne de produit : toute la ligne est un lien ; un fil doré glisse dessous au survol. */
   .product-row {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 3.5rem;
+    padding-block: 1.1rem;
+    transition: color 200ms ease;
   }
   .product-row::after {
     content: "";
@@ -517,18 +500,21 @@
     right: 0;
     bottom: -1px;
     height: 1px;
-    background: var(--color-crimson);
+    background: linear-gradient(90deg, var(--color-gold), color-mix(in srgb, var(--color-gold) 0%, transparent));
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 500ms var(--ease-soft);
   }
-  @media (hover: hover) {
-    .product-row:hover::after {
-      transform: scaleX(1);
-    }
+  .product-row:hover,
+  .product-row:focus-visible {
+    color: var(--color-gold);
+  }
+  .product-row:hover::after,
+  .product-row:focus-visible::after {
+    transform: scaleX(1);
   }
 
-  /* ---- Champs ----------------------------------------------------------- */
+  /* ---- Champs (sur carte charbon) ---------------------------------------- */
   .field-label {
     display: block;
     font-weight: 600;
@@ -537,7 +523,7 @@
   }
   .field-label .field-flag {
     font-weight: 400;
-    color: var(--color-mute-ink);
+    color: var(--color-mute);
     font-size: 0.875rem;
   }
   .field {
@@ -546,9 +532,9 @@
     min-height: 3rem;
     padding: 0.7rem 0.95rem;
     border-radius: var(--radius-field);
-    border: 1px solid color-mix(in srgb, var(--color-ink) 26%, transparent);
-    background: var(--color-paper);
-    color: var(--color-ink);
+    border: 1px solid color-mix(in srgb, var(--color-ivory) 20%, transparent);
+    background: var(--color-ink);
+    color: var(--color-ivory);
     font: inherit;
     font-size: 1rem;
     line-height: 1.45;
@@ -562,32 +548,32 @@
     resize: vertical;
   }
   .field::placeholder {
-    color: color-mix(in srgb, var(--color-mute-ink) 85%, transparent);
+    color: color-mix(in srgb, var(--color-mute) 80%, transparent);
   }
   .field:hover {
-    border-color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+    border-color: color-mix(in srgb, var(--color-ivory) 38%, transparent);
   }
   .field:focus-visible {
-    outline: 2px solid var(--color-bronze);
+    outline: 2px solid var(--color-gold);
     outline-offset: 1px;
-    border-color: var(--color-bronze);
+    border-color: var(--color-gold);
   }
   .field[aria-invalid="true"] {
-    border-color: var(--color-bordeaux);
-    box-shadow: inset 0 0 0 1px var(--color-bordeaux);
+    border-color: var(--color-red);
+    box-shadow: inset 0 0 0 1px var(--color-red);
   }
   .field-error {
     display: flex;
     gap: 0.4rem;
     margin-top: 0.4rem;
-    color: var(--color-bordeaux);
+    color: var(--color-red);
     font-size: 0.9375rem;
     font-weight: 500;
   }
   .field-hint {
     margin-top: 0.35rem;
     font-size: 0.875rem;
-    color: var(--color-mute-ink);
+    color: var(--color-mute);
   }
 
   .choice {
@@ -598,24 +584,24 @@
     min-height: 3rem;
     padding: 0.65rem 1rem;
     border-radius: var(--radius-field);
-    border: 1px solid color-mix(in srgb, var(--color-ink) 22%, transparent);
-    background: var(--color-paper);
+    border: 1px solid color-mix(in srgb, var(--color-ivory) 18%, transparent);
+    background: var(--color-ink);
     cursor: pointer;
     transition: border-color 160ms ease;
   }
   .choice:hover {
-    border-color: color-mix(in srgb, var(--color-ink) 45%, transparent);
+    border-color: color-mix(in srgb, var(--color-ivory) 38%, transparent);
   }
   .choice:has(input:checked) {
-    border-color: var(--color-crimson);
-    box-shadow: inset 0 0 0 1px var(--color-crimson);
+    border-color: var(--color-gold);
+    box-shadow: inset 0 0 0 1px var(--color-gold);
   }
   .choice:has(input:focus-visible) {
-    outline: 2px solid var(--color-bronze);
+    outline: 2px solid var(--color-gold);
     outline-offset: 2px;
   }
   .choice input {
-    accent-color: var(--color-crimson);
+    accent-color: var(--color-gold);
     width: 1.125rem;
     height: 1.125rem;
     flex: none;
@@ -645,7 +631,7 @@
     a:hover .photo-zoom img,
     a:focus-visible .photo-zoom img,
     .group:hover .photo-zoom img {
-      transform: scale(1.06);
+      transform: scale(1.05);
     }
   }
 
@@ -689,26 +675,6 @@
   /* Mot décoratif rendu en CSS (attribut data-text) : purement visuel, hors du contenu. */
   .deco-text::before {
     content: attr(data-text);
-  }
-
-  /* Texte en creux (contour seul) pour les très grands mots décoratifs. */
-  .outline-text {
-    color: transparent;
-    -webkit-text-stroke: 1px color-mix(in srgb, var(--color-ivory) 38%, transparent);
-  }
-
-  /* Numéro de chapitre : « 01 », « 02 »… */
-  .index-num {
-    font-family: var(--font-serif-italic);
-    font-style: italic;
-    font-size: 1.25rem;
-    color: var(--color-red);
-  }
-  .surface-light .index-num {
-    color: var(--color-crimson);
-  }
-  .surface-blood .index-num {
-    color: var(--color-gold);
   }
 }
 
@@ -859,10 +825,6 @@ html[data-header-hidden] .site-header {
 .menu-link[aria-current="page"] {
   color: var(--color-gold);
 }
-.menu-link .index-num {
-  font-size: 1rem;
-  min-width: 1.75rem;
-}
 @media (prefers-reduced-motion: no-preference) {
   .menu-dialog[open] {
     animation: menu-in 420ms var(--ease-cut);
@@ -915,6 +877,8 @@ html[data-intro="play"] {
   position: absolute;
   inset: 0;
   z-index: -2;
+  overflow: hidden;
+  background: var(--color-char);
   clip-path: var(--hero-clip);
 }
 @media (min-width: 64rem) {
@@ -925,17 +889,7 @@ html[data-intro="play"] {
     --hero-clip: polygon(18% 0, 100% 0, 100% 100%, 0 100%);
   }
 }
-.hero__slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-}
-.hero__slide:first-child {
-  opacity: 1;
-}
-.hero__slide img {
-  width: 100%;
-  height: 100%;
+.hero__img {
   object-fit: cover;
 }
 .hero__veil {
@@ -944,16 +898,15 @@ html[data-intro="play"] {
   z-index: -1;
   pointer-events: none;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--color-ink) 50%, transparent) 0%, transparent 26%, color-mix(in srgb, var(--color-ink) 35%, transparent) 50%, color-mix(in srgb, var(--color-ink) 96%, transparent) 100%),
-    radial-gradient(70% 45% at 0% 100%, color-mix(in srgb, var(--color-crimson) 50%, transparent), transparent 70%);
+    linear-gradient(180deg, color-mix(in srgb, var(--color-ink) 50%, transparent) 0%, transparent 26%, color-mix(in srgb, var(--color-ink) 35%, transparent) 50%, var(--color-ink) 100%),
+    radial-gradient(70% 45% at 0% 100%, color-mix(in srgb, var(--color-crimson) 40%, transparent), transparent 70%);
 }
 @media (min-width: 64rem) {
   .hero__veil {
     background:
       linear-gradient(90deg, var(--color-ink) 38%, color-mix(in srgb, var(--color-ink) 55%, transparent) 52%, transparent 70%),
-      linear-gradient(180deg, transparent 60%, color-mix(in srgb, var(--color-ink) 85%, transparent) 100%),
-      radial-gradient(55% 60% at 8% 100%, color-mix(in srgb, var(--color-crimson) 45%, transparent), transparent 70%),
-      radial-gradient(40% 40% at 30% 0%, color-mix(in srgb, var(--color-blood) 60%, transparent), transparent 70%);
+      linear-gradient(180deg, transparent 62%, var(--color-ink) 100%),
+      radial-gradient(50% 55% at 10% 70%, color-mix(in srgb, var(--color-crimson) 30%, transparent), transparent 100%);
   }
 }
 .hero__knife {
@@ -993,139 +946,38 @@ html[data-intro="play"] {
   display: block;
 }
 
-/* Barre d'avancement des photos du hero. */
-.hero__bars {
-  display: flex;
-  gap: 0.5rem;
-}
-.hero__bar {
-  position: relative;
-  width: 2.5rem;
-  height: 2px;
-  overflow: hidden;
-  background: color-mix(in srgb, var(--color-ivory) 22%, transparent);
-}
-.hero__bar span {
-  position: absolute;
-  inset: 0;
-  background: var(--color-gold);
-  transform-origin: left;
-  transform: scaleX(0);
-}
-.hero__bar:first-child span {
-  transform: scaleX(1);
-}
-.hero__labels {
-  position: relative;
-  height: 1.4em;
-  min-width: 10rem;
-}
-.hero__label {
-  position: absolute;
-  right: 0;
-  white-space: nowrap;
-  opacity: 0;
-}
-.hero__label:first-child {
-  opacity: 1;
-}
-
 @media (prefers-reduced-motion: no-preference) {
-  .hero__slide {
-    animation: hero-slide 28s linear infinite both;
-    animation-delay: calc(var(--i) * 7s - 1.2s);
-  }
-  .hero__slide:first-child {
-    opacity: 0;
-  }
-  .hero__slide img {
-    animation: hero-zoom 28s linear infinite both;
-    animation-delay: calc(var(--i) * 7s - 1.2s);
-  }
-  .hero__bar span {
-    animation: hero-bar 28s linear infinite both;
-    animation-delay: calc(var(--i) * 7s - 1.2s);
-  }
-  .hero__bar:first-child span {
-    transform: scaleX(0);
-  }
-  .hero__label {
-    animation: hero-slide 28s linear infinite both;
-    animation-delay: calc(var(--i) * 7s - 1.2s);
-  }
-  .hero__label:first-child {
-    opacity: 0;
-  }
-
-  /* Ouverture : la lame traverse l'écran, la photo apparaît le long de la coupe. */
+  /* Ouverture : la lame traverse l'écran, la photo apparaît le long de la coupe, puis se pose. */
   .hero__media {
-    animation: hero-reveal 1100ms var(--ease-cut) both;
-    animation-delay: calc(var(--intro-offset) + 0.15s);
+    animation: hero-reveal 900ms var(--ease-cut) both;
+    animation-delay: calc(var(--intro-offset) + 0.05s);
+  }
+  .hero__img {
+    animation: photo-settle 2400ms var(--ease-soft) both;
+    animation-delay: var(--intro-offset);
   }
   .hero__knife {
     display: block;
   }
   .hero__cutline {
-    animation: hero-cutline 1300ms var(--ease-cut) both;
-    animation-delay: calc(var(--intro-offset) + 0.1s);
+    animation: hero-cutline 1100ms var(--ease-cut) both;
+    animation-delay: var(--intro-offset);
   }
   .hero__blade {
-    animation: hero-blade 1100ms var(--ease-cut) both;
-    animation-delay: calc(var(--intro-offset) + 0.1s);
+    animation: hero-blade 950ms var(--ease-cut) both;
+    animation-delay: var(--intro-offset);
   }
   .hero-line {
     animation: line-up 1000ms var(--ease-soft) both;
-    animation-delay: calc(var(--intro-offset) + 0.55s + var(--i, 0) * 0.12s);
+    animation-delay: calc(var(--intro-offset) + 0.4s + var(--i, 0) * 0.12s);
   }
   .hero-after {
     animation: rise-in 900ms var(--ease-soft) both;
-    animation-delay: calc(var(--intro-offset) + 0.95s + var(--i, 0) * 0.1s);
+    animation-delay: calc(var(--intro-offset) + 0.75s + var(--i, 0) * 0.1s);
   }
   .scroll-cue__knife {
     animation: cue 2.4s var(--ease-soft) infinite;
     animation-delay: calc(var(--intro-offset) + 2s);
-  }
-}
-@keyframes hero-slide {
-  0% {
-    opacity: 0;
-  }
-  4% {
-    opacity: 1;
-  }
-  25% {
-    opacity: 1;
-  }
-  29% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes hero-zoom {
-  0% {
-    transform: scale(1.16);
-  }
-  29% {
-    transform: scale(1.02) translate3d(-1%, -0.5%, 0);
-  }
-  100% {
-    transform: scale(1.02) translate3d(-1%, -0.5%, 0);
-  }
-}
-@keyframes hero-bar {
-  0% {
-    transform: scaleX(0);
-  }
-  25% {
-    transform: scaleX(1);
-  }
-  27% {
-    transform: scaleX(0);
-  }
-  100% {
-    transform: scaleX(0);
   }
 }
 @keyframes hero-reveal {
@@ -1203,80 +1055,6 @@ html[data-intro="play"] {
 }
 
 /* ==========================================================================
-   Bandeaux défilants
-   ========================================================================== */
-
-.marquee {
-  overflow: hidden;
-  display: flex;
-  user-select: none;
-}
-.marquee__track {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 2.5rem;
-  padding-right: 2.5rem;
-  min-width: max-content;
-}
-.marquee__item {
-  display: inline-flex;
-  align-items: center;
-  gap: 2.5rem;
-  white-space: nowrap;
-}
-.marquee-band {
-  position: relative;
-  z-index: 3;
-  padding-block: 1.1rem;
-  background: var(--color-crimson);
-  color: var(--color-ivory);
-  transform: rotate(-1.6deg) scale(1.04);
-  box-shadow: 0 20px 50px -20px rgb(0 0 0 / 0.8);
-}
-.marquee-band--ink {
-  background: var(--color-ink);
-  border-block: 1px solid color-mix(in srgb, var(--color-gold) 25%, transparent);
-  transform: rotate(1.2deg) scale(1.04);
-  margin-top: -0.6rem;
-}
-.marquee-word {
-  font-family: var(--font-display);
-  font-size: clamp(1.4rem, 1rem + 2vw, 2.75rem);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  line-height: 1;
-}
-.marquee-word--serif {
-  font-family: var(--font-serif-italic);
-  font-style: italic;
-  font-weight: 500;
-  text-transform: none;
-  letter-spacing: 0;
-  color: var(--color-gold);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .marquee__track {
-    animation: marquee var(--marquee-duration, 38s) linear infinite;
-  }
-  .marquee[data-direction="reverse"] .marquee__track {
-    animation-direction: reverse;
-  }
-  .marquee:hover .marquee__track {
-    animation-play-state: paused;
-  }
-}
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-/* ==========================================================================
    Révélations à l'entrée dans l'écran
    ========================================================================== */
 
@@ -1306,18 +1084,18 @@ html[data-intro="play"] {
     pointer-events: none;
     background: var(--color-char);
     transform: translateX(0) skewX(-14deg);
-    transition: transform 1200ms var(--ease-cut);
-    transition-delay: calc(var(--d, 0) * 1ms);
+    transition: transform 750ms var(--ease-cut);
+    transition-delay: calc(var(--d, 0) * 0.6ms);
   }
   html.js [data-reveal="photo"].is-revealed::after {
     transform: translateX(160%) skewX(-14deg);
   }
   html.js [data-reveal="photo"] img {
-    transition: transform 1600ms var(--ease-soft);
-    transition-delay: calc(var(--d, 0) * 1ms);
+    transition: transform 1100ms var(--ease-soft);
+    transition-delay: calc(var(--d, 0) * 0.6ms);
   }
   html.js [data-reveal="photo"]:not(.is-revealed) img {
-    transform: scale(1.18);
+    transform: scale(1.08);
   }
 
   /* Titre : chaque mot sort de sous la ligne. */
@@ -1372,7 +1150,7 @@ html[data-intro="play"] {
 }
 @keyframes photo-settle {
   from {
-    transform: scale(1.1);
+    transform: scale(1.06);
   }
   to {
     transform: scale(1);
@@ -1877,7 +1655,6 @@ html[data-intro="play"] .intro {
   .intro,
   header nav,
   .skip-link,
-  .marquee,
   body::after {
     display: none !important;
   }
@@ -1902,5 +1679,18 @@ html[data-intro="play"] .intro {
 @media (prefers-reduced-motion: reduce) {
   .spinner {
     animation-duration: 1.6s;
+  }
+}
+
+/* Scènes non épinglées sur grand écran (mouvement réduit, ou galerie avant mise en page) :
+   elles retrouvent le rythme vertical des autres sections. */
+@media (min-width: 64rem) and (prefers-reduced-motion: reduce) {
+  .pin-scene--lg .pin-scene__sticky > .container-site {
+    padding-block: clamp(5rem, 3rem + 6vw, 9rem);
+  }
+}
+@media (min-width: 64rem) {
+  .hscroll:not(.is-pinned) {
+    padding-block: clamp(5rem, 3rem + 6vw, 9rem);
   }
 }

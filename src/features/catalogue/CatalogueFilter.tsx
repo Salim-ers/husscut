@@ -17,7 +17,6 @@ interface CatalogueFilterProps {
   labels: { filterLabel: string; all: string; count: string; countOne: string };
 }
 
-
 /** L'ancre de l'URL est la source de vérité du filtre (partageable, compatible retour arrière). */
 const HASH_EVENT = "hc:hash";
 const subscribeToHash = (callback: () => void) => {
@@ -67,7 +66,7 @@ export function CatalogueFilter({ listId, sections, labels }: CatalogueFilterPro
     <div ref={listRef} id={listId} className="scroll-mt-16 lg:scroll-mt-[4.75rem]">
       <nav
         aria-label={labels.filterLabel}
-        className="surface-light sticky top-16 z-30 -mx-[clamp(1.25rem,4.2vw,3rem)] border-b border-ink/12 lg:top-[4.75rem]"
+        className="filter-bar sticky top-16 z-30 -mx-[clamp(1.25rem,4.2vw,3rem)] lg:top-[4.75rem]"
       >
         <ul className="flex gap-2 overflow-x-auto px-[clamp(1.25rem,4.2vw,3rem)] py-3 [scrollbar-width:none]" role="list">
           <li>

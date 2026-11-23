@@ -1,3 +1,5 @@
+import { readdirSync, readFileSync } from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import en from "@/i18n/dictionaries/en";
 import fr from "@/i18n/dictionaries/fr";
@@ -39,7 +41,7 @@ describe("catalogue", () => {
   });
 
   it("n'associe que des photos existantes et des ancres uniques", () => {
-    for (const product of products) if (product.photo) expect(photos[product.photo]).toBeDefined();
+    for (const section of [...meatCategories, ...charcuterieGroups]) if (section.ambiance) expect(photos[section.ambiance]).toBeDefined();
     const anchors = [...meatCategories, ...charcuterieGroups].flatMap((section) => [section.anchor.fr, section.anchor.en]);
     expect(new Set(anchors).size).toBe(anchors.length);
   });
@@ -99,5 +101,25 @@ describe("dictionnaires", () => {
       const smsCopy = JSON.stringify({ ready: dict.contact.form.ready, sms: dict.contact.form.sms });
       expect(smsCopy).not.toMatch(/message envoyé|message sent/i);
     }
+  });
+});
+
+describe("photothèque", () => {
+  /** Fichiers source du site (composants et contenus), hors photothèque et tests. */
+  const sources = (dir: string): string[] =>
+    readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) return sources(full);
+      return /\.tsx?$/.test(entry.name) && !/\.test\.ts$|media\.ts$/.test(entry.name) ? [full] : [];
+    });
+  const code = sources(path.resolve(__dirname, "..")).map((file) => readFileSync(file, "utf8")).join("\n");
+  const usesOf = (key: string) => code.match(new RegExp(`["'.]${key}\\b`, "g"))?.length ?? 0;
+
+  it("n'affiche chaque photo qu'une seule fois sur tout le site", () => {
+    for (const key of Object.keys(photos)) expect(usesOf(key), key).toBeLessThanOrEqual(1);
+  });
+
+  it("utilise chaque photo fournie", () => {
+    for (const key of Object.keys(photos)) expect(usesOf(key), key).toBe(1);
   });
 });

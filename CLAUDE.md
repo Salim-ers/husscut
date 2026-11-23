@@ -15,7 +15,7 @@ Lire `ARCHITECTURE.md` avant toute modification structurelle.
   inventer : avis, note globale, certification, organisme halal, biographie, provenance, adresse.
 - Avis : initiales uniquement, extraits fidèles, pas de note agrégée (ni à l'écran, ni en JSON-LD).
 - Espèce explicite pour les noms ambigus (bacon, jambon, chorizo, saucisson…) ou produit écarté.
-- Photo associée à un produit uniquement si l'identification est certaine ; jamais de photo
+- Chaque photo n'apparaît qu'une fois sur le site (test) ; pas de vignette par produit ; jamais de photo
   montrant un prix lisible ; jamais d'image générée, ni de capture de plateforme de livraison.
 - Logos : uniquement les fichiers fournis (`src/assets/brand`). Pas de police cursive à la place
   du lettrage.
@@ -38,7 +38,7 @@ Lire `ARCHITECTURE.md` avant toute modification structurelle.
   Or (#EABD75) pour les actions sur fond sombre,
   bronze (#7A531C) pour les liens sur ivoire.
 - Mouvement : transform, opacity ou clip-path ; respecter `prefers-reduced-motion` ; rien ne dépend
-  du survol. Briques réutilisables : `SplitWords`, `Marquee`, `KnifeRule`, `PageHero`, `data-reveal`
+  du survol. Pas de bandeau défilant. Briques réutilisables : `SplitWords`, `KnifeRule`, `PageHero`, `data-reveal`
   (`up`, `photo`, `words`, `knife`) et `data-progress` (voir ARCHITECTURE.md).
 - Polices : Cinzel (titres), Cormorant Garamond (accents « *mot* » des dictionnaires), Instrument Sans.
   Le lettrage manuscrit « HussCut » reste exclusivement le logo fourni.

@@ -44,7 +44,7 @@ export function RouteEffects({ mainId }: { mainId: string }) {
               }
             }
           },
-          { rootMargin: "0px 0px -6% 0px", threshold: 0.12 },
+          { rootMargin: "0px 0px -4% 0px", threshold: 0.05 },
         );
         targets.forEach((element) => observer.observe(element));
         cleanups.push(() => observer.disconnect());

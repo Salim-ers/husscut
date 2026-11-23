@@ -16,7 +16,7 @@ export function MapPreferences({ copy }: { copy: { mapAllowed: string; mapAsk: s
 
   return (
     <div className="flex flex-col gap-4" data-map-preferences>
-      <p className="filet">{allowed ? copy.mapAllowed : copy.mapAsk}</p>
+      <p className="text-mute">{allowed ? copy.mapAllowed : copy.mapAsk}</p>
       {allowed ? (
         <button
           type="button"

@@ -44,7 +44,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
-    formats: ["image/avif", "image/webp"],
+    // WebP seul : les sources sont déjà en WebP et l'encodage AVIF à la première demande
+    // retardait nettement l'affichage des photos (cache froid).
+    formats: ["image/webp"],
     deviceSizes: [360, 480, 640, 768, 960, 1200, 1440, 1920, 2560],
     imageSizes: [64, 96, 128, 192, 256, 320],
     qualities: [70, 78, 85],

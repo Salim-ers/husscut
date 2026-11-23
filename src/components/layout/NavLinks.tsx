@@ -44,9 +44,6 @@ export function NavLinks({ items, variant, onNavigate }: { items: readonly NavIt
         return (
           <li key={item.href} style={{ "--i": index } as CSSProperties}>
             <Link href={item.href} aria-current={current ? "page" : undefined} onClick={onNavigate} className={`menu-link ${item.cta ? "text-gold" : ""}`}>
-              <span className="index-num" aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </span>
               {item.label}
             </Link>
           </li>

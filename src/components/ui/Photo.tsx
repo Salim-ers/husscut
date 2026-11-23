@@ -45,7 +45,7 @@ export function Photo({ photo, locale, sizes, ratio, large, zoom, reveal, delay,
         quality={78}
         preload={eager}
         loading={eager ? "eager" : "lazy"}
-        fetchPriority={eager ? "high" : "low"}
+        fetchPriority={eager ? "high" : "auto"}
         placeholder={eager ? "empty" : "blur"}
         className="h-full w-full object-cover"
         style={{ objectPosition: entry.focus }}

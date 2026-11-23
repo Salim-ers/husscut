@@ -78,9 +78,9 @@ test("le sélecteur de langue garde la page, l'ancre et les paramètres", async 
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator("h1")).toHaveText("Meats");
 
-  await page.goto("/en/contact?topic=availability&item=bavette#request-form");
+  await page.goto("/en/order?topic=availability&item=bavette#request-form");
   await switchTo(/Lire cette page en français/);
-  await expect(page).toHaveURL(/\/fr\/contact\?topic=availability&item=bavette#formulaire$/);
+  await expect(page).toHaveURL(/\/fr\/commander\?topic=availability&item=bavette#formulaire$/);
   await expect(page.locator("[data-prefilled-product]")).toContainText("Bavette");
 });
 
